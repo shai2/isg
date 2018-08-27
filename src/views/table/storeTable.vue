@@ -1,15 +1,117 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.importance" :placeholder="$t('table.storeCode')">
-        <el-option v-for="item in importanceOptions" :key="item" :label="item" :value="item">
+      门店范围:
+        <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.provice" :placeholder="$t('table.provice')">
+          <el-option v-for="item in proviceOptions" :key="item" :label="item" :value="item">
+        </el-option>
+        </el-select>
+        <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.city" :placeholder="$t('table.city')">
+         <el-option v-for="item in cityOptions" :key="item" :label="item" :value="item">
+         </el-option>
+       </el-select>
+       <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.districtCountry" :placeholder="$t('table.districtCountry')">
+         <el-option v-for="item in districtCountryOptions" :key="item" :label="item" :value="item">
+         </el-option>
+       </el-select>
+       <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.storeType" :placeholder="$t('table.storeType')">
+         <el-option v-for="item in storeTypeOptions" :key="item" :label="item" :value="item">
+         </el-option>
+       </el-select>
+       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" :placeholder="$t('table.storeName')" v-model="listQuery.storeName">
+       </el-input>
+       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" :placeholder="$t('table.storeCode')" v-model="listQuery.storeCode">
+       </el-input>
+       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" :placeholder="$t('table.address')" v-model="listQuery.address">
+       </el-input>
+      <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.storeStatus" :placeholder="$t('table.storeStatus')">
+        <el-option v-for="item in storeStatusOptions" :key="item" :label="item" :value="item">
         </el-option>
       </el-select>
-      <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.type" :placeholder="$t('table.storeName')">
-        <el-option v-for="item in  calendarTypeOptions" :key="item.key" :label="item.display_name+'('+item.key+')'" :value="item.key">
+      <br/>
+      客户范围:
+      <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.customeRange" :placeholder="$t('table.customeRange')">
+        <el-option v-for="item in customeRangeOptions" :key="item" :label="item" :value="item">
         </el-option>
       </el-select>
+      <br/>
+      人员范围:
+      <el-select clearable style="width: 140px" class="filter-item" v-model="listQuery.storeEmployeeCountLowerLimit" :placeholder="$t('table.storeEmployeeCountLowerLimit')">
+        <el-option v-for="item in storeEmployeeCountLowerLimitOptions" :key="item" :label="item" :value="item">
+        </el-option>
+      </el-select>
+      <el-select clearable style="width: 140px" class="filter-item" v-model="listQuery.storeEmployeeCountUpperLimit" :placeholder="$t('table.storeEmployeeCountUpperLimit')">
+        <el-option v-for="item in storeEmployeeCountUpperLimitOptions" :key="item" :label="item" :value="item">
+        </el-option>
+      </el-select>
+      <br/>
+      项目范围:
+      <el-select clearable style="width: 140px" class="filter-item" v-model="listQuery.projectCountLowerLimit" :placeholder="$t('table.projectCountLowerLimit')">
+        <el-option v-for="item in projectCountLowerLimitOptions" :key="item" :label="item" :value="item">
+        </el-option>
+      </el-select>
+      <el-select clearable style="width: 140px" class="filter-item" v-model="listQuery.projectCountUpperLimit" :placeholder="$t('table.projectCountUpperLimit')">
+        <el-option v-for="item in projectCountUpperLimitOptions" :key="item" :label="item" :value="item">
+        </el-option>
+      </el-select>
+      <br/>
+      品牌范围:
+      <el-select clearable style="width: 140px" class="filter-item" v-model="listQuery.brandCountLowerLimit" :placeholder="$t('table.brandCountLowerLimit')">
+        <el-option v-for="item in brandCountLowerLimitOptions" :key="item" :label="item" :value="item">
+        </el-option>
+      </el-select>
+      <el-select clearable style="width: 140px" class="filter-item" v-model="listQuery.brandCountUpperLimit" :placeholder="$t('table.brandCountUpperLimit')">
+        <el-option v-for="item in brandCountUpperLimitOptions" :key="item" :label="item" :value="item">
+        </el-option>
+      </el-select>
+      <br/>
+      任务范围:
+      <el-select clearable style="width: 140px" class="filter-item" v-model="listQuery.taskCountLowerLimit" :placeholder="$t('table.taskCountLowerLimit')">
+        <el-option v-for="item in taskCountLowerLimitOptions" :key="item" :label="item" :value="item">
+        </el-option>
+      </el-select>
+      <el-select clearable style="width: 140px" class="filter-item" v-model="listQuery.taskCountUpperLimit" :placeholder="$t('table.taskCountUpperLimit')">
+        <el-option v-for="item in taskCountUpperLimitOptions" :key="item" :label="item" :value="item">
+        </el-option>
+      </el-select>
+      <br/>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">{{$t('table.search')}}</el-button>
+      <br/>
+      <br/>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <el-button class="filter-item" type="primary" :loading="downloadLoading" v-waves icon="el-icon-download" @click="handleDownload">{{$t('table.export')}}</el-button>
     </div>
 
@@ -17,59 +119,57 @@
       style="width: 100%;min-height:1000px;">
       <el-table-column align="center" :label="$t('table.storeCode')" width="80">
         <template slot-scope="scope">
-          <span>{{scope.row.id}}</span>
+          <span>{{scope.row.storeCode}}</span>
         </template>
       </el-table-column>
       <el-table-column width="150px" align="center" :label="$t('table.storeName')">
         <template slot-scope="scope">
-          <span>{{scope.row.timestamp | parseTime('{y}-{m}-{d} {h}:{i}')}}</span>
+          <span>{{scope.row.storeName}}</span>
         </template>
       </el-table-column>
-      <el-table-column min-width="150px" :label="$t('table.provice')">
+      <el-table-column min-width="80px" align="center" :label="$t('table.provice')">
         <template slot-scope="scope">
-          <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.title}}</span>
-          <el-tag>{{scope.row.type | typeFilter}}</el-tag>
+          <span>{{scope.row.provice}}</span>
         </template>
       </el-table-column>
       <el-table-column width="110px" align="center" :label="$t('table.city')">
         <template slot-scope="scope">
-          <span>{{scope.row.author}}</span>
+          <span>{{scope.row.city}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="110px" v-if='showReviewer' align="center" :label="$t('table.districtCount')">
+      <el-table-column width="110px" align="center" :label="$t('table.districtCountry')">
         <template slot-scope="scope">
-          <span style='color:red;'>{{scope.row.reviewer}}</span>
+          <span style='color:red;'>{{scope.row.districtCountry}}</span>
         </template>
       </el-table-column>
       <el-table-column width="80px" :label="$t('table.address')">
         <template slot-scope="scope">
-          <svg-icon v-for="n in +scope.row.importance" icon-class="star" class="meta-item__icon" :key="n"></svg-icon>
+          <span>{{scope.row.address}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" :label="$t('table.location')" width="95">
+      <el-table-column align="center" :label="$t('table.location')" width="180">
         <template slot-scope="scope">
-          <span v-if="scope.row.pageviews" class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>
-          <span v-else>0</span>
+          <span>{{scope.row.location}}</span>
         </template>
       </el-table-column>
       <el-table-column class-name="status-col" :label="$t('table.storeType')" width="100">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
+          <span>{{scope.row.storeType}}</span>
         </template>
       </el-table-column>
       <el-table-column class-name="status-col" :label="$t('table.employeeCount')" width="100">
          <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
+           <span>{{scope.row.employeeCount}}</span>
          </template>
        </el-table-column>
        <el-table-column class-name="status-col" :label="$t('table.projectCount')" width="100">
-               <template slot-scope="scope">
-                 <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
-               </template>
+         <template slot-scope="scope">
+          <span>{{scope.row.projectCount}}</span>
+         </template>
         </el-table-column>
-      <el-table-column align="center" :label="$t('table.actions')" width="230" class-name="small-padding fixed-width">
+      <el-table-column align="center" :label="$t('table.actions')" width="160" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">{{$t('table.detail')}}</el-button>
+          <el-button type="primary" size="100" @click="handledetail(scope.row)">{{$t('table.detail')}}</el-button>
           </el-button>
         </template>
       </el-table-column>
@@ -80,39 +180,51 @@
       </el-pagination>
     </div>
 
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+    <el-dialog :visible.sync="dialogFormVisible">
       <el-form :rules="rules" ref="dataForm" :model="temp" label-position="left" label-width="70px" style='width: 400px; margin-left:50px;'>
-        <el-form-item :label="$t('table.type')" prop="type">
-          <el-select class="filter-item" v-model="temp.type" placeholder="Please select">
-            <el-option v-for="item in  calendarTypeOptions" :key="item.key" :label="item.display_name" :value="item.key">
-            </el-option>
-          </el-select>
+        <el-form-item :label="$t('table.storeCode')" prop="storeCode">
+          <el-input style="width: 200px;" v-model="temp.storeCode">
+          </el-input>
         </el-form-item>
-        <el-form-item :label="$t('table.date')" prop="timestamp">
-          <el-date-picker v-model="temp.timestamp" type="datetime" placeholder="Please pick a date">
-          </el-date-picker>
+        <el-form-item :label="$t('table.storeName')" prop="storeName">
+          <el-input style="width: 200px;" v-model="temp.storeName">
+          </el-input>
         </el-form-item>
-        <el-form-item :label="$t('table.title')" prop="title">
-          <el-input v-model="temp.title"></el-input>
+        <el-form-item :label="$t('table.provice')" prop="provice">
+          <el-input style="width: 200px;" v-model="temp.provice">
+          </el-input>
         </el-form-item>
-        <el-form-item :label="$t('table.status')">
-          <el-select class="filter-item" v-model="temp.status" placeholder="Please select">
-            <el-option v-for="item in  statusOptions" :key="item" :label="item" :value="item">
-            </el-option>
-          </el-select>
+        <el-form-item :label="$t('table.city')" prop="city">
+          <el-input style="width: 200px;" v-model="temp.city">
+          </el-input>
         </el-form-item>
-        <el-form-item :label="$t('table.importance')">
-          <el-rate style="margin-top:8px;" v-model="temp.importance" :colors="['#99A9BF', '#F7BA2A', '#FF9900']" :max='3'></el-rate>
+        <el-form-item :label="$t('table.districtCountry')" prop="districtCountry">
+          <el-input style="width: 200px;" v-model="temp.districtCountry">
+          </el-input>
         </el-form-item>
-        <el-form-item :label="$t('table.remark')">
-          <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="Please input" v-model="temp.remark">
+        <el-form-item :label="$t('table.address')" prop="address">
+          <el-input style="width: 200px;" v-model="temp.address">
+          </el-input>
+        </el-form-item>
+        <el-form-item :label="$t('table.location')" prop="location">
+          <el-input style="width: 200px;" v-model="temp.location">
+          </el-input>
+        </el-form-item>
+        <el-form-item :label="$t('table.storeType')" prop="storeType">
+          <el-input style="width: 200px;" v-model="temp.storeType">
+          </el-input>
+        </el-form-item>
+        <el-form-item :label="$t('table.employeeCount')" prop="employeeCount">
+          <el-input style="width: 200px;" v-model="temp.employeeCount">
+          </el-input>
+        </el-form-item>
+        <el-form-item :label="$t('table.projectCount')" prop="projectCount">
+          <el-input style="width: 200px;" v-model="temp.projectCount">
           </el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">{{$t('table.cancel')}}</el-button>
-        <el-button v-if="dialogStatus=='create'" type="primary" @click="createData">{{$t('table.confirm')}}</el-button>
-        <el-button v-else type="primary" @click="updateData">{{$t('table.confirm')}}</el-button>
+        <el-button @click="dialogFormVisible = false">{{$t('table.close')}}</el-button>
       </div>
     </el-dialog>
 
@@ -130,7 +242,7 @@
 </template>
 
 <script>
-import { fetchList, fetchPv, createArticle, updateArticle } from '@/api/article'
+import { fetchList, fetchPv, createArticle, updateArticle } from '@/api/store'
 import waves from '@/directive/waves' // 水波纹指令
 import { parseTime } from '@/utils'
 
@@ -167,6 +279,23 @@ export default {
         sort: '+id'
       },
       importanceOptions: [1, 2, 3],
+      proviceOptions: ['山东', '江苏'],
+      cityOptions: ['北京', '上海'],
+      districtCountryOptions: ['黄浦区', '长宁区'],
+      storeTypeOptions: ['连锁', '品牌'],
+      storeName: '',
+      storeCode: '',
+      address: '',
+      storeStatusOptions: ['正常营业', '暂停营业'],
+      customeRangeOptions: ['联合利华', '高露洁'],
+      storeEmployeeCountLowerLimitOptions: [5, 10],
+      storeEmployeeCountUpperLimitOptions: [50, 100],
+      projectCountLowerLimitOptions: [5, 10],
+      projectCountUpperLimitOptions: [50, 100],
+      brandCountLowerLimitOptions: [5, 10],
+      brandCountUpperLimitOptions: [50, 100],
+      taskCountLowerLimitOptions: [50, 100],
+      taskCountUpperLimitOptions: [500, 1000],
       calendarTypeOptions,
       sortOptions: [{ label: 'ID Ascending', key: '+id' }, { label: 'ID Descending', key: '-id' }],
       statusOptions: ['published', 'draft', 'deleted'],
@@ -290,6 +419,9 @@ export default {
         this.$refs['dataForm'].clearValidate()
       })
     },
+    handledetail(row) {
+      this.$router.push({ path: '/table/store/detail' })
+    },
     updateData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
@@ -333,13 +465,13 @@ export default {
     handleDownload() {
       this.downloadLoading = true
       import('@/vendor/Export2Excel').then(excel => {
-        const tHeader = ['timestamp', 'title', 'type', 'importance', 'status']
-        const filterVal = ['timestamp', 'title', 'type', 'importance', 'status']
+        const tHeader = ['门店编号', '门店名称', '省', '市', '区县', '地址', '定位', '门店类型', '人员数', '项目数']
+        const filterVal = ['storeCode', 'storeName', 'province', 'city', 'districtCountry', 'address', 'location', 'storeType', 'employeeCount', 'projectCount']
         const data = this.formatJson(filterVal, this.list)
         excel.export_json_to_excel({
           header: tHeader,
           data,
-          filename: 'table-list'
+          filename: '门店列表'
         })
         this.downloadLoading = false
       })
