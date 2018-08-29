@@ -170,7 +170,6 @@
       <el-table-column align="center" :label="$t('table.actions')" width="160" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button type="primary" size="100" @click="handledetail(scope.row)">{{$t('table.detail')}}</el-button>
-          </el-button>
         </template>
       </el-table-column>
     </el-table>

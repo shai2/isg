@@ -131,7 +131,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   .tab-container{
     margin: 30px;
   }

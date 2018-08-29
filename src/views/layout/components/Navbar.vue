@@ -10,7 +10,8 @@
         <screenfull class="screenfull right-menu-item"></screenfull>
       </el-tooltip>
 
-      <lang-select class="international right-menu-item"></lang-select>
+      <!-- i18n切换 -->
+      <!-- <lang-select class="international right-menu-item"></lang-select> -->
 
       <el-dropdown class="avatar-container right-menu-item" trigger="click">
         <div class="avatar-wrapper">
