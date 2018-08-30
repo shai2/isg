@@ -48,7 +48,7 @@ export const asyncRouterMap = [
       icon: 'table'
     },
     children: [
-      { path: 'employee-table', component: () => import('@/views/table/employeeTable'), name: 'employeeTable', meta: { title: 'employeeTable', noCache: false }},
+      { path: 'employee-table', component: () => import('@/views/table/employeeTable'), name: 'employeeTable', meta: { title: 'employeeTable' }},
       { path: 'employee/detail', component: () => import('@/views/table/employee'), hidden: true },
       { path: 'store-table', component: () => import('@/views/table/storeTable'), name: 'storeTable', meta: { title: 'storeTable' }},
       { path: 'store/detail', component: () => import('@/views/table/store'), hidden: true }
