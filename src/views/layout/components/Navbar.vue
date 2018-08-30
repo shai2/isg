@@ -29,7 +29,6 @@
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-      </el-dropdown>
     </div>
   </el-menu>
 </template>
