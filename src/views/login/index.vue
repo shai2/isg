@@ -4,8 +4,8 @@
     <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
 
       <div class="title-container">
-        <h3 class="title">{{$t('login.title')}}</h3>
-        <lang-select class="set-language"></lang-select>
+        <h3 class="title">系统登录</h3>
+        <!-- <lang-select class="set-language"></lang-select> -->
       </div>
 
       <el-form-item prop="username">
@@ -114,14 +114,15 @@ export default {
     }
   },
   created() {
-    // window.addEventListener('hashchange', this.afterQRScan)
-    this.loading = true
-    this.$store.dispatch('LoginByUsername', this.loginForm).then(() => {
-      this.loading = false
-      this.$router.push({ path: '/' })
-    }).catch(() => {
-      this.loading = false
-    })
+    // window.addEventListener('hashchange', this.afterQRScan) 原来自带 暂时不知作用
+
+    // this.loading = true
+    // this.$store.dispatch('LoginByUsername', this.loginForm).then(() => {
+    //   this.loading = false
+    //   this.$router.push({ path: '/' })
+    // }).catch(() => {
+    //   this.loading = false
+    // })
   },
   destroyed() {
     // window.removeEventListener('hashchange', this.afterQRScan)
@@ -148,7 +149,7 @@ $light_gray:#eee;
       color: $light_gray;
       height: 47px;
       &:-webkit-autofill {
-        -webkit-box-shadow: 0 0 0px 1000px $bg inset !important;
+        box-shadow: 0 0 0px 1000px $bg inset !important;
         -webkit-text-fill-color: #fff !important;
       }
     }

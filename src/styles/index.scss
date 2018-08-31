@@ -5,6 +5,7 @@
 @import './sidebar.scss';
 @import './btn.scss';
 @import './common.css';
+@import './reset.css';
 
 body {
   height: 100%;
@@ -176,10 +177,8 @@ code {
 }
 
 .filter-container {
-  padding-bottom: 10px;
-  .filter-item {
-    display: inline-block;
-    vertical-align: middle;
+  margin-bottom:10px;
+  .el-input {
     margin-bottom: 10px;
   }
 }

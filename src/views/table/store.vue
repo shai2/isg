@@ -165,7 +165,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   .anchorBL {
     display:none
   }

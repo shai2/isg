@@ -1,171 +1,187 @@
 <template>
   <div class="app-container">
-    <div class="filter-container">
-      门店范围:
-      <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.provice" :placeholder="$t('table.provice')">
-         <el-option v-for="item in proviceOptions" :key="item" :label="item" :value="item">
-         </el-option>
-       </el-select>
-       <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.city" :placeholder="$t('table.city')">
-        <el-option v-for="item in cityOptions" :key="item" :label="item" :value="item">
-        </el-option>
-      </el-select>
-      <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.districtCountry" :placeholder="$t('table.districtCountry')">
-        <el-option v-for="item in districtCountryOptions" :key="item" :label="item" :value="item">
-        </el-option>
-      </el-select>
-      <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.storeType" :placeholder="$t('table.storeType')">
-        <el-option v-for="item in storeTypeOptions" :key="item" :label="item" :value="item">
-        </el-option>
-      </el-select>
-      <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" :placeholder="$t('table.storeName')" v-model="listQuery.storeName">
-      </el-input>
-      <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" :placeholder="$t('table.storeCode')" v-model="listQuery.storeCode">
-      </el-input>
-      <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" :placeholder="$t('table.address')" v-model="listQuery.address">
-      </el-input>
-      <br/>
-      人员范围:
-      <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.position" :placeholder="$t('table.position')">
-         <el-option v-for="item in positionOptions" :key="item" :label="item" :value="item">
-         </el-option>
-       </el-select>
-       <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.jobStatus" :placeholder="$t('table.jobStatus')">
-        <el-option v-for="item in jobStatusOptions" :key="item" :label="item" :value="item">
-        </el-option>
-      </el-select>
-      <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.name" :placeholder="$t('table.name')">
-        <el-option v-for="item in nameOptions" :key="item" :label="item" :value="item">
-        </el-option>
-      </el-select>
-      <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.telephone" :placeholder="$t('table.telephone')">
-        <el-option v-for="item in telephoneOptions" :key="item" :label="item" :value="item">
-        </el-option>
-      </el-select>
-      <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.industryTag" :placeholder="$t('table.industryTag')">
-        <el-option v-for="item in industryTagOptions" :key="item" :label="item" :value="item">
-        </el-option>
-      </el-select>
-      <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.trainingTag" :placeholder="$t('table.trainingTag')">
-        <el-option v-for="item in trainingTagOptions" :key="item" :label="item" :value="item">
-        </el-option>
-      </el-select>
-      <br/>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.jobType" :placeholder="$t('table.jobType')">
-         <el-option v-for="item in jobTypeOptions" :key="item" :label="item" :value="item">
-         </el-option>
-       </el-select>
-       <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.sex" :placeholder="$t('table.sex')">
-        <el-option v-for="item in sexOptions" :key="item" :label="item" :value="item">
-        </el-option>
-      </el-select>
-      <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.workingYearsLowerLimit" :placeholder="$t('table.workingYearsLowerLimit')">
-        <el-option v-for="item in workingYearsLowerLimitOptions" :key="item" :label="item" :value="item">
-        </el-option>
-      </el-select>
-      <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.workingYearsUpperLimit" :placeholder="$t('table.workingYearsUpperLimit')">
-        <el-option v-for="item in workingYearsUpperLimitOptions" :key="item" :label="item" :value="item">
-        </el-option>
-      </el-select>
-      <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" :placeholder="$t('table.taskCompletionNumber')" v-model="listQuery.taskCompletionNumber">
-      </el-input>
-      <br/>
-      排期范围:
-      <el-date-picker v-model="listQuery.create_start_date" type="datetime" format="yyyy-MM-dd HH:mm:ss" placeholder="开始时间">
-      </el-date-picker>
-      <el-date-picker v-model="listQuery.create_end_date" type="datetime" format="yyyy-MM-dd HH:mm:ss" placeholder="结束时间">
-      </el-date-picker>
-      <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.workStatus" :placeholder="$t('table.workStatus')">
-        <el-option v-for="item in workStatusOptions" :key="item" :label="item" :value="item">
-        </el-option>
-      </el-select>
-      <div class="filter-container">
-        <el-checkbox-group v-model="listQuery.checkboxVal">
-          <el-checkbox label="周一">周一</el-checkbox>
-          <el-checkbox label="周二">周二</el-checkbox>
-          <el-checkbox label="周三">周三</el-checkbox>
-          <el-checkbox label="周三">周三</el-checkbox>
-          <el-checkbox label="周四">周四</el-checkbox>
-          <el-checkbox label="周五">周五</el-checkbox>
-          <el-checkbox label="周六">周六</el-checkbox>
-          <el-checkbox label="周日">周日</el-checkbox>
-        </el-checkbox-group>
+    <div class="filter-container normal-border">
+      <div class="flex-row-center align-top">
+        <p class="select-label">门店范围：</p>
+        <div class="flex">
+          <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.provice" :placeholder="$t('table.provice')">
+            <el-option v-for="item in proviceOptions" :key="item" :label="item" :value="item">
+            </el-option>
+          </el-select>
+          <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.city" :placeholder="$t('table.city')">
+            <el-option v-for="item in cityOptions" :key="item" :label="item" :value="item">
+            </el-option>
+          </el-select>
+          <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.districtCountry" :placeholder="$t('table.districtCountry')">
+            <el-option v-for="item in districtCountryOptions" :key="item" :label="item" :value="item">
+            </el-option>
+          </el-select>
+          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.storeType" :placeholder="$t('table.storeType')">
+            <el-option v-for="item in storeTypeOptions" :key="item" :label="item" :value="item">
+            </el-option>
+          </el-select>
+          <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" :placeholder="$t('table.storeName')" v-model="listQuery.storeName">
+          </el-input>
+          <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" :placeholder="$t('table.storeCode')" v-model="listQuery.storeCode">
+          </el-input>
+          <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" :placeholder="$t('table.address')" v-model="listQuery.address">
+          </el-input>
+        </div>
       </div>
-      <br/>
-      客户范围:
-      <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.customeRange" :placeholder="$t('table.customeRange')">
-        <el-option v-for="item in customeRangeOptions" :key="item" :label="item" :value="item">
-        </el-option>
-      </el-select>
-      <br/>
-      <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">{{$t('table.search')}}</el-button>
-      <el-button class="filter-item" type="primary" :loading="downloadLoading" v-waves icon="el-icon-download" @click="handleDownload">{{$t('table.export')}}</el-button>
+      <div class="flex-row-center align-top">
+        <p class="select-label">人员范围：</p>
+        <div class="flex">
+          <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.position" :placeholder="$t('table.position')">
+            <el-option v-for="item in positionOptions" :key="item" :label="item" :value="item">
+            </el-option>
+          </el-select>
+          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.jobStatus" :placeholder="$t('table.jobStatus')">
+            <el-option v-for="item in jobStatusOptions" :key="item" :label="item" :value="item">
+            </el-option>
+          </el-select>
+          <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.name" :placeholder="$t('table.name')">
+            <el-option v-for="item in nameOptions" :key="item" :label="item" :value="item">
+            </el-option>
+          </el-select>
+          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.telephone" :placeholder="$t('table.telephone')">
+            <el-option v-for="item in telephoneOptions" :key="item" :label="item" :value="item">
+            </el-option>
+          </el-select>
+          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.industryTag" :placeholder="$t('table.industryTag')">
+            <el-option v-for="item in industryTagOptions" :key="item" :label="item" :value="item">
+            </el-option>
+          </el-select>
+          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.trainingTag" :placeholder="$t('table.trainingTag')">
+            <el-option v-for="item in trainingTagOptions" :key="item" :label="item" :value="item">
+            </el-option>
+          </el-select>
+          <br/>
+          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.jobType" :placeholder="$t('table.jobType')">
+            <el-option v-for="item in jobTypeOptions" :key="item" :label="item" :value="item">
+            </el-option>
+          </el-select>
+          <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.sex" :placeholder="$t('table.sex')">
+            <el-option v-for="item in sexOptions" :key="item" :label="item" :value="item">
+            </el-option>
+          </el-select>
+          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.workingYearsLowerLimit" :placeholder="$t('table.workingYearsLowerLimit')">
+            <el-option v-for="item in workingYearsLowerLimitOptions" :key="item" :label="item" :value="item">
+            </el-option>
+          </el-select>
+          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.workingYearsUpperLimit" :placeholder="$t('table.workingYearsUpperLimit')">
+            <el-option v-for="item in workingYearsUpperLimitOptions" :key="item" :label="item" :value="item">
+            </el-option>
+          </el-select>
+          <el-input @keyup.enter.native="handleFilter" style="width: 110px;" class="filter-item" placeholder="任务完成数" v-model="listQuery.taskCompletionNumber">
+          </el-input>
+        </div>
+      </div>
+      <div class="flex-row-center align-top">
+        <p class="select-label">排期范围：</p>
+        <div class="flex">
+          <el-date-picker v-model="listQuery.create_start_date" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="开始时间">
+          </el-date-picker>
+          <el-date-picker v-model="listQuery.create_end_date" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="结束时间">
+          </el-date-picker>
+          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.workStatus" placeholder="工作状态">
+            <el-option v-for="item in workStatusOptions" :key="item" :label="item" :value="item">
+            </el-option>
+          </el-select>
+          <div class="filter-container">
+            <el-checkbox-group v-model="listQuery.checkboxVal">
+              <el-checkbox label="周一">周一</el-checkbox>
+              <el-checkbox label="周二">周二</el-checkbox>
+              <el-checkbox label="周三">周三</el-checkbox>
+              <el-checkbox label="周三">周三</el-checkbox>
+              <el-checkbox label="周四">周四</el-checkbox>
+              <el-checkbox label="周五">周五</el-checkbox>
+              <el-checkbox label="周六">周六</el-checkbox>
+              <el-checkbox label="周日">周日</el-checkbox>
+            </el-checkbox-group>
+          </div>
+        </div>
+      </div>
+      <div class="flex-row-center align-top">
+        <p class="select-label">客户范围：</p>
+        <div class="flex">
+          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.customeRange" placeholder="客户范围">
+            <el-option v-for="item in customeRangeOptions" :key="item" :label="item" :value="item">
+            </el-option>
+          </el-select> 
+        </div>
+      </div>
+      <div class="textalign-r">
+        <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">查询</el-button>
+      </div>
     </div>
+    <!-- 表单部分 -->
+    <div class="table-container normal-border">
+      <div class="textalign-r mgbt10">
+        <el-button class="filter-item" type="primary" :loading="downloadLoading" v-waves icon="el-icon-download" @click="handleDownload">导出</el-button>
+      </div>
+      <el-table class="w100" :key='tableKey' :data="list" v-loading="listLoading" border fit highlight-current-row>
+        <el-table-column align="center" :label="$t('table.name')" width="65">
+          <template slot-scope="scope">
+            <span>{{scope.row.name}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" :label="$t('table.telephone')">
+          <template slot-scope="scope">
+            <span>{{scope.row.telephone}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" :label="$t('table.age')">
+          <template slot-scope="scope">
+            <span>{{scope.row.age}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column  align="center" :label="$t('table.sex')">
+          <template slot-scope="scope">
+            <span>{{scope.row.sex}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column  align="center" :label="$t('table.position')">
+          <template slot-scope="scope">
+            <span style='color:red;'>{{scope.row.position}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" :label="$t('table.workingYears')">
+          <template slot-scope="scope">
+            <span>{{scope.row.workingYears}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" :label="$t('table.industryTag')" width="95">
+          <template slot-scope="scope">
+            <span v-if="scope.row.industryTag" class="link-type" @click='handleFetchPv(scope.row.industryTag)'>{{scope.row.industryTag}}</span>
+            <span v-else>0</span>
+          </template>
+        </el-table-column>
+        <el-table-column class-name="status-col" :label="$t('table.trainingTag')">
+          <template slot-scope="scope">
+            <el-tag :type="scope.row.trainingTag | statusFilter">{{scope.row.trainingTag}}</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column class-name="status-col" :label="$t('table.taskCompletionNumber')">
+          <template slot-scope="scope">
+            <el-tag :type="scope.row.taskCompletionNumber | statusFilter">{{scope.row.taskCompletionNumber}}</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column class-name="status-col" :label="$t('table.taskCompletionRate')">
+          <template slot-scope="scope">
+            <el-tag>{{scope.row.taskCompletionRate}}</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column class-name="status-col" align="center" :label="$t('table.actions')" width="160">
+          <template slot-scope="scope">
+            <el-button type="primary" @click="handledetail(scope.row)">{{$t('table.detail')}}</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
 
-    <el-table :key='tableKey' :data="list" v-loading="listLoading" border fit highlight-current-row
-      style="width: 100%;min-height:1000px;">
-      <el-table-column align="center" :label="$t('table.name')" width="65">
-        <template slot-scope="scope">
-          <span>{{scope.row.name}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column width="150px" align="center" :label="$t('table.telephone')">
-        <template slot-scope="scope">
-          <span>{{scope.row.telephone}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column width="150px" align="center" :label="$t('table.age')">
-        <template slot-scope="scope">
-          <span>{{scope.row.age}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column width="110px" align="center" :label="$t('table.sex')">
-        <template slot-scope="scope">
-          <span>{{scope.row.sex}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column width="110px" align="center" :label="$t('table.position')">
-        <template slot-scope="scope">
-          <span style='color:red;'>{{scope.row.position}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column width="80px" align="center" :label="$t('table.workingYears')">
-        <template slot-scope="scope">
-          <span>{{scope.row.workingYears}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" :label="$t('table.industryTag')" width="95">
-        <template slot-scope="scope">
-          <span v-if="scope.row.industryTag" class="link-type" @click='handleFetchPv(scope.row.industryTag)'>{{scope.row.industryTag}}</span>
-          <span v-else>0</span>
-        </template>
-      </el-table-column>
-      <el-table-column class-name="status-col" :label="$t('table.trainingTag')" width="100">
-        <template slot-scope="scope">
-          <el-tag :type="scope.row.trainingTag | statusFilter">{{scope.row.trainingTag}}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column class-name="status-col" :label="$t('table.taskCompletionNumber')" width="100">
-        <template slot-scope="scope">
-          <el-tag :type="scope.row.taskCompletionNumber | statusFilter">{{scope.row.taskCompletionNumber}}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column class-name="status-col" :label="$t('table.taskCompletionRate')" width="100">
-        <template slot-scope="scope">
-          <el-tag>{{scope.row.taskCompletionRate}}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column class-name="status-col" align="center" :label="$t('table.actions')" width="160">
-        <template slot-scope="scope">
-          <el-button type="primary" @click="handledetail(scope.row)">{{$t('table.detail')}}</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-
-    <div class="pagination-container">
-      <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="listQuery.page" :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total">
-      </el-pagination>
+      <div class="pagination-container">
+        <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="listQuery.page" :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total">
+        </el-pagination>
+      </div>
     </div>
 
     <el-dialog :visible.sync="dialogFormVisible">

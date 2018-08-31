@@ -1,182 +1,170 @@
 <template>
   <div class="app-container">
-    <div class="filter-container">
-      门店范围:
-        <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.provice" :placeholder="$t('table.provice')">
-          <el-option v-for="item in proviceOptions" :key="item" :label="item" :value="item">
-        </el-option>
-        </el-select>
-        <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.city" :placeholder="$t('table.city')">
-         <el-option v-for="item in cityOptions" :key="item" :label="item" :value="item">
-         </el-option>
-       </el-select>
-       <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.districtCountry" :placeholder="$t('table.districtCountry')">
-         <el-option v-for="item in districtCountryOptions" :key="item" :label="item" :value="item">
-         </el-option>
-       </el-select>
-       <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.storeType" :placeholder="$t('table.storeType')">
-         <el-option v-for="item in storeTypeOptions" :key="item" :label="item" :value="item">
-         </el-option>
-       </el-select>
-       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" :placeholder="$t('table.storeName')" v-model="listQuery.storeName">
-       </el-input>
-       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" :placeholder="$t('table.storeCode')" v-model="listQuery.storeCode">
-       </el-input>
-       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" :placeholder="$t('table.address')" v-model="listQuery.address">
-       </el-input>
-      <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.storeStatus" :placeholder="$t('table.storeStatus')">
-        <el-option v-for="item in storeStatusOptions" :key="item" :label="item" :value="item">
-        </el-option>
-      </el-select>
-      <br/>
-      客户范围:
-      <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.customeRange" :placeholder="$t('table.customeRange')">
-        <el-option v-for="item in customeRangeOptions" :key="item" :label="item" :value="item">
-        </el-option>
-      </el-select>
-      <br/>
-      人员范围:
-      <el-select clearable style="width: 140px" class="filter-item" v-model="listQuery.storeEmployeeCountLowerLimit" :placeholder="$t('table.storeEmployeeCountLowerLimit')">
-        <el-option v-for="item in storeEmployeeCountLowerLimitOptions" :key="item" :label="item" :value="item">
-        </el-option>
-      </el-select>
-      <el-select clearable style="width: 140px" class="filter-item" v-model="listQuery.storeEmployeeCountUpperLimit" :placeholder="$t('table.storeEmployeeCountUpperLimit')">
-        <el-option v-for="item in storeEmployeeCountUpperLimitOptions" :key="item" :label="item" :value="item">
-        </el-option>
-      </el-select>
-      <br/>
-      项目范围:
-      <el-select clearable style="width: 140px" class="filter-item" v-model="listQuery.projectCountLowerLimit" :placeholder="$t('table.projectCountLowerLimit')">
-        <el-option v-for="item in projectCountLowerLimitOptions" :key="item" :label="item" :value="item">
-        </el-option>
-      </el-select>
-      <el-select clearable style="width: 140px" class="filter-item" v-model="listQuery.projectCountUpperLimit" :placeholder="$t('table.projectCountUpperLimit')">
-        <el-option v-for="item in projectCountUpperLimitOptions" :key="item" :label="item" :value="item">
-        </el-option>
-      </el-select>
-      <br/>
-      品牌范围:
-      <el-select clearable style="width: 140px" class="filter-item" v-model="listQuery.brandCountLowerLimit" :placeholder="$t('table.brandCountLowerLimit')">
-        <el-option v-for="item in brandCountLowerLimitOptions" :key="item" :label="item" :value="item">
-        </el-option>
-      </el-select>
-      <el-select clearable style="width: 140px" class="filter-item" v-model="listQuery.brandCountUpperLimit" :placeholder="$t('table.brandCountUpperLimit')">
-        <el-option v-for="item in brandCountUpperLimitOptions" :key="item" :label="item" :value="item">
-        </el-option>
-      </el-select>
-      <br/>
-      任务范围:
-      <el-select clearable style="width: 140px" class="filter-item" v-model="listQuery.taskCountLowerLimit" :placeholder="$t('table.taskCountLowerLimit')">
-        <el-option v-for="item in taskCountLowerLimitOptions" :key="item" :label="item" :value="item">
-        </el-option>
-      </el-select>
-      <el-select clearable style="width: 140px" class="filter-item" v-model="listQuery.taskCountUpperLimit" :placeholder="$t('table.taskCountUpperLimit')">
-        <el-option v-for="item in taskCountUpperLimitOptions" :key="item" :label="item" :value="item">
-        </el-option>
-      </el-select>
-      <br/>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">{{$t('table.search')}}</el-button>
-      <br/>
-      <br/>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <el-button class="filter-item" type="primary" :loading="downloadLoading" v-waves icon="el-icon-download" @click="handleDownload">{{$t('table.export')}}</el-button>
+    <div class="filter-container normal-border">
+      <div class="flex-row-center align-top">
+        <p class="select-label">门店范围：</p>
+        <div class="flex">
+          <el-select clearable style="width: 120px" class="filter-item" v-model="listQuery.provice" :placeholder="$t('table.provice')">
+            <el-option v-for="item in proviceOptions" :key="item" :label="item" :value="item">
+          </el-option>
+          </el-select>
+          <el-select clearable style="width: 120px" class="filter-item" v-model="listQuery.city" :placeholder="$t('table.city')">
+            <el-option v-for="item in cityOptions" :key="item" :label="item" :value="item">
+            </el-option>
+          </el-select>
+          <el-select clearable style="width: 120px" class="filter-item" v-model="listQuery.districtCountry" :placeholder="$t('table.districtCountry')">
+            <el-option v-for="item in districtCountryOptions" :key="item" :label="item" :value="item">
+            </el-option>
+          </el-select>
+          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.storeType" placeholder="门店类型">
+            <el-option v-for="item in storeTypeOptions" :key="item" :label="item" :value="item">
+            </el-option>
+          </el-select>
+          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.storeStatus" placeholder="门店状态">
+            <el-option v-for="item in storeStatusOptions" :key="item" :label="item" :value="item">
+            </el-option>
+          </el-select>
+          <br/>
+          <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="门店名称" v-model="listQuery.storeName">
+          </el-input>
+          <el-input @keyup.enter.native="handleFilter" style="width: 190px;" class="filter-item" placeholder="门店编号" v-model="listQuery.storeCode">
+          </el-input>
+          <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="地址" v-model="listQuery.address">
+          </el-input>
+        </div>
+      </div>
+      <div class="flex-row-center align-top">
+        <p class="select-label">客户范围：</p>
+        <div class="flex">
+          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.customeRange" :placeholder="$t('table.customeRange')">
+            <el-option v-for="item in customeRangeOptions" :key="item" :label="item" :value="item">
+            </el-option>
+          </el-select>
+        </div>
+      </div>
+      <div class="flex-row-center align-top">
+        <p class="select-label">人员范围：</p>
+        <div class="flex">
+          <el-select clearable style="width: 140px" class="filter-item" v-model="listQuery.storeEmployeeCountLowerLimit" :placeholder="$t('table.storeEmployeeCountLowerLimit')">
+            <el-option v-for="item in storeEmployeeCountLowerLimitOptions" :key="item" :label="item" :value="item">
+            </el-option>
+          </el-select>
+          <el-select clearable style="width: 140px" class="filter-item" v-model="listQuery.storeEmployeeCountUpperLimit" :placeholder="$t('table.storeEmployeeCountUpperLimit')">
+            <el-option v-for="item in storeEmployeeCountUpperLimitOptions" :key="item" :label="item" :value="item">
+            </el-option>
+          </el-select>
+        </div>
+      </div>
+      <div class="flex-row-center align-top">
+        <p class="select-label">项目范围：</p>
+        <div class="flex">
+          <el-select clearable style="width: 140px" class="filter-item" v-model="listQuery.projectCountLowerLimit" :placeholder="$t('table.projectCountLowerLimit')">
+            <el-option v-for="item in projectCountLowerLimitOptions" :key="item" :label="item" :value="item">
+            </el-option>
+          </el-select>
+          <el-select clearable style="width: 140px" class="filter-item" v-model="listQuery.projectCountUpperLimit" :placeholder="$t('table.projectCountUpperLimit')">
+            <el-option v-for="item in projectCountUpperLimitOptions" :key="item" :label="item" :value="item">
+            </el-option>
+          </el-select>
+        </div>
+      </div>
+      <div class="flex-row-center align-top">
+        <p class="select-label">品牌范围：</p>
+        <div class="flex">
+          <el-select clearable style="width: 140px" class="filter-item" v-model="listQuery.brandCountLowerLimit" :placeholder="$t('table.brandCountLowerLimit')">
+            <el-option v-for="item in brandCountLowerLimitOptions" :key="item" :label="item" :value="item">
+            </el-option>
+          </el-select>
+          <el-select clearable style="width: 140px" class="filter-item" v-model="listQuery.brandCountUpperLimit" :placeholder="$t('table.brandCountUpperLimit')">
+            <el-option v-for="item in brandCountUpperLimitOptions" :key="item" :label="item" :value="item">
+            </el-option>
+          </el-select>
+        </div>
+      </div>
+      <div class="flex-row-center align-top">
+        <p class="select-label">任务范围：</p>
+        <div class="flex">
+          <el-select clearable style="width: 140px" class="filter-item" v-model="listQuery.taskCountLowerLimit" :placeholder="$t('table.taskCountLowerLimit')">
+            <el-option v-for="item in taskCountLowerLimitOptions" :key="item" :label="item" :value="item">
+            </el-option>
+          </el-select>
+          <el-select clearable style="width: 140px" class="filter-item" v-model="listQuery.taskCountUpperLimit" :placeholder="$t('table.taskCountUpperLimit')">
+            <el-option v-for="item in taskCountUpperLimitOptions" :key="item" :label="item" :value="item">
+            </el-option>
+          </el-select>
+        </div>
+      </div>
+      <div class="textalign-r">
+        <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">查询</el-button>
+      </div>
     </div>
-
-    <el-table :key='tableKey' :data="list" v-loading="listLoading" border fit highlight-current-row
-      style="width: 100%;min-height:1000px;">
-      <el-table-column align="center" :label="$t('table.storeCode')" width="80">
-        <template slot-scope="scope">
-          <span>{{scope.row.storeCode}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column width="150px" align="center" :label="$t('table.storeName')">
-        <template slot-scope="scope">
-          <span>{{scope.row.storeName}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column min-width="80px" align="center" :label="$t('table.provice')">
-        <template slot-scope="scope">
-          <span>{{scope.row.provice}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column width="110px" align="center" :label="$t('table.city')">
-        <template slot-scope="scope">
-          <span>{{scope.row.city}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column width="110px" align="center" :label="$t('table.districtCountry')">
-        <template slot-scope="scope">
-          <span style='color:red;'>{{scope.row.districtCountry}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column width="80px" :label="$t('table.address')">
-        <template slot-scope="scope">
-          <span>{{scope.row.address}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" :label="$t('table.location')" width="180">
-        <template slot-scope="scope">
-          <span>{{scope.row.location}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column class-name="status-col" :label="$t('table.storeType')" width="100">
-        <template slot-scope="scope">
-          <span>{{scope.row.storeType}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column class-name="status-col" :label="$t('table.employeeCount')" width="100">
-         <template slot-scope="scope">
-           <span>{{scope.row.employeeCount}}</span>
-         </template>
-       </el-table-column>
-       <el-table-column class-name="status-col" :label="$t('table.projectCount')" width="100">
-         <template slot-scope="scope">
-          <span>{{scope.row.projectCount}}</span>
-         </template>
+    <!-- 表单部分 -->
+    <div class="table-container normal-border">
+      <div class="textalign-r mgbt10">
+        <el-button class="filter-item" type="primary" :loading="downloadLoading" v-waves icon="el-icon-download" @click="handleDownload">导出</el-button>
+      </div>
+      <el-table :key='tableKey' :data="list" v-loading="listLoading" border fit highlight-current-row>
+        <el-table-column align="center" :label="$t('table.storeCode')" width="80">
+          <template slot-scope="scope">
+            <span>{{scope.row.storeCode}}</span>
+          </template>
         </el-table-column>
-      <el-table-column align="center" :label="$t('table.actions')" width="160" class-name="small-padding fixed-width">
-        <template slot-scope="scope">
-          <el-button type="primary" size="100" @click="handledetail(scope.row)">{{$t('table.detail')}}</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+        <el-table-column align="center" :label="$t('table.storeName')">
+          <template slot-scope="scope">
+            <span>{{scope.row.storeName}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" :label="$t('table.provice')">
+          <template slot-scope="scope">
+            <span>{{scope.row.provice}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" :label="$t('table.city')">
+          <template slot-scope="scope">
+            <span>{{scope.row.city}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" :label="$t('table.districtCountry')">
+          <template slot-scope="scope">
+            <span style='color:red;'>{{scope.row.districtCountry}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('table.address')">
+          <template slot-scope="scope">
+            <span>{{scope.row.address}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" :label="$t('table.location')">
+          <template slot-scope="scope">
+            <span>{{scope.row.location}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column class-name="status-col" :label="$t('table.storeType')">
+          <template slot-scope="scope">
+            <span>{{scope.row.storeType}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column class-name="status-col" :label="$t('table.employeeCount')">
+          <template slot-scope="scope">
+            <span>{{scope.row.employeeCount}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column class-name="status-col" :label="$t('table.projectCount')">
+          <template slot-scope="scope">
+            <span>{{scope.row.projectCount}}</span>
+          </template>
+          </el-table-column>
+        <el-table-column align="center" :label="$t('table.actions')" class-name="small-padding fixed-width">
+          <template slot-scope="scope">
+            <el-button type="primary" size="100" @click="handledetail(scope.row)">{{$t('table.detail')}}</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
 
-    <div class="pagination-container">
-      <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="listQuery.page" :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total">
-      </el-pagination>
+      <div class="pagination-container">
+        <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="listQuery.page" :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total">
+        </el-pagination>
+      </div>
     </div>
 
     <el-dialog :visible.sync="dialogFormVisible">
