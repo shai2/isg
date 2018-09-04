@@ -41,17 +41,17 @@ export const asyncRouterMap = [
   {
     path: '/table',
     component: Layout,
-    redirect: '/table/employee-table',
+    redirect: '/table/employeeTable',
     name: 'table',
     meta: {
       title: 'Table',
       icon: 'table'
     },
     children: [
-      { path: 'employee-table', component: () => import('@/views/table/employeeTable'), name: 'employeeTable', meta: { title: 'employeeTable' }},
-      { path: 'employee/detail', component: () => import('@/views/table/employee'), hidden: true },
-      { path: 'store-table', component: () => import('@/views/table/storeTable'), name: 'storeTable', meta: { title: 'storeTable' }},
-      { path: 'store/detail', component: () => import('@/views/table/store'), hidden: true }
+      { path: 'employeeTable', component: () => import('@/views/table/employeeTable'), name: 'employeeTable', meta: { title: 'employeeTable' }},
+      { path: 'employeeDetail', component: () => import('@/views/table/employeeDetail'), hidden: true },
+      { path: 'storeTable', component: () => import('@/views/table/storeTable'), name: 'storeTable', meta: { title: 'storeTable' }},
+      { path: 'storeDetail', component: () => import('@/views/table/storeDetail'), hidden: true }
     ]
   },
   { path: '*', redirect: '/404', hidden: true }

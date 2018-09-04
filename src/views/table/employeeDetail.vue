@@ -12,7 +12,7 @@
       <el-tabs class="flex" v-model="activeName" type="border-card">
         <el-tab-pane class="info info-detail" label="基础信息" name="0">
           <p>320311198402142529
-            <svg-icon style="color:#ccc" class="pointer" v-popover:popover icon-class="tab" />
+            <svg-icon style="color:#ddd" class="pointer" v-popover:popover icon-class="tab" />
             <el-popover
               ref="popover"
               placement="right"
@@ -47,8 +47,8 @@
         </el-tab-pane>
         <el-tab-pane label="出入金明细" name="3">
           <el-table :data="moneyData">
-            <el-table-column property="id" label="流水号"></el-table-column>
-            <el-table-column label="资金">
+            <el-table-column width="120" property="id" label="流水号"></el-table-column>
+            <el-table-column width="100" label="资金">
               <template slot-scope="scope">
                 <p :class="scope.row.num*1<0?'green':'red'">{{scope.row.num}}</p>
               </template>
@@ -63,10 +63,10 @@
           </div>
         </el-tab-pane>
       </el-tabs>
-    </div>
-    <div class="right flex">
+    </div> 
+    <div class="right flex w0">
       <div class="right-top normal-border">
-        <el-table :data="gradeData">
+        <el-table :data="gradeData" border fit>
           <el-table-column property="a" label="任务完成数"></el-table-column>
           <el-table-column property="b" label="完成率"></el-table-column>
           <el-table-column property="c" label="最近服务品牌"></el-table-column>
@@ -78,7 +78,12 @@
         <el-button type="primary">上午空闲</el-button>
           <el-button type="success">下午空闲</el-button>
           <el-button type="info">全天空闲</el-button>
-          <fullCalendar :events="fcEvents" locale="en"></fullCalendar>
+          <fullCalendar
+            :events = "fcEvents"
+            @changeMonth = "changeMonth"
+            @eventClick = "eventClick"
+            lang="zh">
+          </fullCalendar>
       </div>
     </div>
   </div>
@@ -87,16 +92,13 @@
 <script>
 import RaddarChart from './charts/RaddarChart'
 import fullCalendar from 'vue-fullcalendar'
-import 'vue-event-calendar/dist/style.css'
 
 export default {
-  name: 'tab',
   components: { RaddarChart, fullCalendar },
   data() {
     return {
       tabMapOptions: ['基础信息', '工作履历', '能力评估', '出入金明细', '学习培训'],
       activeName: '0',
-      createdTimes: 0,
       workExp: [
         {
           name: '联合利华4月长促',
@@ -136,21 +138,26 @@ export default {
       fcEvents: [
         {
           title: '强生 早班',
-          start: '2018-08-09',
-          end: '2018-08-13',
-          cssClass: 'family'
+          start: '2018-09-09',
+          end: '2018-09-13',
+          cssClass: 'career'
         },
         {
           title: '强生 晚班',
-          start: '2018-08-14',
-          end: '2018-08-20',
+          start: '2018-09-14',
+          end: '2018-09-20',
           cssClass: ['family', 'career']
         }
       ]
     }
   },
   methods: {
-
+    changeMonth(start, end, current){
+      console.log('需要的时间是 '+current)
+    },
+    eventClick(event, jsEvent, pos){
+      console.log('要扩展的内容是 '+event.title)
+    }
   }
 }
 </script>

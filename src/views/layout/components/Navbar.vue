@@ -14,7 +14,7 @@
       <!-- <lang-select class="international right-menu-item"></lang-select> -->
 
       <el-dropdown class="avatar-container right-menu-item" trigger="click">
-        <div class="avatar-wrapper">
+        <div class="avatar-wrapper flex-row-center">
           <img class="user-avatar" :src="avatar+'?imageView2/1/w/80/h/80'">
           <i class="el-icon-caret-bottom"/>
         </div>
@@ -97,7 +97,7 @@ export default {
     }
     .right-menu-item {
       display: inline-block;
-      margin: 0 8px;
+      margin-left: 8px;
     }
     .screenfull {
       height: 20px;
@@ -110,7 +110,6 @@ export default {
     }
     .avatar-container {
       height: 50px;
-      margin-right: 30px;
       .avatar-wrapper {
         cursor: pointer;
         margin-top: 5px;
@@ -121,10 +120,9 @@ export default {
           border-radius: 10px;
         }
         .el-icon-caret-bottom {
-          position: absolute;
-          right: -20px;
-          top: 25px;
           font-size: 12px;
+          margin-left: 5px;
+          margin-right: 8px;
         }
       }
     }
