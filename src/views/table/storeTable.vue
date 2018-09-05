@@ -4,18 +4,7 @@
       <div class="flex-row-center align-top">
         <p class="select-label">门店范围：</p>
         <div class="flex">
-          <el-select clearable style="width: 120px" class="filter-item" v-model="listQuery.provice" :placeholder="$t('table.provice')">
-            <el-option v-for="item in proviceOptions" :key="item" :label="item" :value="item">
-          </el-option>
-          </el-select>
-          <el-select clearable style="width: 120px" class="filter-item" v-model="listQuery.city" :placeholder="$t('table.city')">
-            <el-option v-for="item in cityOptions" :key="item" :label="item" :value="item">
-            </el-option>
-          </el-select>
-          <el-select clearable style="width: 120px" class="filter-item" v-model="listQuery.districtCountry" :placeholder="$t('table.districtCountry')">
-            <el-option v-for="item in districtCountryOptions" :key="item" :label="item" :value="item">
-            </el-option>
-          </el-select>
+          <areaSelect style="width: 200px" @areaChange="areaChange"></areaSelect>
           <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.storeType" placeholder="门店类型">
             <el-option v-for="item in storeTypeOptions" :key="item" :label="item" :value="item">
             </el-option>
@@ -36,7 +25,7 @@
       <div class="flex-row-center align-top">
         <p class="select-label">客户范围：</p>
         <div class="flex">
-          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.customeRange" :placeholder="$t('table.customeRange')">
+          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.customeRange" placeholder="客户范围">
             <el-option v-for="item in customeRangeOptions" :key="item" :label="item" :value="item">
             </el-option>
           </el-select>
@@ -45,53 +34,37 @@
       <div class="flex-row-center align-top">
         <p class="select-label">人员范围：</p>
         <div class="flex">
-          <el-select clearable style="width: 140px" class="filter-item" v-model="listQuery.storeEmployeeCountLowerLimit" :placeholder="$t('table.storeEmployeeCountLowerLimit')">
-            <el-option v-for="item in storeEmployeeCountLowerLimitOptions" :key="item" :label="item" :value="item">
-            </el-option>
-          </el-select>
-          <el-select clearable style="width: 140px" class="filter-item" v-model="listQuery.storeEmployeeCountUpperLimit" :placeholder="$t('table.storeEmployeeCountUpperLimit')">
-            <el-option v-for="item in storeEmployeeCountUpperLimitOptions" :key="item" :label="item" :value="item">
-            </el-option>
-          </el-select>
+          <el-input @keyup.enter.native="handleFilter" style="width: 140px;" class="filter-item" placeholder="店内人数下限" v-model="listQuery.employee_num_min">
+          </el-input>
+          <el-input @keyup.enter.native="handleFilter" style="width: 140px;" class="filter-item" placeholder="店内人数上限" v-model="listQuery.employee_num_max">
+          </el-input>
         </div>
       </div>
       <div class="flex-row-center align-top">
         <p class="select-label">项目范围：</p>
         <div class="flex">
-          <el-select clearable style="width: 140px" class="filter-item" v-model="listQuery.projectCountLowerLimit" :placeholder="$t('table.projectCountLowerLimit')">
-            <el-option v-for="item in projectCountLowerLimitOptions" :key="item" :label="item" :value="item">
-            </el-option>
-          </el-select>
-          <el-select clearable style="width: 140px" class="filter-item" v-model="listQuery.projectCountUpperLimit" :placeholder="$t('table.projectCountUpperLimit')">
-            <el-option v-for="item in projectCountUpperLimitOptions" :key="item" :label="item" :value="item">
-            </el-option>
-          </el-select>
+          <el-input @keyup.enter.native="handleFilter" style="width: 140px;" class="filter-item" placeholder="项目数下限" v-model="listQuery.project_num_min">
+          </el-input>
+          <el-input @keyup.enter.native="handleFilter" style="width: 140px;" class="filter-item" placeholder="项目数上限" v-model="listQuery.project_num_max">
+          </el-input>
         </div>
       </div>
       <div class="flex-row-center align-top">
         <p class="select-label">品牌范围：</p>
         <div class="flex">
-          <el-select clearable style="width: 140px" class="filter-item" v-model="listQuery.brandCountLowerLimit" :placeholder="$t('table.brandCountLowerLimit')">
-            <el-option v-for="item in brandCountLowerLimitOptions" :key="item" :label="item" :value="item">
-            </el-option>
-          </el-select>
-          <el-select clearable style="width: 140px" class="filter-item" v-model="listQuery.brandCountUpperLimit" :placeholder="$t('table.brandCountUpperLimit')">
-            <el-option v-for="item in brandCountUpperLimitOptions" :key="item" :label="item" :value="item">
-            </el-option>
-          </el-select>
+          <el-input @keyup.enter.native="handleFilter" style="width: 140px;" class="filter-item" placeholder="品牌数下限" v-model="listQuery.brand_num_min">
+          </el-input>
+          <el-input @keyup.enter.native="handleFilter" style="width: 140px;" class="filter-item" placeholder="品牌数上限" v-model="listQuery.brand_num_max">
+          </el-input>
         </div>
       </div>
       <div class="flex-row-center align-top">
         <p class="select-label">任务范围：</p>
         <div class="flex">
-          <el-select clearable style="width: 140px" class="filter-item" v-model="listQuery.taskCountLowerLimit" :placeholder="$t('table.taskCountLowerLimit')">
-            <el-option v-for="item in taskCountLowerLimitOptions" :key="item" :label="item" :value="item">
-            </el-option>
-          </el-select>
-          <el-select clearable style="width: 140px" class="filter-item" v-model="listQuery.taskCountUpperLimit" :placeholder="$t('table.taskCountUpperLimit')">
-            <el-option v-for="item in taskCountUpperLimitOptions" :key="item" :label="item" :value="item">
-            </el-option>
-          </el-select>
+          <el-input @keyup.enter.native="handleFilter" style="width: 140px;" class="filter-item" placeholder="任务数下限" v-model="listQuery.task_num_min">
+          </el-input>
+          <el-input @keyup.enter.native="handleFilter" style="width: 140px;" class="filter-item" placeholder="任务数上限" v-model="listQuery.task_num_max">
+          </el-input>
         </div>
       </div>
       <div class="textalign-r">
@@ -160,185 +133,68 @@
           </template>
         </el-table-column>
       </el-table>
-
       <div class="pagination-container">
         <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="listQuery.page" :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total">
         </el-pagination>
       </div>
     </div>
-
-    <el-dialog :visible.sync="dialogFormVisible">
-      <el-form :rules="rules" ref="dataForm" :model="temp" label-position="left" label-width="70px" style='width: 400px; margin-left:50px;'>
-        <el-form-item :label="$t('table.storeCode')" prop="storeCode">
-          <el-input style="width: 200px;" v-model="temp.storeCode">
-          </el-input>
-        </el-form-item>
-        <el-form-item :label="$t('table.storeName')" prop="storeName">
-          <el-input style="width: 200px;" v-model="temp.storeName">
-          </el-input>
-        </el-form-item>
-        <el-form-item :label="$t('table.provice')" prop="provice">
-          <el-input style="width: 200px;" v-model="temp.provice">
-          </el-input>
-        </el-form-item>
-        <el-form-item :label="$t('table.city')" prop="city">
-          <el-input style="width: 200px;" v-model="temp.city">
-          </el-input>
-        </el-form-item>
-        <el-form-item :label="$t('table.districtCountry')" prop="districtCountry">
-          <el-input style="width: 200px;" v-model="temp.districtCountry">
-          </el-input>
-        </el-form-item>
-        <el-form-item :label="$t('table.address')" prop="address">
-          <el-input style="width: 200px;" v-model="temp.address">
-          </el-input>
-        </el-form-item>
-        <el-form-item :label="$t('table.location')" prop="location">
-          <el-input style="width: 200px;" v-model="temp.location">
-          </el-input>
-        </el-form-item>
-        <el-form-item :label="$t('table.storeType')" prop="storeType">
-          <el-input style="width: 200px;" v-model="temp.storeType">
-          </el-input>
-        </el-form-item>
-        <el-form-item :label="$t('table.employeeCount')" prop="employeeCount">
-          <el-input style="width: 200px;" v-model="temp.employeeCount">
-          </el-input>
-        </el-form-item>
-        <el-form-item :label="$t('table.projectCount')" prop="projectCount">
-          <el-input style="width: 200px;" v-model="temp.projectCount">
-          </el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">{{$t('table.close')}}</el-button>
-      </div>
-    </el-dialog>
-
-    <el-dialog title="Reading statistics" :visible.sync="dialogPvVisible">
-      <el-table :data="pvData" border fit highlight-current-row style="width: 100%">
-        <el-table-column prop="key" label="Channel"> </el-table-column>
-        <el-table-column prop="pv" label="Pv"> </el-table-column>
-      </el-table>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogPvVisible = false">{{$t('table.confirm')}}</el-button>
-      </span>
-    </el-dialog>
-
   </div>
 </template>
 
 <script>
-import { fetchList, fetchPv, createArticle, updateArticle } from '@/api/store'
-import waves from '@/directive/waves' // 水波纹指令
-import { parseTime } from '@/utils'
-
-const calendarTypeOptions = [
-  { key: 'CN', display_name: 'China' },
-  { key: 'US', display_name: 'USA' },
-  { key: 'JP', display_name: 'Japan' },
-  { key: 'EU', display_name: 'Eurozone' }
-]
-
-// arr to obj ,such as { CN : "China", US : "USA" }
-const calendarTypeKeyValue = calendarTypeOptions.reduce((acc, cur) => {
-  acc[cur.key] = cur.display_name
-  return acc
-}, {})
-
+import { getStoreList } from 'api/store'
+import waves from 'directive/waves' // 水波纹指令
+import areaSelect from 'components/areaSelect'
+import { parseTime } from 'utils'
+import { area, page, store } from 'utils/commonArgs'
 export default {
   name: 'storeTable',
-  directives: {
-    waves
-  },
   data() {
     return {
       tableKey: 0,
       list: null,
       total: null,
       listLoading: true,
+      downloadLoading: false,
       listQuery: {
-        page: 1,
-        limit: 10,
-        importance: undefined,
-        title: undefined,
-        type: undefined,
-        sort: '+id'
+        store_status: '', // 门店状态
+        brand_code: '', // 门店范围
+        employee_num_min: '', // 店内人数下限
+        employee_num_max: '', // 店内人数上限
+        project_num_min: '', // 项目数下限
+        project_num_max: '', // 项目数上限
+        brand_num_min: '', // 品牌数下限
+        brand_num_max: '', // 品牌数上限
+        task_num_min: '', // 任务数下限
+        task_num_max: ''// 任务数上限
       },
-      importanceOptions: [1, 2, 3],
-      proviceOptions: ['山东', '江苏'],
-      cityOptions: ['北京', '上海'],
-      districtCountryOptions: ['黄浦区', '长宁区'],
       storeTypeOptions: ['连锁', '品牌'],
-      storeName: '',
-      storeCode: '',
-      address: '',
       storeStatusOptions: ['正常营业', '暂停营业'],
-      customeRangeOptions: ['联合利华', '高露洁'],
-      storeEmployeeCountLowerLimitOptions: [5, 10],
-      storeEmployeeCountUpperLimitOptions: [50, 100],
-      projectCountLowerLimitOptions: [5, 10],
-      projectCountUpperLimitOptions: [50, 100],
-      brandCountLowerLimitOptions: [5, 10],
-      brandCountUpperLimitOptions: [50, 100],
-      taskCountLowerLimitOptions: [50, 100],
-      taskCountUpperLimitOptions: [500, 1000],
-      calendarTypeOptions,
-      sortOptions: [{ label: 'ID Ascending', key: '+id' }, { label: 'ID Descending', key: '-id' }],
-      statusOptions: ['published', 'draft', 'deleted'],
-      showReviewer: false,
-      temp: {
-        id: undefined,
-        importance: 1,
-        remark: '',
-        timestamp: new Date(),
-        title: '',
-        type: '',
-        status: 'published'
-      },
-      dialogFormVisible: false,
-      dialogStatus: '',
-      textMap: {
-        update: 'Edit',
-        create: 'Create'
-      },
-      dialogPvVisible: false,
-      pvData: [],
-      rules: {
-        type: [{ required: true, message: 'type is required', trigger: 'change' }],
-        timestamp: [{ type: 'date', required: true, message: 'timestamp is required', trigger: 'change' }],
-        title: [{ required: true, message: 'title is required', trigger: 'blur' }]
-      },
-      downloadLoading: false
+      customeRangeOptions: ['联合利华', '高露洁']
     }
   },
-  filters: {
-    statusFilter(status) {
-      const statusMap = {
-        published: 'success',
-        draft: 'info',
-        deleted: 'danger'
-      }
-      return statusMap[status]
-    },
-    typeFilter(type) {
-      return calendarTypeKeyValue[type]
-    }
+  components: {
+    areaSelect
+  },
+  directives: {
+    waves
   },
   created() {
+    Object.assign(this.listQuery, area, page, store)
     this.getList()
   },
   methods: {
+    areaChange(e) {
+      this.listQuery.province = e[0]
+      this.listQuery.city = e[1]
+      this.listQuery.area = e[2]
+    },
     getList() {
       this.listLoading = true
-      fetchList(this.listQuery).then(response => {
+      getStoreList(this.listQuery).then(response => {
         this.list = response.data.items
         this.total = response.data.total
-
-        // Just to simulate the time of the request
-        setTimeout(() => {
-          this.listLoading = false
-        }, 1.5 * 1000)
+        this.listLoading = false
       })
     },
     handleFilter() {
@@ -360,94 +216,8 @@ export default {
       })
       row.status = status
     },
-    resetTemp() {
-      this.temp = {
-        id: undefined,
-        importance: 1,
-        remark: '',
-        timestamp: new Date(),
-        title: '',
-        status: 'published',
-        type: ''
-      }
-    },
-    handleCreate() {
-      this.resetTemp()
-      this.dialogStatus = 'create'
-      this.dialogFormVisible = true
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
-      })
-    },
-    createData() {
-      this.$refs['dataForm'].validate((valid) => {
-        if (valid) {
-          this.temp.id = parseInt(Math.random() * 100) + 1024 // mock a id
-          this.temp.author = 'vue-element-admin'
-          createArticle(this.temp).then(() => {
-            this.list.unshift(this.temp)
-            this.dialogFormVisible = false
-            this.$notify({
-              title: '成功',
-              message: '创建成功',
-              type: 'success',
-              duration: 2000
-            })
-          })
-        }
-      })
-    },
-    handleUpdate(row) {
-      this.temp = Object.assign({}, row) // copy obj
-      this.temp.timestamp = new Date(this.temp.timestamp)
-      this.dialogStatus = 'update'
-      this.dialogFormVisible = true
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
-      })
-    },
     handledetail(row) {
       this.$router.push({ path: '/table/storeDetail' })
-    },
-    updateData() {
-      this.$refs['dataForm'].validate((valid) => {
-        if (valid) {
-          const tempData = Object.assign({}, this.temp)
-          tempData.timestamp = +new Date(tempData.timestamp) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
-          updateArticle(tempData).then(() => {
-            for (const v of this.list) {
-              if (v.id === this.temp.id) {
-                const index = this.list.indexOf(v)
-                this.list.splice(index, 1, this.temp)
-                break
-              }
-            }
-            this.dialogFormVisible = false
-            this.$notify({
-              title: '成功',
-              message: '更新成功',
-              type: 'success',
-              duration: 2000
-            })
-          })
-        }
-      })
-    },
-    handleDelete(row) {
-      this.$notify({
-        title: '成功',
-        message: '删除成功',
-        type: 'success',
-        duration: 2000
-      })
-      const index = this.list.indexOf(row)
-      this.list.splice(index, 1)
-    },
-    handleFetchPv(pv) {
-      fetchPv(pv).then(response => {
-        this.pvData = response.data.pvData
-        this.dialogPvVisible = true
-      })
     },
     handleDownload() {
       this.downloadLoading = true

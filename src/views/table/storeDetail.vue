@@ -1,91 +1,91 @@
 <template>
-  <div class="app-container flex-row-between align-stretch">
+  <div v-if="storeData.store_address_info" class="app-container flex-row-between align-stretch">
     <div class="left flex-column-center normal-border">
         <div id="allmap" style="width: 100%;height:500px;border: 1px solid gray;overflow:hidden;">
         </div>
         <div class="store-describe w100">
-          <p>00001</p>
-          <p>上海人民广场店</p>
-          <p>上海黄浦区延安东路700号</p>
+          <p>缺少编号</p>
+          <p>{{storeData.store_address_info.store_name}}</p>
+          <p>{{storeData.store_address_info.address}}</p>
         </div>
     </div>
     <div class="right flex w0">
       <div class="right-top normal-border">
-        <el-table :data="gradeData" border fit>
-          <el-table-column property="a" label="当班人员"></el-table-column>
-          <el-table-column property="b" label="休息人员"></el-table-column>
-          <el-table-column property="c" label="共享人员"></el-table-column>
-          <el-table-column property="d" label="进行中项目"></el-table-column>
-          <el-table-column property="e" label="发布中任务"></el-table-column>
-          <el-table-column property="f" label="执行中任务"></el-table-column>
-          <el-table-column property="g" label="品牌客户"></el-table-column>
+        <el-table :data="store_statistics" border fit>
+          <el-table-column property="work_num" label="当班人员"></el-table-column>
+          <el-table-column property="break_num" label="休息人员"></el-table-column>
+          <el-table-column property="share_num" label="共享人员"></el-table-column>
+          <el-table-column property="project_ongoing_num" label="进行中项目"></el-table-column>
+          <el-table-column property="task_all_num" label="发布中任务"></el-table-column>
+          <el-table-column property="task_ongoing_num" label="执行中任务"></el-table-column>
+          <el-table-column property="brand_num" label="品牌客户"></el-table-column>
         </el-table>
       </div>
       <div class="right-bottom normal-border flex">
         <el-tabs class="flex" v-model="activeName" type="border-card">
           <el-tab-pane class="info info-detail" label="基础信息" name="0">
             <div class="flex mglt10">
-              <p>小超市（正常营业）</p>
-              <p>联系人：李明</p>
-              <p>联系电话：13111111111</p>
+              <p>{{storeData.store_base_info.store_type}}（{{storeData.store_base_info.store_status}}）</p>
+              <p>联系人：{{storeData.store_base_info.contact_name}}</p>
+              <p>联系电话：{{storeData.store_base_info.contact_telephone}}</p>
             </div>
-            <img class="store-img" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1535953897871&di=fcedf6db09bd29b2694351ecb8c28eb7&imgtype=0&src=http%3A%2F%2Fimg1.qunarzz.com%2Ftravel%2Fpoi%2F1504%2Fa1%2F9dbf00ac7dc66c.jpg_r_1024x683x95_5df5fb2e.jpg">
+            <img class="store-img" :src="storeData.store_base_info.store_photo">
           </el-tab-pane>
           <el-tab-pane label="人员信息" name="1" class="item-container overflow-s h100">
-            <div v-for="(e,i) in people" :key="i" class="item flex-row-center">
+            <div v-for="(e,i) in storeData.employee_info" :key="i" class="item flex-row-center">
               <div class="people-left">
-                <img :src="e.a">
+                <img :src="e.没有头像">
               </div>
               <div class="people-right flex-column-center flex">
                 <div class="item-info">
-                  <p class="people-name">{{e.b}}</p>
-                  <span>{{e.c}}</span>
+                  <p class="people-name">{{e.name}}</p>
+                  <span>{{e.position}}</span>
                 </div>
                 <div class="item-info">
-                  <span>{{e.d}}</span>
-                  <span>{{e.e}}</span>
-                  <span>{{e.f}}</span>
+                  <span>{{e.telephone}}</span>
+                  <span>{{e.work_age}}</span>
+                  <span>{{e.schedule_status}}</span>
                 </div>
               </div>
             </div>
           </el-tab-pane>
           <el-tab-pane label="项目信息" name="2" class="item-container">
-            <div v-for="(e,i) in event" :key="i" class="item flex-row-center">
+            <div v-for="(e,i) in storeData.project_info" :key="i" class="item flex-row-center">
               <div class="event-left">
-                <img :src="e.a">
+                <img :src="e.brand_photo">
               </div>
               <div class="event-right flex-column-center flex">
                 <div class="item-info">
-                  <p class="event-name">{{e.b}}</p>
+                  <p class="event-name">{{e.project_name}}</p>
                 </div>
                 <div class="item-info">
-                  <span>{{e.c}}</span>
+                  <span>{{e.start_time}}</span>
                   <span>~</span>
-                  <span>{{e.d}}</span>
+                  <span>{{e.end_time}}</span>
                 </div>
                 <div class="item-info">
-                  <span>负责人：{{e.e}}</span>
+                  <span>负责人：{{e.owner}}</span>
                 </div>
               </div>
             </div>
           </el-tab-pane>
           <el-tab-pane label="任务信息" name="3" class="item-container">
-            <div v-for="(e,i) in task" :key="i" class="item flex-row-center">
+            <div v-for="(e,i) in storeData.task_info" :key="i" class="item flex-row-center">
               <div class="task-left">
                 <img :src="e.a">
               </div>
               <div class="task-right flex-column-center flex">
                 <div class="item-info">
-                  <p class="task-name">[{{e.b}}]{{e.c}}</p>
+                  <p class="task-name">[{{e.project_type}}]{{e.name}}</p>
                 </div>
                 <div class="item-info">
-                  <span>{{e.d}}</span>
+                  <span>{{e.start_time}}</span>
                   <span>~</span>
-                  <span>{{e.e}}</span>
+                  <span>{{e.end_time}}</span>
                 </div>
                 <div class="item-info">
-                  <span>{{e.f}}</span>
-                  <span>{{e.g}}</span>
+                  <span>{{e.status}}</span>
+                  <span>{{e.employee_name}}</span>
                 </div>
               </div>
             </div>
@@ -97,48 +97,45 @@
 </template>
 
 <script>
+import { getStoreDetail } from 'api/store'
+
 export default {
-  components: { },
   data() {
     return {
-      gradeData:[{a:'4',b:'3',c:'1',d:'9',e:'21',f:'4',g:'6'}],
-      point:[121.50109, 31.23691],
-      people:(()=>{
-        let _arr = []
-        for(let i=0;i<17;i++){
-          _arr.push({a:'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3198678185,878755003&fm=27&gp=0.jpg',b:'马玉军',c:'促销员',d:'1311111111',e:'11年工龄',f:'今日当班'})
-        }
-        return _arr
-      })(),
-      event:(()=>{
-        let _arr = []
-        for(let i=0;i<3;i++){
-          _arr.push({a:'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3198678185,878755003&fm=27&gp=0.jpg',b:'联合利华3月长促',c:'07/01',d:'09/01',e:'孙荣'})
-        }
-        return _arr
-      })(),
-      task:(()=>{
-        let _arr = []
-        for(let i=0;i<3;i++){
-          _arr.push({a:'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3198678185,878755003&fm=27&gp=0.jpg',b:'速冻米面',c:'产品分销检查',d:'07/01 12:00',e:'07/01 15:00',f:'已被领取',g:'刘娜'})
-        }
-        return _arr
-      })(),
-      activeName: '0',
+      store_code: '', // 门店编号
+      store_statistics: [], // obj转数组
+      storeData: {},
+      activeName: '0'
     }
   },
-  mounted() {
-    this.mapInit()
+  created() {
+    this.getDetail()
+  },
+  watch: {
+    '$route'(to, from) {
+      this.getDetail()
+    }
   },
   methods: {
-    mapInit() {
-      let map = new BMap.Map('allmap')
-      let _point = new BMap.Point(this.point[0],this.point[1])
+    getDetail() {
+      getStoreDetail(this.store_code).then(res => {
+        this.storeData = res.data.data
+        this.store_statistics.push(this.storeData.store_statistics)
+        this.$nextTick(() => {
+          this.mapInit(
+            this.storeData.store_address_info.longitude, this.storeData.store_address_info.latitude
+          )
+        })
+      })
+    },
+    mapInit(longitude, latitude) {
+      const map = new BMap.Map('allmap')
+      const _point = new BMap.Point(longitude, latitude)
       map.centerAndZoom(_point, 14)
       map.addControl(new BMap.MapTypeControl())
       map.enableScrollWheelZoom(true)
       map.enableDoubleClickZoom(true)
-      let _marker = new BMap.Marker(_point)
+      const _marker = new BMap.Marker(_point)
       map.addOverlay(_marker)
     }
   }

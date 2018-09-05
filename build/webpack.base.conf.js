@@ -9,14 +9,14 @@ function resolve (dir) {
 }
 
 const createLintingRule = () => ({
-  test: /\.(js|vue)$/,
-  loader: 'eslint-loader',
-  enforce: 'pre',
-  include: [resolve('src'), resolve('test')],
-  options: {
-    formatter: require('eslint-friendly-formatter'),
-    emitWarning: !config.dev.showEslintErrorsInOverlay
-  }
+  // test: /\.(js|vue)$/,
+  // loader: 'eslint-loader',
+  // enforce: 'pre',
+  // include: [resolve('src'), resolve('test')],
+  // options: {
+  //   formatter: require('eslint-friendly-formatter'),
+  //   emitWarning: !config.dev.showEslintErrorsInOverlay
+  // }
 })
 
 module.exports = {
@@ -41,6 +41,7 @@ module.exports = {
       'src': path.resolve(__dirname, '../src'),
       'components': path.resolve(__dirname, '../src/components'),
       'api': path.resolve(__dirname, '../src/api'),
+      'directive': path.resolve(__dirname, '../src/directive'),
       'utils': path.resolve(__dirname, '../src/utils'),
       'store': path.resolve(__dirname, '../src/store'),
       'router': path.resolve(__dirname, '../src/router')

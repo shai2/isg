@@ -4,88 +4,77 @@
       <div class="flex-row-center align-top">
         <p class="select-label">门店范围：</p>
         <div class="flex">
-          <areaSelect @areaChange="areaChange"></areaSelect>
-          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.storeType" :placeholder="门店类型">
+          <areaSelect style="width: 200px" @areaChange="areaChange"></areaSelect>
+          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.store_type" placeholder="门店类型">
             <el-option v-for="item in storeTypeOptions" :key="item" :label="item" :value="item">
             </el-option>
           </el-select>
-          <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" :placeholder="门店名称" v-model="listQuery.storeName">
+          <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="门店名称" v-model="listQuery.store_name">
           </el-input>
-          <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" :placeholder="门店编号" v-model="listQuery.storeCode">
+          <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="门店编号" v-model="listQuery.store_code">
           </el-input>
-          <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" :placeholder="地址" v-model="listQuery.address">
+          <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="地址" v-model="listQuery.address">
           </el-input>
         </div>
       </div>
       <div class="flex-row-center align-top">
         <p class="select-label">人员范围：</p>
         <div class="flex">
-          <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.position" :placeholder="职位">
+          <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.position" placeholder="职位">
             <el-option v-for="item in positionOptions" :key="item" :label="item" :value="item">
             </el-option>
           </el-select>
-          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.jobStatus" :placeholder="在职状态">
+          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.job_status" placeholder="在职状态">
             <el-option v-for="item in jobStatusOptions" :key="item" :label="item" :value="item">
             </el-option>
           </el-select>
-          <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.name" :placeholder="姓名">
+          <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.name" placeholder="姓名">
             <el-option v-for="item in nameOptions" :key="item" :label="item" :value="item">
             </el-option>
           </el-select>
-          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.telephone" :placeholder="手机号">
+          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.telephone" placeholder="手机号">
             <el-option v-for="item in telephoneOptions" :key="item" :label="item" :value="item">
             </el-option>
           </el-select>
-          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.industryTag" :placeholder="行业标签">
+          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.industry" placeholder="行业标签">
             <el-option v-for="item in industryTagOptions" :key="item" :label="item" :value="item">
             </el-option>
           </el-select>
-          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.trainingTag" :placeholder="培训标签">
+          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.job_type" placeholder="培训标签">
             <el-option v-for="item in trainingTagOptions" :key="item" :label="item" :value="item">
             </el-option>
           </el-select>
           <br/>
-          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.jobType" :placeholder="工作类型">
+          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.job_type" placeholder="工作类型">
             <el-option v-for="item in jobTypeOptions" :key="item" :label="item" :value="item">
             </el-option>
           </el-select>
-          <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.sex" :placeholder="$t('table.sex')">
+          <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.sex" placeholder="性别">
             <el-option v-for="item in sexOptions" :key="item" :label="item" :value="item">
             </el-option>
           </el-select>
-          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.workingYearsLowerLimit" :placeholder="$t('table.workingYearsLowerLimit')">
-            <el-option v-for="item in workingYearsLowerLimitOptions" :key="item" :label="item" :value="item">
-            </el-option>
-          </el-select>
-          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.workingYearsUpperLimit" :placeholder="$t('table.workingYearsUpperLimit')">
-            <el-option v-for="item in workingYearsUpperLimitOptions" :key="item" :label="item" :value="item">
-            </el-option>
-          </el-select>
-          <el-input @keyup.enter.native="handleFilter" style="width: 110px;" class="filter-item" placeholder="任务完成数" v-model="listQuery.taskCompletionNumber">
+          <el-input type="number" @keyup.enter.native="handleFilter" style="width: 110px;" class="filter-item" placeholder="工龄下限" v-model="listQuery.work_year_min">
+          </el-input>
+          <el-input type="number" @keyup.enter.native="handleFilter" style="width: 110px;" class="filter-item" placeholder="工龄上限" v-model="listQuery.work_year_max">
+          </el-input>
+          <el-input type="number" @keyup.enter.native="handleFilter" style="width: 110px;" class="filter-item" placeholder="任务完成数" v-model="listQuery.complete_count">
           </el-input>
         </div>
       </div>
       <div class="flex-row-center align-top">
         <p class="select-label">排期范围：</p>
         <div class="flex">
-          <el-date-picker v-model="listQuery.create_start_date" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="开始时间">
+          <el-date-picker v-model="listQuery.start_time" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="开始时间">
           </el-date-picker>
-          <el-date-picker v-model="listQuery.create_end_date" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="结束时间">
+          <el-date-picker v-model="listQuery.end_time" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="结束时间">
           </el-date-picker>
           <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.workStatus" placeholder="工作状态">
             <el-option v-for="item in workStatusOptions" :key="item" :label="item" :value="item">
             </el-option>
           </el-select>
           <div class="filter-container">
-            <el-checkbox-group v-model="listQuery.checkboxVal">
-              <el-checkbox label="周一">周一</el-checkbox>
-              <el-checkbox label="周二">周二</el-checkbox>
-              <el-checkbox label="周三">周三</el-checkbox>
-              <el-checkbox label="周三">周三</el-checkbox>
-              <el-checkbox label="周四">周四</el-checkbox>
-              <el-checkbox label="周五">周五</el-checkbox>
-              <el-checkbox label="周六">周六</el-checkbox>
-              <el-checkbox label="周日">周日</el-checkbox>
+            <el-checkbox-group v-model="listQuery.week_day">
+              <el-checkbox v-for="(e,i) in weekDayOptions" :label="e" :key="i">{{e}}</el-checkbox>
             </el-checkbox-group>
           </div>
         </div>
@@ -93,7 +82,7 @@
       <div class="flex-row-center align-top">
         <p class="select-label">客户范围：</p>
         <div class="flex">
-          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.customeRange" placeholder="客户范围">
+          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.brand_code" placeholder="客户范围">
             <el-option v-for="item in customeRangeOptions" :key="item" :label="item" :value="item">
             </el-option>
           </el-select> 
@@ -174,10 +163,11 @@
 </template>
 
 <script>
-import { getEmployeeList } from '@/api/employee'
-import waves from '@/directive/waves' // 水波纹指令
-import { parseTime } from '@/utils'
+import { getEmployeeList } from 'api/employee'
+import waves from 'directive/waves' // 水波纹指令
 import areaSelect from 'components/areaSelect'
+import { parseTime } from 'utils'
+import { area, page, store } from 'utils/commonArgs'
 export default {
   name: 'employeeTable',
   data() {
@@ -187,34 +177,26 @@ export default {
       listLoading: true,
       downloadLoading: false,
       listQuery: {
-        province:'',
-        city:'',
-        area:'',
-        store_type:'',//门店类型
-        store_name:'',//门店名称
-        store_code:'',//门店编号
-        address:'',//地址
-        position:'',//职位
-        job_status:'',//在职状态
-        name:'',//姓名
-        telephone:'',//手机号
-        industry:'',//行业标签
-        train:'',//培训标签
-        job_type:'',//工作类型
-        sex:'',//性别
-        age_min:'',//年龄下限
-        age_max:'',//年龄下限
-        work_year_min:'',//工龄下线
-        work_year_min:'',//工龄上线
-        complete_count:'',//任务完成数
-        start_time:'',//排期开始时间
-        end_time:'',//排期结束时间
-        week_day:'',//排班星期几
-        status:'',//排班状态
-        brand_code:'',//客户范围
-        pageNum:1,//需要展示的分页页数
-        pageSize:10,//每一页显示个数
+        position: '', // 职位
+        job_status: '', // 在职状态
+        name: '', // 姓名
+        telephone: '', // 手机号
+        industry: '', // 行业标签
+        train: '', // 培训标签
+        job_type: '', // 工作类型
+        sex: '', // 性别
+        age_min: '', // 年龄下限
+        age_max: '', // 年龄下限
+        work_year_min: '', // 工龄下线
+        work_year_min: '', // 工龄上线
+        complete_count: '', // 任务完成数
+        start_time: '', // 排期开始时间
+        end_time: '', // 排期结束时间
+        week_day: [], // 排班星期几
+        status: '', // 排班状态
+        brand_code: ''// 客户范围
       },
+      weekDayOptions: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
       storeTypeOptions: ['连锁', '品牌'],
       positionOptions: ['促销员', '督导'],
       jobStatusOptions: ['在职', '离职'],
@@ -224,23 +206,22 @@ export default {
       trainingTagOptions: ['通用能力', '专业能力'],
       jobTypeOptions: ['全职', '兼职'],
       sexOptions: ['男', '女'],
-      workingYearsUpperLimitOptions: ['3', '5'],
-      workingYearsLowerLimitOptions: ['1', '2'],
       workStatusOptions: ['工作中', '休息'],
-      customeRangeOptions: ['联合利华', '高露洁'],
+      customeRangeOptions: ['联合利华', '高露洁']
     }
   },
-  components:{
+  components: {
     areaSelect
   },
   directives: {
     waves
   },
   created() {
+    Object.assign(this.listQuery, area, page, store)
     this.getList()
   },
   methods: {
-    areaChange(e){
+    areaChange(e) {
       this.listQuery.province = e[0]
       this.listQuery.city = e[1]
       this.listQuery.area = e[2]
@@ -248,14 +229,9 @@ export default {
     getList() {
       this.listLoading = true
       getEmployeeList(this.listQuery).then(response => {
-        console.log(response.data.items)
         this.list = response.data.items
         this.total = response.data.total
-
-        // Just to simulate the time of the request
-        setTimeout(() => {
-          this.listLoading = false
-        }, 1.5 * 1000)
+        this.listLoading = false
       })
     },
     handleFilter() {

@@ -1,17 +1,17 @@
 <template>
-  <div class="app-container flex-row-between align-stretch">
+  <div v-if="employeeData.normal_info" class="app-container flex-row-between align-stretch">
     <div class="left flex-column-center normal-border">
       <div class="info flex-row-center">
         <img src="http://img3.duitang.com/uploads/item/201604/24/20160424144634_Sirh8.jpeg">
         <div class="flex">
-          <p>CCCC29874294</p>
-          <p>刘娜</p>
-          <p>13123234565</p>
+          <p>{{employeeData.normal_info.employee_code}}</p>
+          <p>{{employeeData.normal_info.name}}</p>
+          <p>{{employeeData.normal_info.telephone}}</p>
         </div>
       </div>
       <el-tabs class="flex" v-model="activeName" type="border-card">
         <el-tab-pane class="info info-detail" label="基础信息" name="0">
-          <p>320311198402142529
+          <p>{{employeeData.personal_info.identity_card_number}}
             <svg-icon style="color:#ddd" class="pointer" v-popover:popover icon-class="tab" />
             <el-popover
               ref="popover"
@@ -22,18 +22,17 @@
               <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1535710906058&di=d9f051e8b246d622361e988716deed82&imgtype=0&src=http%3A%2F%2Fwww.shac-nj.com%3A90%2FContent%2Fimages%2Fshenfenzheng.jpg">
             </el-popover>
           </p>
-          <p>女</p>
-          <p>33</p>
-          <p>湖南</p>
-          <p>高中</p>
-          <p>上海市</p>
+          <p>{{employeeData.personal_info.sex}}</p>
+          <p>{{employeeData.personal_info.age}}</p>
+          <p>{{employeeData.personal_info.province_city}}</p>
+          <p>{{employeeData.personal_info.education}}</p>
         </el-tab-pane>
         <el-tab-pane label="工作履历" name="1">
-          <div v-for="(e,i) in workExp" :key="i" class="work-item flex-row-center">
+          <div v-for="(e,i) in employeeData.work_info" :key="i" class="work-item flex-row-center">
             <div class="work-item-left flex">
-              <p>{{e.name}}</p>
-              <p>{{e.time}}</p>
-              <p>{{e.pos}}</p>
+              <p>{{e.work_resume_name}}</p>
+              <p>{{e.start_time}} ~ {{e.end_time}}</p>
+              <p>{{e.position}}</p>
             </div>
             <div :class="{'border-green':e.status=='进行中'}" class="work-item-right flex-column-center">
               <p>{{e.status}}</p>
@@ -57,33 +56,41 @@
           </el-table>
         </el-tab-pane>
         <el-tab-pane label="学习培训" name="4">
-          <div v-for="(e,i) in learnExp" :key="i" class="learn-item">
-            <p>{{e.name}}</p>
-            <p>完成时间：{{e.time}}</p>
+          <div v-for="(e,i) in employeeData.train" :key="i" class="learn-item">
+            <p>{{e.train_name}}</p>
+            <p>完成时间：{{e.finish_time}}</p>
           </div>
         </el-tab-pane>
       </el-tabs>
     </div> 
     <div class="right flex w0">
       <div class="right-top normal-border">
-        <el-table :data="gradeData" border fit>
-          <el-table-column property="a" label="任务完成数"></el-table-column>
-          <el-table-column property="b" label="完成率"></el-table-column>
-          <el-table-column property="c" label="最近服务品牌"></el-table-column>
-          <el-table-column property="d" label="优势行业"></el-table-column>
-          <el-table-column property="e" label="雇主满意度"></el-table-column>
+        <el-table :data="abilityEvaluate" border fit>
+          <el-table-column property="complete_count" label="任务完成数"></el-table-column>
+          <el-table-column property="complete_accuracy" label="完成率"></el-table-column>
+          <el-table-column property="latelyServiceBrand" label="最近服务品牌"></el-table-column>
+          <el-table-column property="industryAdvantage" label="优势行业"></el-table-column>
+          <el-table-column property="industry_concentration" label="雇主满意度"></el-table-column>
         </el-table>
       </div>
       <div class="right-bottom normal-border">
-        <el-button type="primary">上午空闲</el-button>
-          <el-button type="success">下午空闲</el-button>
-          <el-button type="info">全天空闲</el-button>
+        <div v-show="!showDetailChart">
+          <el-button @click.native="showEvents('all')" size="small" plain>显示所有</el-button>
+          <el-button @click.native="showEvents('work')" type="primary" size="small" plain>显示排班</el-button>
+          <el-button @click.native="showEvents('rest')" type="success" size="small" plain>显示休息</el-button>
+          <el-button @click.native="showEvents('free')" type="info" size="small" plain>显示空闲</el-button>
           <fullCalendar
             :events = "fcEvents"
             @changeMonth = "changeMonth"
-            @eventClick = "eventClick"
+            @dayClick = "dayClick"
             lang="zh">
           </fullCalendar>
+        </div>
+        <!-- 详情图表 -->
+        <div class="w100" v-show="showDetailChart">
+          <el-button @click.native="showDetailChart = false" size="small" plain>返回</el-button>
+          <LineChart ref="lineChart"></LineChart>
+        </div>
       </div>
     </div>
   </div>
@@ -92,71 +99,97 @@
 <script>
 import RaddarChart from './charts/RaddarChart'
 import fullCalendar from 'vue-fullcalendar'
+import LineChart from './charts/lineChart'
+import { getEmployeeDetail, getEvents } from 'api/employee'
+import { parseTime } from 'utils'
 
 export default {
-  components: { RaddarChart, fullCalendar },
+  components: { RaddarChart, fullCalendar, LineChart },
   data() {
     return {
+      employee_code: '', // 人员编号
       tabMapOptions: ['基础信息', '工作履历', '能力评估', '出入金明细', '学习培训'],
       activeName: '0',
-      workExp: [
-        {
-          name: '联合利华4月长促',
-          time: '2018-04-01~2018-04-03',
-          pos: '促销员',
-          status: '进行中'
-        },
-        {
-          name: '联合利华3月长促',
-          time: '2018-04-01~2018-04-03',
-          pos: '促销员',
-          status: '已结束'
-        },
-        {
-          name: '联合利华2月长促',
-          time: '2018-04-01~2018-04-03',
-          pos: '促销员',
-          status: '已结束'
-        }
-      ],
-      learnExp: [
-        {
-          name: '促销岗位基础培训1',
-          time: '2018-04-01'
-        },
-        {
-          name: '促销岗位基础培训2',
-          time: '2018-04-01'
-        }
-      ],
+      employeeData: {}, // 人员数据
       moneyData: [
         { id: '2018032093', num: 1100, remark: '薪资' },
         { id: '2018032093', num: -200, remark: '培训' },
         { id: '2018032093', num: 900, remark: '薪资' }
       ],
-      gradeData: [{ a: 179, b: '80%', c: '联合利华', d: '日化', e: '80%' }],
-      fcEvents: [
-        {
-          title: '强生 早班',
-          start: '2018-09-09',
-          end: '2018-09-13',
-          cssClass: 'career'
-        },
-        {
-          title: '强生 晚班',
-          start: '2018-09-14',
-          end: '2018-09-20',
-          cssClass: ['family', 'career']
-        }
-      ]
+      abilityEvaluate: [], // obj转存数组
+      showDetailChart: false, // 显示详情图
+      allEvents: [], // 存所有
+      fcEvents: [], // 显示的events
+      showEventsType: ''// 显示events类型
+    }
+  },
+  created() {
+    this.getDetail()
+    this.getEvents()
+  },
+  watch: {
+    '$route'(to, from) {
+      this.getDetail()
+      this.getEvents()
+    }
+  },
+  computed: {
+    restEvents() {
+      return this.allEvents.filter((e, i) => {
+        return e.title === '休息'
+      })
+    },
+    freeEvents() {
+      return this.allEvents.filter((e, i) => {
+        return e.title === '空闲'
+      })
+    },
+    workEvents() {
+      return this.allEvents.filter((e, i) => {
+        return e.title === '排班'
+      })
     }
   },
   methods: {
-    changeMonth(start, end, current){
-      console.log('需要的时间是 '+current)
+    changeMonth(start, end, current) {
+      console.log('出发改变月份，需要的时间是 ' + current)
     },
-    eventClick(event, jsEvent, pos){
-      console.log('要扩展的内容是 '+event.title)
+    dayClick(day, jsEvent) {
+      this.showDetailChart = true
+      this.$refs.lineChart.__resizeHanlder()
+      console.log(parseTime(day, '{y}-{d}'))// 请求当天数据传参
+    },
+    getDetail() {
+      getEmployeeDetail(this.employee_code).then(res => {
+        this.employeeData = res.data.data
+        this.abilityEvaluate.push(this.employeeData.ability_evaluate)
+      })
+    },
+    showEvents(type) {
+      this.showEventsType = type
+      this.chooseEventsShow()
+      console.log(this.restEvents)
+    },
+    getEvents() {
+      getEvents().then(res => {
+        this.allEvents = res.data.data
+        this.chooseEventsShow()
+      })
+    },
+    chooseEventsShow() {
+      switch (this.showEventsType) {
+        case 'work':
+          this.fcEvents = this.workEvents
+          break
+        case 'rest':
+          this.fcEvents = this.restEvents
+          break
+        case 'free':
+          this.fcEvents = this.freeEvents
+          break
+        default:
+          this.fcEvents = this.allEvents
+      }
     }
   }
 }
