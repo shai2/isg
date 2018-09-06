@@ -148,7 +148,7 @@
             <el-tag>{{scope.row.taskCompletionRate}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column class-name="status-col" align="center" :label="$t('table.actions')">
+        <el-table-column class-name="status-col" align="center" :label="操作">
           <template slot-scope="scope">
             <el-button type="primary" @click="handledetail(scope.row)">{{$t('table.detail')}}</el-button>
           </template>
@@ -163,7 +163,7 @@
 </template>
 
 <script>
-import { getEmployeeList } from 'api/employee'
+import { getEmployeeList, getDictionary } from 'api/employee'
 import waves from 'directive/waves' // 水波纹指令
 import areaSelect from 'components/areaSelect'
 import { parseTime } from 'utils'
@@ -188,7 +188,7 @@ export default {
         age_min: '', // 年龄下限
         age_max: '', // 年龄下限
         work_year_min: '', // 工龄下线
-        work_year_min: '', // 工龄上线
+        work_year_max: '', // 工龄上线
         complete_count: '', // 任务完成数
         start_time: '', // 排期开始时间
         end_time: '', // 排期结束时间
@@ -217,10 +217,16 @@ export default {
     waves
   },
   created() {
+    this.getDictionary()
     Object.assign(this.listQuery, area, page, store)
     this.getList()
   },
   methods: {
+    getDictionary() {
+      getDictionary().then(res => {
+
+      })
+    },
     areaChange(e) {
       this.listQuery.province = e[0]
       this.listQuery.city = e[1]
@@ -228,9 +234,9 @@ export default {
     },
     getList() {
       this.listLoading = true
-      getEmployeeList(this.listQuery).then(response => {
-        this.list = response.data.items
-        this.total = response.data.total
+      getEmployeeList(this.listQuery).then(res => {
+        this.list = res.data.list
+        this.total = res.data.total
         this.listLoading = false
       })
     },
@@ -247,7 +253,7 @@ export default {
       this.getList()
     },
     handledetail(row) {
-      this.$router.push({ path: '/table/employeeDetail' })
+      this.$router.push(`/table/employeeDetail?employeeCode=${row.employeeCode}`)
     },
     handleDownload() {
       this.downloadLoading = true

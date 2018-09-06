@@ -10,7 +10,15 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      '**': {
+        target: 'http://172.18.0.38:9999/',  // 接口域名
+        changeOrigin: true,  //是否跨域
+        pathRewrite: {  //重写
+          
+        }
+      }
+    },
 
     // Various Dev Server settings
 

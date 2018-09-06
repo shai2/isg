@@ -5,7 +5,7 @@ import articleAPI from './article'
 import remoteSearchAPI from './remoteSearch'
 import transactionAPI from './transaction'
 // 改名
-import employeeMock from './employee'
+// import employeeMock from './employee'
 import storeMock from './store'
 
 Mock.setup({
@@ -13,14 +13,14 @@ Mock.setup({
 })
 
 // 登录相关
-Mock.mock(/\/login\/login/, 'post', loginAPI.loginByUsername)
-Mock.mock(/\/login\/logout/, 'post', loginAPI.logout)
+// Mock.mock(/\/login\/login/, 'post', loginAPI.loginByUsername)
+// Mock.mock(/\/login\/logout/, 'post', loginAPI.logout)
 Mock.mock(/\/user\/info\.*/, 'get', loginAPI.getUserInfo)
 
 // 人员管理
-Mock.mock(/.*getEmployeeList/, 'get', employeeMock.getEmployeeList)
-Mock.mock(/.*getEmployeeDetail/, 'get', employeeMock.getEmployeeDetail)
-Mock.mock(/.*getEvents/, 'get', employeeMock.getEvents)
+// Mock.mock(/.*getEmployeeList/, 'get', employeeMock.getEmployeeList)
+// Mock.mock(/.*getEmployeeDetail/, 'get', employeeMock.getEmployeeDetail)
+// Mock.mock(/.*getSchedule/, 'get', employeeMock.getSchedule)
 
 // 门店管理
 Mock.mock(/.*getStoreList/, 'get', storeMock.getStoreList)

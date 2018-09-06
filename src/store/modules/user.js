@@ -49,9 +49,11 @@ const user = {
       const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
         loginByUsername(username, userInfo.password).then(response => {
-          const data = response.data
-          commit('SET_TOKEN', data.token)
-          setToken(response.data.token)
+          // const data = response.data
+          // commit('SET_TOKEN', data.data)
+          // setToken(response.data.data)
+          commit('SET_TOKEN', 'adee280abb7e412d8cde72b3e78d0cec')
+          setToken('adee280abb7e412d8cde72b3e78d0cec')
           resolve()
         }).catch(error => {
           reject(error)
@@ -68,12 +70,12 @@ const user = {
           }
           const data = response.data
 
-          if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
-            commit('SET_ROLES', data.roles)
-          } else {
-            reject('getInfo: roles must be a non-null array !')
-          }
-
+          // if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
+          //   commit('SET_ROLES', data.roles)
+          // } else {
+          //   reject('getInfo: roles must be a non-null array !')
+          // }
+          commit('SET_ROLES', ['admin'])
           commit('SET_NAME', data.name)
           commit('SET_AVATAR', data.avatar)
           commit('SET_INTRODUCTION', data.introduction)

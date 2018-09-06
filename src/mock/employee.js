@@ -100,7 +100,7 @@ export default {
       }
     }
   },
-  getEvents() {
+  getSchedule() {
     return {
       data: [{
         'cssClass': ['free'],

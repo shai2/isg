@@ -100,14 +100,13 @@
 import RaddarChart from './charts/RaddarChart'
 import fullCalendar from 'vue-fullcalendar'
 import BarChart from './charts/BarChart'
-import { getEmployeeDetail, getEvents } from 'api/employee'
+import { getEmployeeDetail, getSchedule, getScheduleDaily } from 'api/employee'
 import { parseTime } from 'utils'
 
 export default {
   components: { RaddarChart, fullCalendar, BarChart },
   data() {
     return {
-      employee_code: '', // 人员编号
       tabMapOptions: ['基础信息', '工作履历', '能力评估', '出入金明细', '学习培训'],
       activeName: '0',
       employeeData: {}, // 人员数据
@@ -126,12 +125,12 @@ export default {
   },
   created() {
     this.getDetail()
-    this.getEvents()
+    this.getSchedule()
   },
   watch: {
     '$route'(to, from) {
       this.getDetail()
-      this.getEvents()
+      this.getSchedule()
     }
   },
   computed: {
@@ -159,9 +158,10 @@ export default {
       this.showDetailChart = true
       this.$refs.barChart.__resizeHanlder()
       this.chartTime = parseTime(day, '{y}-{m}-{d}')// 请求当天数据传参
+      this.getScheduleDaily()
     },
     getDetail() {
-      getEmployeeDetail(this.employee_code).then(res => {
+      getEmployeeDetail(this.$route.query.employeeCode).then(res => {
         this.employeeData = res.data.data
         this.abilityEvaluate.push(this.employeeData.ability_evaluate)
       })
@@ -171,8 +171,20 @@ export default {
       this.chooseEventsShow()
       console.log(this.restEvents)
     },
-    getEvents() {
-      getEvents().then(res => {
+    getSchedule() {
+      getSchedule({
+        employeeCode: this.$route.query.employeeCode,
+        date: this.chartTime.splice(0, -3)
+      }).then(res => {
+        this.allEvents = res.data.data
+        this.chooseEventsShow()
+      })
+    },
+    getScheduleDaily() {
+      getScheduleDaily({
+        employeeCode: this.$route.query.employeeCode,
+        date: this.chartTime
+      }).then(res => {
         this.allEvents = res.data.data
         this.chooseEventsShow()
       })

@@ -1,4 +1,4 @@
-import { param2Obj } from '@/utils'
+// import { param2Obj } from '@/utils'
 
 const userMap = {
   admin: {
@@ -23,12 +23,14 @@ export default {
     return userMap[username]
   },
   getUserInfo: config => {
-    const { token } = param2Obj(config.url)
-    if (userMap[token]) {
-      return userMap[token]
-    } else {
-      return false
-    }
+    // const { token } = param2Obj(config.url)
+    return userMap['admin']
+    // if (userMap[token]) {
+    //   return userMap[token]
+    // } else {
+    //   alert('getUserInfo有问题')
+    //   return false
+    // }
   },
   logout: () => 'success'
 }
