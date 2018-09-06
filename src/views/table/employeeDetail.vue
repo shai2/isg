@@ -89,7 +89,7 @@
         <!-- 详情图表 -->
         <div class="w100" v-show="showDetailChart">
           <el-button @click.native="showDetailChart = false" size="small" plain>返回</el-button>
-          <LineChart ref="lineChart"></LineChart>
+          <BarChart :chartTime="chartTime" style="margin-top:10px;" ref="barChart"></BarChart>
         </div>
       </div>
     </div>
@@ -99,12 +99,12 @@
 <script>
 import RaddarChart from './charts/RaddarChart'
 import fullCalendar from 'vue-fullcalendar'
-import LineChart from './charts/lineChart'
+import BarChart from './charts/BarChart'
 import { getEmployeeDetail, getEvents } from 'api/employee'
 import { parseTime } from 'utils'
 
 export default {
-  components: { RaddarChart, fullCalendar, LineChart },
+  components: { RaddarChart, fullCalendar, BarChart },
   data() {
     return {
       employee_code: '', // 人员编号
@@ -120,7 +120,8 @@ export default {
       showDetailChart: false, // 显示详情图
       allEvents: [], // 存所有
       fcEvents: [], // 显示的events
-      showEventsType: ''// 显示events类型
+      showEventsType: '', // 显示events类型
+      chartTime: ''// 日期
     }
   },
   created() {
@@ -156,8 +157,8 @@ export default {
     },
     dayClick(day, jsEvent) {
       this.showDetailChart = true
-      this.$refs.lineChart.__resizeHanlder()
-      console.log(parseTime(day, '{y}-{d}'))// 请求当天数据传参
+      this.$refs.barChart.__resizeHanlder()
+      this.chartTime = parseTime(day, '{y}-{m}-{d}')// 请求当天数据传参
     },
     getDetail() {
       getEmployeeDetail(this.employee_code).then(res => {
