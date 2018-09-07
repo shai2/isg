@@ -6,16 +6,15 @@ const path = require('path')
 
 module.exports = {
   dev: {
-
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '**': {
+      '/api': {
         target: 'http://www.isg.com:9005/isg-mc-server',  // 接口域名
         changeOrigin: true,  //是否跨域
         pathRewrite: {  //重写
-          
+          '^/api':'/'
         }
       }
     },
