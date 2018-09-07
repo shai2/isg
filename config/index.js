@@ -11,7 +11,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://192.168.199.103:9005/isg-mc-server',  // 接口域名
+        target: 'http://192.168.22.251:9005/isg-mc-server',  // 接口域名
         changeOrigin: true,  //是否跨域
         pathRewrite: {  //重写
           '^/api':'/'
