@@ -1,12 +1,12 @@
 <template>
   <div class="app-container">
-    <div class="filter-container normal-border">
+    <div v-if="dict[0]" class="filter-container normal-border">
       <div class="flex-row-center align-top">
         <p class="select-label">门店范围：</p>
         <div class="flex">
           <areaSelect style="width: 200px" @areaChange="areaChange"></areaSelect>
-          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.storeType" placeholder="门店类型">
-            <el-option v-for="item in storeTypeOptions" :key="item" :label="item" :value="item">
+          <el-select clearable style="width: 120px" class="filter-item" v-model="listQuery.storeType" placeholder="门店类型">
+            <el-option v-for="(e,i) in dict[1].data" :key="i" :label="e.name" :value="e.value">
             </el-option>
           </el-select>
           <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.storeStatus" placeholder="门店状态">
@@ -26,7 +26,7 @@
         <p class="select-label">客户范围：</p>
         <div class="flex">
           <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.customeRange" placeholder="客户范围">
-            <el-option v-for="item in customeRangeOptions" :key="item" :label="item" :value="item">
+            <el-option v-for="(e,i) in dict[0].data" :key="i" :label="e.name" :value="e.value">
             </el-option>
           </el-select>
         </div>
@@ -71,6 +71,7 @@
         <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">查询</el-button>
       </div>
     </div>
+    <div v-else class="loading-blank" v-loading="!dict[0]"></div>
     <!-- 表单部分 -->
     <div class="table-container normal-border">
       <div class="textalign-r mgbt10">
@@ -138,6 +139,7 @@
 
 <script>
 import { getStoreList } from 'api/store'
+import { getDictionary } from 'api/employee'
 import waves from 'directive/waves' // 水波纹指令
 import areaSelect from 'components/areaSelect'
 import { parseTime } from 'utils'
@@ -146,24 +148,24 @@ export default {
   name: 'storeTable',
   data() {
     return {
+      dict: '',
       tableKey: 0,
       list: null,
       total: null,
       listLoading: true,
       downloadLoading: false,
       listQuery: {
-        store_status: '', // 门店状态
-        brand_code: '', // 门店范围
-        employee_num_min: '', // 店内人数下限
-        employee_num_max: '', // 店内人数上限
-        project_num_min: '', // 项目数下限
-        project_num_max: '', // 项目数上限
-        brand_num_min: '', // 品牌数下限
-        brand_num_max: '', // 品牌数上限
-        task_num_min: '', // 任务数下限
-        task_num_max: ''// 任务数上限
+        storeStatus: '', // 门店状态
+        brandCode: '', // 门店范围
+        employeeNumMin: '', // 店内人数下限
+        employeeNumMax: '', // 店内人数上限
+        projectNumMin: '', // 项目数下限
+        projectNumMax: '', // 项目数上限
+        brandNumMin: '', // 品牌数下限
+        brandNumMax: '', // 品牌数上限
+        taskNumMin: '', // 任务数下限
+        taskNumMax: ''// 任务数上限
       },
-      storeTypeOptions: ['连锁', '品牌'],
       storeStatusOptions: ['正常营业', '暂停营业'],
       customeRangeOptions: ['联合利华', '高露洁']
     }
@@ -175,10 +177,18 @@ export default {
     waves
   },
   created() {
+    this.getDictionary()
     Object.assign(this.listQuery, area, page, store)
     this.getList()
   },
   methods: {
+    getDictionary() {
+      getDictionary({
+        types: 'store_type,brand_name'
+      }).then(res => {
+        this.dict = res.data.data
+      })
+    },
     areaChange(e) {
       this.listQuery.province = e[0]
       this.listQuery.city = e[1]

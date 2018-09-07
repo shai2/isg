@@ -72,6 +72,7 @@ input::-webkit-input-placeholder {color:#cbd4db;font-size:12px;}
 .select-label{line-height:36px;margin-right:5px;}
 .border-green{border-color:#67c23a!important;}
 .w200px{width:200px;}
+.loading-blank{min-height:200px;margin-bottom:10px;}
 /* ----覆盖elementUI---- */
 .el-date-editor{margin-bottom:10px;}
 .el-table--medium td{padding:5px 0;}

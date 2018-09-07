@@ -34,7 +34,7 @@ export function getScheduleDaily(query) {
 
 export function getDictionary(query) {
   return request({
-    url: '/common/v1/dict?store_type,place_type,job_status,sex,brand_name,industry_type',
+    url: '/common/v1/dict',
     method: 'get',
     params: query
   })

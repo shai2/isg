@@ -1,17 +1,17 @@
 <template>
-  <div v-if="employeeData.normal_info" class="app-container flex-row-between align-stretch">
+  <div v-if="employeeInfo" class="app-container flex-row-between align-stretch">
     <div class="left flex-column-center normal-border">
       <div class="info flex-row-center">
         <img src="http://img3.duitang.com/uploads/item/201604/24/20160424144634_Sirh8.jpeg">
         <div class="flex">
-          <p>{{employeeData.normal_info.employee_code}}</p>
-          <p>{{employeeData.normal_info.name}}</p>
-          <p>{{employeeData.normal_info.telephone}}</p>
+          <p>{{employeeInfo.employeeCode}}</p>
+          <p>{{employeeInfo.name}}</p>
+          <p>{{employeeInfo.telephone}}</p>
         </div>
       </div>
       <el-tabs class="flex" v-model="activeName" type="border-card">
         <el-tab-pane class="info info-detail" label="基础信息" name="0">
-          <p>{{employeeData.personal_info.identity_card_number}}
+          <p>{{employeeInfo.identityCardNumber || '身份证号暂无'}}
             <svg-icon style="color:#ddd" class="pointer" v-popover:popover icon-class="tab" />
             <el-popover
               ref="popover"
@@ -22,16 +22,16 @@
               <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1535710906058&di=d9f051e8b246d622361e988716deed82&imgtype=0&src=http%3A%2F%2Fwww.shac-nj.com%3A90%2FContent%2Fimages%2Fshenfenzheng.jpg">
             </el-popover>
           </p>
-          <p>{{employeeData.personal_info.sex}}</p>
-          <p>{{employeeData.personal_info.age}}</p>
-          <p>{{employeeData.personal_info.province_city}}</p>
-          <p>{{employeeData.personal_info.education}}</p>
+          <p>{{employeeInfo.sex}}</p>
+          <p>{{employeeInfo.age}}</p>
+          <p>{{employeeInfo.address}}</p>
+          <p>{{employeeInfo.education || '学历暂无'}}</p>
         </el-tab-pane>
         <el-tab-pane label="工作履历" name="1">
-          <div v-for="(e,i) in employeeData.work_info" :key="i" class="work-item flex-row-center">
+          <div v-for="(e,i) in workResumeList" :key="i" class="work-item flex-row-center">
             <div class="work-item-left flex">
-              <p>{{e.work_resume_name}}</p>
-              <p>{{e.start_time}} ~ {{e.end_time}}</p>
+              <p>{{e.workResumeName}}</p>
+              <p>{{e.startTime}} ~ {{e.endTime}}</p>
               <p>{{e.position}}</p>
             </div>
             <div :class="{'border-green':e.status=='进行中'}" class="work-item-right flex-column-center">
@@ -39,7 +39,7 @@
             </div>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="能力评估" name="2">
+        <!-- <el-tab-pane label="能力评估" name="2">
           <div class="chart-wrapper">
             <raddar-chart></raddar-chart>
           </div>
@@ -56,21 +56,21 @@
           </el-table>
         </el-tab-pane>
         <el-tab-pane label="学习培训" name="4">
-          <div v-for="(e,i) in employeeData.train" :key="i" class="learn-item">
+          <div v-for="(e,i) in employeeInfo.train" :key="i" class="learn-item">
             <p>{{e.train_name}}</p>
             <p>完成时间：{{e.finish_time}}</p>
           </div>
-        </el-tab-pane>
+        </el-tab-pane> -->
       </el-tabs>
     </div> 
     <div class="right flex w0">
       <div class="right-top normal-border">
-        <el-table :data="abilityEvaluate" border fit>
-          <el-table-column property="complete_count" label="任务完成数"></el-table-column>
-          <el-table-column property="complete_accuracy" label="完成率"></el-table-column>
+        <el-table :data="statistics" border fit>
+          <el-table-column property="finishTaskCount" label="任务完成数"></el-table-column>
+          <el-table-column property="finishRate" label="完成率"></el-table-column>
           <el-table-column property="latelyServiceBrand" label="最近服务品牌"></el-table-column>
           <el-table-column property="industryAdvantage" label="优势行业"></el-table-column>
-          <el-table-column property="industry_concentration" label="雇主满意度"></el-table-column>
+          <el-table-column property="satisficing" label="雇主满意度"></el-table-column>
         </el-table>
       </div>
       <div class="right-bottom normal-border">
@@ -109,13 +109,14 @@ export default {
     return {
       tabMapOptions: ['基础信息', '工作履历', '能力评估', '出入金明细', '学习培训'],
       activeName: '0',
-      employeeData: {}, // 人员数据
+      employeeInfo: {}, // 人员数据
+      statistics: [], // obj转存数组
+      workResumeList: [], // 工作履历
       moneyData: [
         { id: '2018032093', num: 1100, remark: '薪资' },
         { id: '2018032093', num: -200, remark: '培训' },
         { id: '2018032093', num: 900, remark: '薪资' }
       ],
-      abilityEvaluate: [], // obj转存数组
       showDetailChart: false, // 显示详情图
       allEvents: [], // 存所有
       fcEvents: [], // 显示的events
@@ -125,12 +126,10 @@ export default {
   },
   created() {
     this.getDetail()
-    this.getSchedule()
   },
   watch: {
     '$route'(to, from) {
       this.getDetail()
-      this.getSchedule()
     }
   },
   computed: {
@@ -153,6 +152,8 @@ export default {
   methods: {
     changeMonth(start, end, current) {
       console.log('出发改变月份，需要的时间是 ' + current)
+      this.chartTime = current
+      this.getSchedule()
     },
     dayClick(day, jsEvent) {
       this.showDetailChart = true
@@ -162,8 +163,10 @@ export default {
     },
     getDetail() {
       getEmployeeDetail(this.$route.query.employeeCode).then(res => {
-        this.employeeData = res.data.data
-        this.abilityEvaluate.push(this.employeeData.ability_evaluate)
+        this.employeeInfo = res.data.data.employeeInfo
+        this.workResumeList = res.data.data.workResumeList
+        this.statistics.push(res.data.data.statistics)
+        console.log(this.statistics)
       })
     },
     showEvents(type) {
@@ -174,7 +177,7 @@ export default {
     getSchedule() {
       getSchedule({
         employeeCode: this.$route.query.employeeCode,
-        date: this.chartTime.splice(0, -3)
+        date: this.chartTime.slice(0, -3)
       }).then(res => {
         this.allEvents = res.data.data
         this.chooseEventsShow()

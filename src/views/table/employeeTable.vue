@@ -1,19 +1,19 @@
 <template>
   <div class="app-container">
-    <div class="filter-container normal-border">
+    <div v-if="dict[0]" class="filter-container normal-border">
       <div class="flex-row-center align-top">
         <p class="select-label">门店范围：</p>
         <div class="flex">
           <areaSelect style="width: 200px" @areaChange="areaChange"></areaSelect>
-          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.store_type" placeholder="门店类型">
-            <el-option v-for="item in storeTypeOptions" :key="item" :label="item" :value="item">
+          <el-select clearable style="width: 120px" class="filter-item" v-model="listQuery.store_type" placeholder="门店类型">
+            <el-option v-for="(e,i) in dict[5].data" :key="i" :label="e.name" :value="e.value">
             </el-option>
           </el-select>
-          <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="门店名称" v-model="listQuery.store_name">
+          <el-input clearable @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="门店名称" v-model="listQuery.store_name">
           </el-input>
-          <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="门店编号" v-model="listQuery.store_code">
+          <el-input clearable @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="门店编号" v-model="listQuery.store_code">
           </el-input>
-          <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="地址" v-model="listQuery.address">
+          <el-input clearable @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="地址" v-model="listQuery.address">
           </el-input>
         </div>
       </div>
@@ -25,22 +25,18 @@
             </el-option>
           </el-select>
           <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.job_status" placeholder="在职状态">
-            <el-option v-for="item in jobStatusOptions" :key="item" :label="item" :value="item">
+            <el-option v-for="(e,i) in dict[0].data" :key="i" :label="e.name" :value="e.value">
             </el-option>
           </el-select>
-          <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.name" placeholder="姓名">
-            <el-option v-for="item in nameOptions" :key="item" :label="item" :value="item">
-            </el-option>
-          </el-select>
-          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.telephone" placeholder="手机号">
-            <el-option v-for="item in telephoneOptions" :key="item" :label="item" :value="item">
-            </el-option>
-          </el-select>
+          <el-input clearable @keyup.enter.native="handleFilter" style="width: 100px;" class="filter-item" placeholder="姓名" v-model="listQuery.name">
+          </el-input>
+          <el-input clearable @keyup.enter.native="handleFilter" style="width: 100px;" class="filter-item" placeholder="手机号" v-model="listQuery.telephoneOptions">
+          </el-input>
           <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.industry" placeholder="行业标签">
-            <el-option v-for="item in industryTagOptions" :key="item" :label="item" :value="item">
+            <el-option v-for="(e,i) in dict[4].data" :key="i" :label="e.name" :value="e.value">
             </el-option>
           </el-select>
-          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.job_type" placeholder="培训标签">
+          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.train" placeholder="培训标签">
             <el-option v-for="item in trainingTagOptions" :key="item" :label="item" :value="item">
             </el-option>
           </el-select>
@@ -50,14 +46,14 @@
             </el-option>
           </el-select>
           <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.sex" placeholder="性别">
-            <el-option v-for="item in sexOptions" :key="item" :label="item" :value="item">
+            <el-option v-for="(e,i) in dict[1].data" :key="i" :label="e.name" :value="e.value">
             </el-option>
           </el-select>
-          <el-input type="number" @keyup.enter.native="handleFilter" style="width: 110px;" class="filter-item" placeholder="工龄下限" v-model="listQuery.work_year_min">
+          <el-input clearable type="number" @keyup.enter.native="handleFilter" style="width: 110px;" class="filter-item" placeholder="工龄下限" v-model="listQuery.work_year_min">
           </el-input>
-          <el-input type="number" @keyup.enter.native="handleFilter" style="width: 110px;" class="filter-item" placeholder="工龄上限" v-model="listQuery.work_year_max">
+          <el-input clearable type="number" @keyup.enter.native="handleFilter" style="width: 110px;" class="filter-item" placeholder="工龄上限" v-model="listQuery.work_year_max">
           </el-input>
-          <el-input type="number" @keyup.enter.native="handleFilter" style="width: 110px;" class="filter-item" placeholder="任务完成数" v-model="listQuery.complete_count">
+          <el-input clearable type="number" @keyup.enter.native="handleFilter" style="width: 110px;" class="filter-item" placeholder="任务完成数" v-model="listQuery.complete_count">
           </el-input>
         </div>
       </div>
@@ -74,7 +70,7 @@
           </el-select>
           <div class="filter-container">
             <el-checkbox-group v-model="listQuery.week_day">
-              <el-checkbox v-for="(e,i) in weekDayOptions" :label="e" :key="i">{{e}}</el-checkbox>
+              <el-checkbox v-for="(e,i) in weekDayOptions" :label="e.value" :key="i">{{e.label}}</el-checkbox>
             </el-checkbox-group>
           </div>
         </div>
@@ -83,7 +79,7 @@
         <p class="select-label">客户范围：</p>
         <div class="flex">
           <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.brand_code" placeholder="客户范围">
-            <el-option v-for="item in customeRangeOptions" :key="item" :label="item" :value="item">
+            <el-option v-for="(e,i) in dict[3].data" :key="i" :label="e.name" :value="e.value">
             </el-option>
           </el-select> 
         </div>
@@ -92,15 +88,16 @@
         <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">查询</el-button>
       </div>
     </div>
+    <div v-else class="loading-blank" v-loading="!dict[0]"></div>
     <!-- 表单部分 -->
     <div class="table-container normal-border">
       <div class="textalign-r mgbt10">
         <el-button class="filter-item" type="primary" :loading="downloadLoading" v-waves icon="el-icon-download" @click="handleDownload">导出</el-button>
       </div>
-      <el-table :data="list" v-loading="listLoading" border fit highlight-current-row>  
+      <el-table :data="list" v-loading="listLoading" border fit highlight-current-row>
         <el-table-column align="center" :label="$t('table.name')">
           <template slot-scope="scope">
-            <span>{{scope.row.name}}</span>
+            <span style='color:red;cursor:pointer;' @click="handledetail(scope.row)">{{scope.row.name}}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" :label="$t('table.telephone')" width="110">
@@ -120,32 +117,32 @@
         </el-table-column>
         <el-table-column  align="center" :label="$t('table.position')">
           <template slot-scope="scope">
-            <span style='color:red;'>{{scope.row.position}}</span>
+            <span>{{scope.row.position}}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" :label="$t('table.workingYears')">
           <template slot-scope="scope">
-            <span>{{scope.row.workingYears}}</span>
+            <span>{{scope.row.workingYears || 0}}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" :label="$t('table.industryTag')">
           <template slot-scope="scope">
-            <span v-if="scope.row.industryTag" class="link-type">{{scope.row.industryTag}}</span>
+            <el-tag>{{scope.row.industryTag || '暂无'}}</el-tag>
           </template>
         </el-table-column>
         <el-table-column width="100" class-name="status-col" :label="$t('table.trainingTag')">
           <template slot-scope="scope">
-            <el-tag>{{scope.row.trainingTag}}</el-tag>
+            <el-tag>{{scope.row.trainingTag || '暂无'}}</el-tag>
           </template>
         </el-table-column>
         <el-table-column class-name="status-col" :label="$t('table.taskCompletionNumber')">
           <template slot-scope="scope">
-            <el-tag>{{scope.row.taskCompletionNumber}}</el-tag>
+            <el-tag>{{scope.row.taskCompletionNumber || 0}}</el-tag>
           </template>
         </el-table-column>
         <el-table-column class-name="status-col" :label="$t('table.taskCompletionRate')">
           <template slot-scope="scope">
-            <el-tag>{{scope.row.taskCompletionRate}}</el-tag>
+            <el-tag>{{scope.row.taskCompletionRate || '0%'}}</el-tag>
           </template>
         </el-table-column>
         <el-table-column class-name="status-col" align="center" label="操作">
@@ -177,6 +174,7 @@ export default {
       listLoading: true,
       downloadLoading: false,
       listQuery: {
+        store_type: '', // 门店类型
         position: '', // 职位
         job_status: '', // 在职状态
         name: '', // 姓名
@@ -196,18 +194,20 @@ export default {
         status: '', // 排班状态
         brand_code: ''// 客户范围
       },
-      weekDayOptions: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
-      storeTypeOptions: ['连锁', '品牌'],
+      dict: [],
+      weekDayOptions: [
+        { label: '周日', value: 0 },
+        { label: '周一', value: 1 },
+        { label: '周二', value: 2 },
+        { label: '周三', value: 3 },
+        { label: '周四', value: 4 },
+        { label: '周五', value: 5 },
+        { label: '周六', value: 6 }
+      ],
       positionOptions: ['促销员', '督导'],
-      jobStatusOptions: ['在职', '离职'],
-      nameOptions: ['张三', '李四'],
-      telephoneOptions: ['12345678901', '12345678902'],
-      industryTagOptions: ['3C', '商超'],
       trainingTagOptions: ['通用能力', '专业能力'],
       jobTypeOptions: ['全职', '兼职'],
-      sexOptions: ['男', '女'],
-      workStatusOptions: ['工作中', '休息'],
-      customeRangeOptions: ['联合利华', '高露洁']
+      workStatusOptions: ['工作中', '休息']
     }
   },
   components: {
@@ -223,8 +223,10 @@ export default {
   },
   methods: {
     getDictionary() {
-      getDictionary().then(res => {
-
+      getDictionary({
+        types: 'store_type,place_type,job_status,sex,brand_name,industry_type'
+      }).then(res => {
+        this.dict = res.data.data
       })
     },
     areaChange(e) {
@@ -235,8 +237,8 @@ export default {
     getList() {
       this.listLoading = true
       getEmployeeList(this.listQuery).then(res => {
-        this.list = res.data.list
-        this.total = res.data.total
+        this.list = res.data.data.list
+        this.total = res.data.data.total
         this.listLoading = false
       })
     },
