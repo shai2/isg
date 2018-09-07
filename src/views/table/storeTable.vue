@@ -77,59 +77,54 @@
         <el-button class="filter-item" type="primary" :loading="downloadLoading" v-waves icon="el-icon-download" @click="handleDownload">导出</el-button>
       </div>
       <el-table :key='tableKey' :data="list" v-loading="listLoading" border fit highlight-current-row>
-        <el-table-column align="center" :label="$t('table.storeCode')" width="80">
+        <el-table-column align="center" label="门店编号" width="80">
           <template slot-scope="scope">
             <span>{{scope.row.storeCode}}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" :label="$t('table.storeName')">
+        <el-table-column align="center" label="门店名称">
           <template slot-scope="scope">
-            <span>{{scope.row.storeName}}</span>
+            <span style='color:red;cursor:pointer;' @click="handledetail(scope.row)">{{scope.row.storeName}}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" :label="$t('table.provice')">
+        <el-table-column align="center" label="省">
           <template slot-scope="scope">
-            <span>{{scope.row.provice}}</span>
+            <span>{{scope.row.province}}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" :label="$t('table.city')">
+        <el-table-column align="center" label="市">
           <template slot-scope="scope">
             <span>{{scope.row.city}}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" :label="$t('table.districtCountry')">
+        <el-table-column align="center" label="区县">
           <template slot-scope="scope">
-            <span style='color:red;'>{{scope.row.districtCountry}}</span>
+            <span>{{scope.row.area}}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('table.address')">
+        <el-table-column label="地址">
           <template slot-scope="scope">
             <span>{{scope.row.address}}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" :label="$t('table.location')">
-          <template slot-scope="scope">
-            <span>{{scope.row.location}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column class-name="status-col" :label="$t('table.storeType')">
+        <el-table-column class-name="status-col" label="门店类型">
           <template slot-scope="scope">
             <span>{{scope.row.storeType}}</span>
           </template>
         </el-table-column>
-        <el-table-column class-name="status-col" :label="$t('table.employeeCount')">
+        <el-table-column class-name="status-col" label="人员数">
           <template slot-scope="scope">
-            <span>{{scope.row.employeeCount}}</span>
+            <span>{{scope.row.employeeNum}}</span>
           </template>
         </el-table-column>
-        <el-table-column class-name="status-col" :label="$t('table.projectCount')">
+        <el-table-column class-name="status-col" label="项目数">
           <template slot-scope="scope">
-            <span>{{scope.row.projectCount}}</span>
+            <span>{{scope.row.projectNum}}</span>
           </template>
           </el-table-column>
-        <el-table-column align="center" :label="$t('table.actions')" class-name="small-padding fixed-width">
+        <el-table-column align="center" label="操作" class-name="small-padding fixed-width">
           <template slot-scope="scope">
-            <el-button type="primary" size="100" @click="handledetail(scope.row)">{{$t('table.detail')}}</el-button>
+            <el-button type="primary" size="100" @click="handledetail(scope.row)">详情</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -191,9 +186,10 @@ export default {
     },
     getList() {
       this.listLoading = true
-      getStoreList(this.listQuery).then(response => {
-        this.list = response.data.items
-        this.total = response.data.total
+      getStoreList(this.listQuery).then(res => {
+        console.log(res.data.data.list)
+        this.list = res.data.data.list
+        this.total = res.data.data.pages
         this.listLoading = false
       })
     },
@@ -217,7 +213,7 @@ export default {
       row.status = status
     },
     handledetail(row) {
-      this.$router.push({ path: '/table/storeDetail' })
+      this.$router.push(`/table/storeDetail?storeCode=${row.storeCode}`)
     },
     handleDownload() {
       this.downloadLoading = true

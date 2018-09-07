@@ -23,7 +23,7 @@ Mock.mock(/\/user\/info\.*/, 'get', loginAPI.getUserInfo)
 // Mock.mock(/.*getSchedule/, 'get', employeeMock.getSchedule)
 
 // 门店管理
-Mock.mock(/.*getStoreList/, 'get', storeMock.getStoreList)
+// Mock.mock(/.*getStoreList/, 'get', storeMock.getStoreList)
 Mock.mock(/.*getStoreDetail/, 'get', storeMock.getStoreDetail)
 
 // 文章相关
