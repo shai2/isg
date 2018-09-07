@@ -148,7 +148,7 @@
             <el-tag>{{scope.row.taskCompletionRate}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column class-name="status-col" align="center" :label="操作">
+        <el-table-column class-name="status-col" align="center" label="操作">
           <template slot-scope="scope">
             <el-button type="primary" @click="handledetail(scope.row)">{{$t('table.detail')}}</el-button>
           </template>
