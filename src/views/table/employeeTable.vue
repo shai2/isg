@@ -160,10 +160,11 @@
 </template>
 
 <script>
-import { getEmployeeList, getDictionary } from 'api/employee'
+import { getEmployeeList } from 'api/employee'
+import { getDictionary } from 'api/dict'
 import waves from 'directive/waves' // 水波纹指令
 import areaSelect from 'components/areaSelect'
-import { parseTime } from 'utils'
+import { parseTime, getDictItem } from 'utils'
 import { area, page, store } from 'utils/commonArgs'
 export default {
   name: 'employeeTable',
@@ -205,7 +206,7 @@ export default {
         { label: '周六', value: 6 }
       ],
       positionOptions: ['促销员', '督导'],
-      trainingTagOptions: ['通用能力', '专业能力'],
+      trainingTagOptions: [],//培训标签暂无 保留
       jobTypeOptions: ['全职', '兼职'],
       workStatusOptions: ['工作中', '休息']
     }
@@ -223,10 +224,9 @@ export default {
   },
   methods: {
     getDictionary() {
-      getDictionary({
-        types: 'store_type,place_type,job_status,sex,brand_name,industry_type'
-      }).then(res => {
+      getDictionary('store_type,place_type,job_status,job_type,sex,brand_name,industry_type,position,schedule_status,week').then(res => {
         this.dict = res.data.data
+        console.log(this.dict)
       })
     },
     areaChange(e) {
@@ -236,6 +236,7 @@ export default {
     },
     getList() {
       this.listLoading = true
+      // console.log(this.listQuery)
       getEmployeeList(this.listQuery).then(res => {
         this.list = res.data.data.list
         this.total = res.data.data.total

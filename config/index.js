@@ -9,16 +9,17 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {
-      '/api': {
-        target: 'http://172.18.0.202:9999',  // 接口域名
-        // target: 'http://192.168.22.251:9005/isg-mc-server',  // 接口域名
-        changeOrigin: true,  //是否跨域
-        pathRewrite: {  //重写
-          '^/api':'/'
-        }
-      }
-    },
+    // proxyTable: {
+    //   '/api': {
+    //     // target: 'http://172.18.0.202:9999',  // 任嘉晨
+    //     // target: 'http://172.18.0.38:9005',  // 徐秦
+    //     target: 'http://192.168.22.251:9005/isg-mc-server',  // 接口域名
+    //     changeOrigin: true,  //是否跨域
+    //     pathRewrite: {  //重写
+    //       '^/api':'/'
+    //     }
+    //   }
+    // },
 
     // Various Dev Server settings
 

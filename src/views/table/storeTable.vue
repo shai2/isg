@@ -139,7 +139,7 @@
 
 <script>
 import { getStoreList } from 'api/store'
-import { getDictionary } from 'api/employee'
+import { getDictionary } from 'api/dict'
 import waves from 'directive/waves' // 水波纹指令
 import areaSelect from 'components/areaSelect'
 import { parseTime } from 'utils'
@@ -183,9 +183,7 @@ export default {
   },
   methods: {
     getDictionary() {
-      getDictionary({
-        types: 'store_type,brand_name'
-      }).then(res => {
+      getDictionary('store_type,brand_name').then(res => {
         this.dict = res.data.data
       })
     },
@@ -197,7 +195,6 @@ export default {
     getList() {
       this.listLoading = true
       getStoreList(this.listQuery).then(res => {
-        console.log(res.data.data.list)
         this.list = res.data.data.list
         this.total = res.data.data.pages
         this.listLoading = false

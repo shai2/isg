@@ -269,3 +269,10 @@ export function deepClone(source) {
 export function uniqueArr(arr) {
   return Array.from(new Set(arr))
 }
+
+//获取字典表某项
+export function getDictItem(dict,type){
+  return dict.find((e,i)=>{
+    return e.type = type
+  })
+}

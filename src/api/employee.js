@@ -10,9 +10,9 @@ export function getEmployeeList(query) {
 
 export function getEmployeeDetail(query) {
   return request({
-    url: '/employee/detail/ASG00000001',
+    url: '/employee/detail/query',
     method: 'get',
-    params: query
+    params: {}
   })
 }
 
@@ -27,14 +27,6 @@ export function getSchedule(query) {
 export function getScheduleDaily(query) {
   return request({
     url: '/employee/detail/schedule/daily',
-    method: 'get',
-    params: query
-  })
-}
-
-export function getDictionary(query) {
-  return request({
-    url: '/common/v1/dict',
     method: 'get',
     params: query
   })
