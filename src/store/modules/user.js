@@ -49,11 +49,11 @@ const user = {
       const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
         loginByUsername(username, userInfo.password).then(response => {
-          // const data = response.data
-          // commit('SET_TOKEN', data.data)
-          // setToken(response.data.data)
-          commit('SET_TOKEN', 'adee280abb7e412d8cde72b3e78d0cec')
-          setToken('adee280abb7e412d8cde72b3e78d0cec')
+          const data = response.data
+          commit('SET_TOKEN', data.data)
+          setToken(response.data.data)
+          // commit('SET_TOKEN', 'adee280abb7e412d8cde72b3e78d0cec')
+          // setToken('adee280abb7e412d8cde72b3e78d0cec')
           resolve()
         }).catch(error => {
           reject(error)

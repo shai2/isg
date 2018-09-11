@@ -1,6 +1,6 @@
 <template>
   <div v-if="employeeInfo" class="app-container flex-row-between align-stretch">
-    <div class="left flex-column-center normal-border">
+    <div style="min-width:30%;" class="left flex-column-center normal-border">
       <div class="info flex-row-center">
         <img src="http://img3.duitang.com/uploads/item/201604/24/20160424144634_Sirh8.jpeg">
         <div class="flex">
@@ -9,7 +9,7 @@
           <p>{{employeeInfo.telephone}}</p>
         </div>
       </div>
-      <el-tabs class="flex" v-model="activeName" type="border-card">
+      <el-tabs class="flex w100" v-model="activeName" type="border-card">
         <el-tab-pane class="info info-detail" label="基础信息" name="0">
           <p>{{employeeInfo.identityCardNumber || '身份证号暂无'}}
             <svg-icon style="color:#ddd" class="pointer" v-popover:popover icon-class="tab" />
@@ -89,7 +89,7 @@
         <!-- 详情图表 -->
         <div class="w100" v-show="showDetailChart">
           <el-button @click.native="showDetailChart = false" size="small" plain>返回</el-button>
-          <BarChart :chartTime="chartTime" style="margin-top:10px;" ref="barChart"></BarChart>
+          <BarChart :chartData="chartData" :chartTime="chartTime" style="margin-top:10px;" ref="barChart"></BarChart>
         </div>
       </div>
     </div>
@@ -121,7 +121,8 @@ export default {
       allEvents: [], // 存所有
       fcEvents: [], // 显示的events
       showEventsType: '', // 显示events类型
-      chartTime: ''// 日期
+      chartTime: '',// 日期
+      chartData: [],//传到图详情里的数据
     }
   },
   created() {
@@ -150,6 +151,10 @@ export default {
     }
   },
   methods: {
+    getInfo(){
+      this.getDetail()
+      this.getSchedule()
+    },
     changeMonth(start, end, current) {
       console.log('出发改变月份，需要的时间是 ' + current)
       this.chartTime = current
@@ -163,6 +168,7 @@ export default {
     },
     getDetail() {
       getEmployeeDetail(this.$route.query.employeeCode).then(res => {
+        console.log(res.data.data)
         this.employeeInfo = res.data.data.employeeInfo
         this.workResumeList = res.data.data.workResumeList
         this.statistics.push(res.data.data.statistics)
@@ -188,8 +194,19 @@ export default {
         employeeCode: this.$route.query.employeeCode,
         date: this.chartTime
       }).then(res => {
-        this.allEvents = res.data.data
-        this.chooseEventsShow()
+        this.chartData = [{
+          brand: '牌子111',
+          planStratTime: '2016-12-18 6:30:00',
+          planEndTIme: '2016-12-18 9:30:00',
+          actualStratTime: '2016-12-18 6:00:00',
+          actualEndTime: '2016-12-18 9:00:00'
+        }, {
+          brand: '牌子222',
+          planStratTime: '2016-12-18 12:30:00',
+          planEndTIme: '2016-12-18 15:30:00',
+          actualStratTime: '2016-12-18 13:30:00',
+          actualEndTime: '2016-12-18 17:30:00'
+        }]
       })
     },
     chooseEventsShow() {

@@ -9,6 +9,9 @@ import { debounce, parseTime } from '@/utils'
 
 export default {
   props: {
+    chartData: {
+      type: Array
+    },
     chartTime: {
       type: String
     },
@@ -32,7 +35,6 @@ export default {
   data() {
     return {
       chart: null,
-      chartData: []
     }
   },
   computed: {
@@ -89,20 +91,6 @@ export default {
       }
     },
     chartTime() {
-      this.chartData = [{
-        brand: '牌子1',
-        planStratTime: '2016-12-18 6:30:00',
-        planEndTIme: '2016-12-18 9:30:00',
-        actualStratTime: '2016-12-18 6:00:00',
-        actualEndTime: '2016-12-18 9:00:00'
-      }, {
-        brand: '牌子2',
-        planStratTime: '2016-12-18 12:30:00',
-        planEndTIme: '2016-12-18 15:30:00',
-        actualStratTime: '2016-12-18 13:30:00',
-        actualEndTime: '2016-12-18 17:30:00'
-      }]
-      // 请求 成功后
       console.log('需要日期' + this.chartTime)
       this.setOptions()
     }
@@ -136,9 +124,12 @@ export default {
           axisPointer: {
             type: 'shadow'
           },
-          formatter(value) {
-            return value[0].axisValueLabel
+          formatter(value,b,c) {
+            return `${value[0].axisValueLabel}</br>
+                    ${value[1].seriesName}：${(value[0].value).slice(-8)}~${(value[1].value).slice(-8)} </br>
+                    ${value[3].seriesName}：${(value[2].value).slice(-8)}~${(value[3].value).slice(-8)}`
           }
+          // formatter:`{a0}{a1} {c0}{c1}`
         },
         xAxis: {
           type: 'time',
@@ -167,9 +158,6 @@ export default {
             barGap: 0,
             stack: 'plan',
             data: this.planStratArr, // 计划开始时间
-            tooltip: {
-              show: false // 字段不显示在hover层
-            },
             itemStyle: {
               normal: {
                 opacity: 0 // 不绘制
@@ -187,9 +175,6 @@ export default {
             type: 'bar',
             stack: 'actual',
             data: this.actualStratArr, // 实际开始时间
-            tooltip: {
-              show: false // 字段不显示在hover层
-            },
             itemStyle: {
               normal: {
                 opacity: 0 // 不绘制

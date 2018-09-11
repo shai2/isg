@@ -71,7 +71,7 @@ input::-webkit-input-placeholder {color:#cbd4db;font-size:12px;}
 .placeholder{color:#cbd4db;}
 .select-label{line-height:36px;margin-right:5px;}
 .border-green{border-color:#67c23a!important;}
-.w200px{width:200px;}
+.w200{width:200px!important;}
 .loading-blank{min-height:200px;margin-bottom:10px;}
 /* ----覆盖elementUI---- */
 .el-date-editor{margin-bottom:10px;}
@@ -82,3 +82,4 @@ input::-webkit-input-placeholder {color:#cbd4db;font-size:12px;}
 .event-item{background-color:#ccc!important;color:#fff!important;text-align:center;padding:0!important;pointer-events:none;}
 .work{background-color:#409EFF!important;}
 .rest{background-color:#67c23a!important;}
+.filter-item.el-input,.el-select.filter-item{width:120px;}

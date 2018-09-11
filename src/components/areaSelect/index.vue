@@ -1,5 +1,6 @@
 <template>
     <el-cascader
+        style="200px"
         clearable
         :options="options"
         expand-trigger="hover"
@@ -16,7 +17,7 @@ export default {
     return {
       options: area,
       props: {
-        value: 'code',
+        value: 'name',//抛出的字段 原来是code
         label: 'name',
         children: 'data'
       }

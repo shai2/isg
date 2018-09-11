@@ -10,7 +10,7 @@ export function getEmployeeList(query) {
 
 export function getEmployeeDetail(query) {
   return request({
-    url: '/employee/detail/query',
+    url: '/employee/detail/'+query,
     method: 'get',
     params: {}
   })

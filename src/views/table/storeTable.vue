@@ -1,32 +1,32 @@
 <template>
   <div class="app-container">
-    <div v-if="dict[0]" class="filter-container normal-border">
+    <div v-if="dict['store_type']" class="filter-container normal-border">
       <div class="flex-row-center align-top">
         <p class="select-label">门店范围：</p>
         <div class="flex">
-          <areaSelect style="width: 200px" @areaChange="areaChange"></areaSelect>
-          <el-select clearable style="width: 120px" class="filter-item" v-model="listQuery.storeType" placeholder="门店类型">
-            <el-option v-for="(e,i) in dict[1].data" :key="i" :label="e.name" :value="e.value">
+          <areaSelect @areaChange="areaChange"></areaSelect>
+          <el-select clearable class="filter-item" v-model="listQuery.storeType" placeholder="门店类型">
+            <el-option v-for="(e,i) in dict['store_type']" :key="i" :label="e.name" :value="e.value">
             </el-option>
           </el-select>
-          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.storeStatus" placeholder="门店状态">
-            <el-option v-for="item in storeStatusOptions" :key="item" :label="item" :value="item">
+          <el-select clearable class="filter-item" v-model="listQuery.storeStatus" placeholder="门店状态">
+            <el-option v-for="(e,i) in dict['store_status']" :key="i" :label="e.name" :value="e.value">
             </el-option>
           </el-select>
           <br/>
-          <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="门店名称" v-model="listQuery.storeName">
+          <el-input @keyup.enter.native="handleFilter" class="filter-item w200" placeholder="门店名称" v-model="listQuery.storeName">
           </el-input>
-          <el-input @keyup.enter.native="handleFilter" style="width: 190px;" class="filter-item" placeholder="门店编号" v-model="listQuery.storeCode">
+          <el-input @keyup.enter.native="handleFilter" class="filter-item w200" placeholder="门店编号" v-model="listQuery.storeCode">
           </el-input>
-          <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="地址" v-model="listQuery.address">
+          <el-input @keyup.enter.native="handleFilter" class="filter-item w200" placeholder="地址" v-model="listQuery.address">
           </el-input>
         </div>
       </div>
       <div class="flex-row-center align-top">
         <p class="select-label">客户范围：</p>
         <div class="flex">
-          <el-select clearable style="width: 110px" class="filter-item" v-model="listQuery.customeRange" placeholder="客户范围">
-            <el-option v-for="(e,i) in dict[0].data" :key="i" :label="e.name" :value="e.value">
+          <el-select clearable class="filter-item" v-model="listQuery.brandName" placeholder="客户范围">
+            <el-option v-for="(e,i) in dict['brand_name']" :key="i" :label="e.name" :value="e.value">
             </el-option>
           </el-select>
         </div>
@@ -34,36 +34,36 @@
       <div class="flex-row-center align-top">
         <p class="select-label">人员范围：</p>
         <div class="flex">
-          <el-input @keyup.enter.native="handleFilter" style="width: 140px;" class="filter-item" placeholder="店内人数下限" v-model="listQuery.employee_num_min">
+          <el-input @keyup.enter.native="handleFilter" class="filter-item" placeholder="店内人数下限" v-model="listQuery.employee_num_min">
           </el-input>
-          <el-input @keyup.enter.native="handleFilter" style="width: 140px;" class="filter-item" placeholder="店内人数上限" v-model="listQuery.employee_num_max">
+          <el-input @keyup.enter.native="handleFilter" class="filter-item" placeholder="店内人数上限" v-model="listQuery.employee_num_max">
           </el-input>
         </div>
       </div>
       <div class="flex-row-center align-top">
         <p class="select-label">项目范围：</p>
         <div class="flex">
-          <el-input @keyup.enter.native="handleFilter" style="width: 140px;" class="filter-item" placeholder="项目数下限" v-model="listQuery.project_num_min">
+          <el-input @keyup.enter.native="handleFilter" class="filter-item" placeholder="项目数下限" v-model="listQuery.project_num_min">
           </el-input>
-          <el-input @keyup.enter.native="handleFilter" style="width: 140px;" class="filter-item" placeholder="项目数上限" v-model="listQuery.project_num_max">
+          <el-input @keyup.enter.native="handleFilter" class="filter-item" placeholder="项目数上限" v-model="listQuery.project_num_max">
           </el-input>
         </div>
       </div>
       <div class="flex-row-center align-top">
         <p class="select-label">品牌范围：</p>
         <div class="flex">
-          <el-input @keyup.enter.native="handleFilter" style="width: 140px;" class="filter-item" placeholder="品牌数下限" v-model="listQuery.brand_num_min">
+          <el-input @keyup.enter.native="handleFilter" class="filter-item" placeholder="品牌数下限" v-model="listQuery.brand_num_min">
           </el-input>
-          <el-input @keyup.enter.native="handleFilter" style="width: 140px;" class="filter-item" placeholder="品牌数上限" v-model="listQuery.brand_num_max">
+          <el-input @keyup.enter.native="handleFilter" class="filter-item" placeholder="品牌数上限" v-model="listQuery.brand_num_max">
           </el-input>
         </div>
       </div>
       <div class="flex-row-center align-top">
         <p class="select-label">任务范围：</p>
         <div class="flex">
-          <el-input @keyup.enter.native="handleFilter" style="width: 140px;" class="filter-item" placeholder="任务数下限" v-model="listQuery.task_num_min">
+          <el-input @keyup.enter.native="handleFilter" class="filter-item" placeholder="任务数下限" v-model="listQuery.task_num_min">
           </el-input>
-          <el-input @keyup.enter.native="handleFilter" style="width: 140px;" class="filter-item" placeholder="任务数上限" v-model="listQuery.task_num_max">
+          <el-input @keyup.enter.native="handleFilter" class="filter-item" placeholder="任务数上限" v-model="listQuery.task_num_max">
           </el-input>
         </div>
       </div>
@@ -164,10 +164,9 @@ export default {
         brandNumMin: '', // 品牌数下限
         brandNumMax: '', // 品牌数上限
         taskNumMin: '', // 任务数下限
-        taskNumMax: ''// 任务数上限
+        taskNumMax: '',// 任务数上限
+        brandName:'',// 品牌名称
       },
-      storeStatusOptions: ['正常营业', '暂停营业'],
-      customeRangeOptions: ['联合利华', '高露洁']
     }
   },
   components: {
@@ -183,7 +182,7 @@ export default {
   },
   methods: {
     getDictionary() {
-      getDictionary('store_type,brand_name').then(res => {
+      getDictionary('store_type,brand_name,store_status').then(res => {
         this.dict = res.data.data
       })
     },
@@ -224,17 +223,8 @@ export default {
     },
     handleDownload() {
       this.downloadLoading = true
-      import('@/vendor/Export2Excel').then(excel => {
-        const tHeader = ['门店编号', '门店名称', '省', '市', '区县', '地址', '定位', '门店类型', '人员数', '项目数']
-        const filterVal = ['storeCode', 'storeName', 'province', 'city', 'districtCountry', 'address', 'location', 'storeType', 'employeeCount', 'projectCount']
-        const data = this.formatJson(filterVal, this.list)
-        excel.export_json_to_excel({
-          header: tHeader,
-          data,
-          filename: '门店列表'
-        })
-        this.downloadLoading = false
-      })
+      alert(1)
+      this.downloadLoading = false
     },
     formatJson(filterVal, jsonData) {
       return jsonData.map(v => filterVal.map(j => {
