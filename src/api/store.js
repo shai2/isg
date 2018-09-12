@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import axios from 'axios'
 
 export function getStoreList(query) {
   return request({
@@ -29,5 +30,27 @@ export function getEmployeeProject(storeCode, query) {
     url: '/store/getEmployeeProject/' + storeCode,
     method: 'get',
     params: query
+  })
+}
+
+// export function exportEmployeeList(query) {
+//   return request({
+//     url: '/employee/list/export',
+//     method: 'post',
+//     responseType:'blob',
+//     data: query
+//   })
+// }
+
+export function exportStoreList(query) {
+  return axios({
+    url: '/store/list/export',
+    method: 'post',
+    responseType:'blob',
+    data: query,
+    baseURL: process.env.BASE_API, // api的base_url
+    timeout: 5000, // request timeout
+    withCredentials: true
+    
   })
 }

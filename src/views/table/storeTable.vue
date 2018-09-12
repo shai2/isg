@@ -75,7 +75,7 @@
     <!-- 表单部分 -->
     <div class="table-container normal-border">
       <div class="textalign-r mgbt10">
-        <el-button class="filter-item" type="primary" :loading="downloadLoading" v-waves icon="el-icon-download" @click="handleDownload">导出</el-button>
+        <el-button class="filter-item" type="primary" :loading="downloadLoading" v-waves icon="el-icon-download" @click="download">导出</el-button>
       </div>
       <el-table :key='tableKey' :data="list" v-loading="listLoading" border fit highlight-current-row>
         <el-table-column align="center" label="门店编号" width="80">
@@ -138,7 +138,8 @@
 </template>
 
 <script>
-import { getStoreList } from 'api/store'
+import fileDownload from 'js-file-download'
+import { getStoreList, exportStoreList } from 'api/store'
 import { getDictionary } from 'api/dict'
 import waves from 'directive/waves' // 水波纹指令
 import areaSelect from 'components/areaSelect'
@@ -181,6 +182,30 @@ export default {
     this.getList()
   },
   methods: {
+    download(){
+      this.downloadLoading = true
+      exportStoreList(this.listQuery).then(res => {
+        console.info(res)
+        fileDownload(res.data, 'aaa.xls');
+        // let _blob = new Blob([res.data], {type: "application/vnd.ms-excel"})
+        // console.info(res.data)
+        // // window.location.href =  URL.createObjectURL(_blob)
+        // const _fileName = '测试表格123.xls'
+        // if ('download' in document.createElement('a')) { // 非IE下载
+        //   const elink = document.createElement('a')
+        //   elink.download = _fileName
+        //   elink.style.display = 'none'
+        //   elink.href = URL.createObjectURL(_blob)
+        //   document.body.appendChild(elink)
+        //   elink.click()
+        //   URL.revokeObjectURL(elink.href) // 释放URL 对象
+        //   document.body.removeChild(elink)
+        // } else { // IE10+下载
+        //   navigator.msSaveBlob(blob, fileName)
+        // }
+        this.downloadLoading = false
+      })
+    },
     getDictionary() {
       getDictionary('store_type,brand_name,store_status').then(res => {
         this.dict = res.data.data
@@ -220,11 +245,6 @@ export default {
     },
     handledetail(row) {
       this.$router.push(`/table/storeDetail?storeCode=${row.storeCode}`)
-    },
-    handleDownload() {
-      this.downloadLoading = true
-      alert(1)
-      this.downloadLoading = false
     },
     formatJson(filterVal, jsonData) {
       return jsonData.map(v => filterVal.map(j => {

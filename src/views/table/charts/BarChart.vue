@@ -39,16 +39,16 @@ export default {
   },
   computed: {
     brandArr() {
-      return this.arrInit('brand')
+      return this.arrInit('brandName')
     },
     planStratArr() {
-      return this.arrInit('planStratTime')
+      return this.arrInit('planStartTime')
     },
     planEndArr() {
-      return this.arrInit('planEndTIme')
+      return this.arrInit('planEndTime')
     },
     actualStratArr() {
-      return this.arrInit('actualStratTime')
+      return this.arrInit('actualStartTime')
     },
     actualEndArr() {
       return this.arrInit('actualEndTime')
@@ -97,10 +97,11 @@ export default {
   },
   methods: {
     arrInit(item) {
-      const _arr = []
-      for (const e of this.chartData) {
+      let _arr = []
+      for (let e of this.chartData) {
         _arr.push(e[item])
       }
+      console.log(_arr)
       return _arr
     },
     setOptions({ expectedData, actualData } = {}) {
@@ -191,7 +192,7 @@ export default {
             name: '撑起时间轴',
             type: 'bar',
             stack: 'actual',
-            data: ['2016-12-18 00:00:00', '2016-12-18 24:00:00'],
+            data: [`${this.chartTime} 00:00:00`, `${this.chartTime} 24:00:00`],
             tooltip: {
               show: false
             },

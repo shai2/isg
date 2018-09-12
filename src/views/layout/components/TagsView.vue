@@ -7,6 +7,7 @@
         <span class='el-icon-close' @click.prevent.stop='closeSelectedTag(tag)'></span>
       </router-link>
     </scroll-pane>
+    <p class="return" @click="$router.back()">﹤返回</p>
     <ul class='contextmenu' v-show="visible" :style="{left:left+'px',top:top+'px'}">
       <li @click="closeSelectedTag(selectedTag)">{{$t('tagsView.close')}}</li>
       <li @click="closeOthersTags">{{$t('tagsView.closeOthers')}}</li>
@@ -116,6 +117,7 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
+.return{color:#aaa;position:absolute;right:10px;top:60px;cursor:pointer;font-size:14px;}
 .tags-view-container {
   .tags-view-wrapper {
     background: #fff;

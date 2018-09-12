@@ -136,17 +136,17 @@ export default {
   computed: {
     restEvents() {
       return this.allEvents.filter((e, i) => {
-        return e.title === '休息'
+        return e.cssClass.includes('rest')
       })
     },
     freeEvents() {
       return this.allEvents.filter((e, i) => {
-        return e.title === '空闲'
+        return e.cssClass.includes('free')
       })
     },
     workEvents() {
       return this.allEvents.filter((e, i) => {
-        return e.title === '排班'
+        return e.cssClass.includes('work')
       })
     }
   },
@@ -194,19 +194,20 @@ export default {
         employeeCode: this.$route.query.employeeCode,
         date: this.chartTime
       }).then(res => {
-        this.chartData = [{
-          brand: '牌子111',
-          planStratTime: '2016-12-18 6:30:00',
-          planEndTIme: '2016-12-18 9:30:00',
-          actualStratTime: '2016-12-18 6:00:00',
-          actualEndTime: '2016-12-18 9:00:00'
-        }, {
-          brand: '牌子222',
-          planStratTime: '2016-12-18 12:30:00',
-          planEndTIme: '2016-12-18 15:30:00',
-          actualStratTime: '2016-12-18 13:30:00',
-          actualEndTime: '2016-12-18 17:30:00'
-        }]
+        this.chartData = res.data.data
+        // this.chartData = [{
+        //   brandName: '牌子111',
+        //   planStartTime: '2016-12-18 6:30:00',
+        //   planEndTime: '2016-12-18 9:30:00',
+        //   actualStartTime: '2016-12-18 6:00:00',
+        //   actualEndTime: '2016-12-18 9:00:00'
+        // }, {
+        //   brandName: '牌子222',
+        //   planStartTime: '2016-12-18 12:30:00',
+        //   planEndTime: '2016-12-18 15:30:00',
+        //   actualStartTime: '2016-12-18 13:30:00',
+        //   actualEndTime: '2016-12-18 17:30:00'
+        // }]
       })
     },
     chooseEventsShow() {

@@ -49,11 +49,11 @@
             <el-option v-for="(e,i) in dict['sex']" :key="i" :label="e.name" :value="e.value">
             </el-option>
           </el-select>
-          <el-input clearable type="number" @keyup.enter.native="handleFilter"  class="filter-item" placeholder="工龄下限" v-model="listQuery.workAgeMin">
+          <el-input clearable @keyup.enter.native="handleFilter"  class="filter-item" placeholder="工龄下限" v-model="listQuery.workAgeMin">
           </el-input>
-          <el-input clearable type="number" @keyup.enter.native="handleFilter"  class="filter-item" placeholder="年龄上限" v-model="listQuery.ageMax">
+          <el-input clearable @keyup.enter.native="handleFilter"  class="filter-item" placeholder="年龄上限" v-model="listQuery.ageMax">
           </el-input>
-          <el-input clearable type="number" @keyup.enter.native="handleFilter"  class="filter-item" placeholder="任务完成数" v-model="listQuery.finishTask">
+          <el-input clearable @keyup.enter.native="handleFilter"  class="filter-item" placeholder="任务完成数" v-model="listQuery.finishTask">
           </el-input>
         </div>
       </div>
@@ -65,7 +65,7 @@
           <el-date-picker v-model="listQuery.endTime" type="datetime" format="yyyy-MM-dd HH:mm" :editable="false" placeholder="结束时间">
           </el-date-picker>
           <el-select clearable class="filter-item" v-model="listQuery.workStatus" placeholder="工作状态">
-            <el-option v-for="(e,i) in dict['job_status']" :key="i" :label="e.name" :value="e.value">
+            <el-option v-for="(e,i) in dict['schedule_status']" :key="i" :label="e.name" :value="e.value">
             </el-option>
           </el-select> 
           <div class="filter-container">
@@ -92,7 +92,7 @@
     <!-- 表单部分 -->
     <div class="table-container normal-border">
       <div class="textalign-r mgbt10">
-        <el-button class="filter-item" type="primary" :loading="downloadLoading" v-waves icon="el-icon-download" @click="handleDownload">导出</el-button>
+        <el-button class="filter-item" type="primary" :loading="downloadLoading" v-waves icon="el-icon-download" @click="download">导出</el-button>
       </div>
       <el-table :data="list" v-loading="listLoading" border fit highlight-current-row>
         <el-table-column align="center" :label="$t('table.name')">
@@ -160,7 +160,8 @@
 </template>
 
 <script>
-import { getEmployeeList } from 'api/employee'
+import fileDownload from 'js-file-download'
+import { getEmployeeList, exportEmployeeList } from 'api/employee'
 import { getDictionary } from 'api/dict'
 import waves from 'directive/waves' // 水波纹指令
 import areaSelect from 'components/areaSelect'
@@ -224,12 +225,44 @@ export default {
       this.listQuery.area = e[2]
     },
     getList() {
+      if((this.listQuery.startTime&&this.listQuery.endTime)&&this.listQuery.startTime.getTime()>this.listQuery.endTime.getTime()){
+        this.$message({
+          message: '排期范围的起止时间不对',
+          type: 'warning'
+        });
+        return
+      }
+      // if(this.listQuery.startTime)
       this.listLoading = true
       // console.log(this.listQuery)
       getEmployeeList(this.listQuery).then(res => {
         this.list = res.data.data.list
-        this.total = res.data.data.total
+        this.total = res.data.data.total 
         this.listLoading = false
+      })
+    },
+    download(){
+      this.downloadLoading = true
+      exportEmployeeList(this.listQuery).then(res => {
+        console.info(res)
+        fileDownload(res.data, 'aaa.xls');
+        // let _blob = new Blob([res.data], {type: "application/vnd.ms-excel"})
+        // console.info(res.data)
+        // // window.location.href =  URL.createObjectURL(_blob)
+        // const _fileName = '测试表格123.xls'
+        // if ('download' in document.createElement('a')) { // 非IE下载
+        //   const elink = document.createElement('a')
+        //   elink.download = _fileName
+        //   elink.style.display = 'none'
+        //   elink.href = URL.createObjectURL(_blob)
+        //   document.body.appendChild(elink)
+        //   elink.click()
+        //   URL.revokeObjectURL(elink.href) // 释放URL 对象
+        //   document.body.removeChild(elink)
+        // } else { // IE10+下载
+        //   navigator.msSaveBlob(blob, fileName)
+        // }
+        this.downloadLoading = false
       })
     },
     handleFilter() {
@@ -246,11 +279,6 @@ export default {
     },
     handledetail(row) {
       this.$router.push(`/table/employeeDetail?employeeCode=${row.employeeCode}`)
-    },
-    handleDownload() {
-      this.downloadLoading = true
-      alert(1)
-      this.downloadLoading = false
     },
     formatJson(filterVal, jsonData) {
       return jsonData.map(v => filterVal.map(j => {
