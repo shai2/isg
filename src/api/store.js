@@ -33,24 +33,14 @@ export function getEmployeeProject(storeCode, query) {
   })
 }
 
-// export function exportEmployeeList(query) {
-//   return request({
-//     url: '/employee/list/export',
-//     method: 'post',
-//     responseType:'blob',
-//     data: query
-//   })
-// }
-
 export function exportStoreList(query) {
-  return axios({
+  return request({
     url: '/store/list/export',
     method: 'post',
     responseType:'blob',
     data: query,
-    baseURL: process.env.BASE_API, // api的base_url
-    timeout: 5000, // request timeout
-    withCredentials: true
-    
+    headers:{
+      'Content-Type': 'application/json; application/octet-stream'
+    }
   })
 }

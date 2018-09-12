@@ -26,7 +26,7 @@
         <p class="select-label">客户范围：</p>
         <div class="flex">
           <el-select clearable class="filter-item" v-model="listQuery.brandName" placeholder="客户范围">
-            <el-option v-for="(e,i) in dict['brand_name']" :key="i" :label="e.name" :value="e.value">
+            <el-option v-for="(e,i) in dict['brand_name']" :key="i" :label="e.name" :value="e.name">
             </el-option>
           </el-select>
         </div>
@@ -34,36 +34,36 @@
       <div class="flex-row-center align-top">
         <p class="select-label">人员范围：</p>
         <div class="flex">
-          <el-input @keyup.enter.native="handleFilter" class="filter-item" placeholder="店内人数下限" v-model="listQuery.employee_num_min">
+          <el-input @keyup.enter.native="handleFilter" class="filter-item" placeholder="店内人数下限" v-model="listQuery.employeeNumMin">
           </el-input>
-          <el-input @keyup.enter.native="handleFilter" class="filter-item" placeholder="店内人数上限" v-model="listQuery.employee_num_max">
+          <el-input @keyup.enter.native="handleFilter" class="filter-item" placeholder="店内人数上限" v-model="listQuery.employeeNumMax">
           </el-input>
         </div>
       </div>
       <div class="flex-row-center align-top">
         <p class="select-label">项目范围：</p>
         <div class="flex">
-          <el-input @keyup.enter.native="handleFilter" class="filter-item" placeholder="项目数下限" v-model="listQuery.project_num_min">
+          <el-input @keyup.enter.native="handleFilter" class="filter-item" placeholder="项目数下限" v-model="listQuery.projectNumMin">
           </el-input>
-          <el-input @keyup.enter.native="handleFilter" class="filter-item" placeholder="项目数上限" v-model="listQuery.project_num_max">
+          <el-input @keyup.enter.native="handleFilter" class="filter-item" placeholder="项目数上限" v-model="listQuery.projectNumMax">
           </el-input>
         </div>
       </div>
       <div class="flex-row-center align-top">
         <p class="select-label">品牌范围：</p>
         <div class="flex">
-          <el-input @keyup.enter.native="handleFilter" class="filter-item" placeholder="品牌数下限" v-model="listQuery.brand_num_min">
+          <el-input @keyup.enter.native="handleFilter" class="filter-item" placeholder="品牌数下限" v-model="listQuery.brandNumMin">
           </el-input>
-          <el-input @keyup.enter.native="handleFilter" class="filter-item" placeholder="品牌数上限" v-model="listQuery.brand_num_max">
+          <el-input @keyup.enter.native="handleFilter" class="filter-item" placeholder="品牌数上限" v-model="listQuery.brandNumMax">
           </el-input>
         </div>
       </div>
       <div class="flex-row-center align-top">
         <p class="select-label">任务范围：</p>
         <div class="flex">
-          <el-input @keyup.enter.native="handleFilter" class="filter-item" placeholder="任务数下限" v-model="listQuery.task_num_min">
+          <el-input @keyup.enter.native="handleFilter" class="filter-item" placeholder="任务数下限" v-model="listQuery.taskNumMin">
           </el-input>
-          <el-input @keyup.enter.native="handleFilter" class="filter-item" placeholder="任务数上限" v-model="listQuery.task_num_max">
+          <el-input @keyup.enter.native="handleFilter" class="filter-item" placeholder="任务数上限" v-model="listQuery.taskNumMax">
           </el-input>
         </div>
       </div>
@@ -187,22 +187,6 @@ export default {
       exportStoreList(this.listQuery).then(res => {
         console.info(res)
         fileDownload(res.data, 'aaa.xls');
-        // let _blob = new Blob([res.data], {type: "application/vnd.ms-excel"})
-        // console.info(res.data)
-        // // window.location.href =  URL.createObjectURL(_blob)
-        // const _fileName = '测试表格123.xls'
-        // if ('download' in document.createElement('a')) { // 非IE下载
-        //   const elink = document.createElement('a')
-        //   elink.download = _fileName
-        //   elink.style.display = 'none'
-        //   elink.href = URL.createObjectURL(_blob)
-        //   document.body.appendChild(elink)
-        //   elink.click()
-        //   URL.revokeObjectURL(elink.href) // 释放URL 对象
-        //   document.body.removeChild(elink)
-        // } else { // IE10+下载
-        //   navigator.msSaveBlob(blob, fileName)
-        // }
         this.downloadLoading = false
       })
     },

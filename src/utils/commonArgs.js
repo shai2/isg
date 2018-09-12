@@ -10,8 +10,8 @@ export const page = {
 }
 
 export const store = {
-  store_type: '', // 门店类型
-  store_name: '', // 门店名称
-  store_code: '', // 门店编号
+  storeType: '', // 门店类型
+  storeName: '', // 门店名称
+  storeCode: '', // 门店编号
   address: ''// 地址
 }

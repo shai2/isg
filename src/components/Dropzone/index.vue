@@ -234,7 +234,6 @@ export default {
 
     .dropzone .dz-preview:hover .dz-image img {
         transform: none;
-        -webkit-filter: none;
         width: 100%;
         height: 100%;
     }

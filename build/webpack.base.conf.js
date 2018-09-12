@@ -44,7 +44,8 @@ module.exports = {
       'directive': path.resolve(__dirname, '../src/directive'),
       'utils': path.resolve(__dirname, '../src/utils'),
       'store': path.resolve(__dirname, '../src/store'),
-      'router': path.resolve(__dirname, '../src/router')
+      'router': path.resolve(__dirname, '../src/router'),
+      'static': path.resolve(__dirname, '../src/static')
     }
   },
   module: {

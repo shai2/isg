@@ -246,22 +246,6 @@ export default {
       exportEmployeeList(this.listQuery).then(res => {
         console.info(res)
         fileDownload(res.data, 'aaa.xls');
-        // let _blob = new Blob([res.data], {type: "application/vnd.ms-excel"})
-        // console.info(res.data)
-        // // window.location.href =  URL.createObjectURL(_blob)
-        // const _fileName = '测试表格123.xls'
-        // if ('download' in document.createElement('a')) { // 非IE下载
-        //   const elink = document.createElement('a')
-        //   elink.download = _fileName
-        //   elink.style.display = 'none'
-        //   elink.href = URL.createObjectURL(_blob)
-        //   document.body.appendChild(elink)
-        //   elink.click()
-        //   URL.revokeObjectURL(elink.href) // 释放URL 对象
-        //   document.body.removeChild(elink)
-        // } else { // IE10+下载
-        //   navigator.msSaveBlob(blob, fileName)
-        // }
         this.downloadLoading = false
       })
     },

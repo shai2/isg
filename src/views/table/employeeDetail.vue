@@ -1,6 +1,6 @@
 <template>
   <div v-if="employeeInfo" class="app-container flex-row-between align-stretch">
-    <div style="min-width:30%;" class="left flex-column-center normal-border">
+    <div style="min-width:400px;" class="left flex-column-center normal-border">
       <div class="info flex-row-center">
         <img src="http://img3.duitang.com/uploads/item/201604/24/20160424144634_Sirh8.jpeg">
         <div class="flex">
@@ -11,7 +11,7 @@
       </div>
       <el-tabs class="flex w100" v-model="activeName" type="border-card">
         <el-tab-pane class="info info-detail" label="基础信息" name="0">
-          <p>{{employeeInfo.identityCardNumber || '身份证号暂无'}}
+          <p>{{employeeInfo.idCardNumber || '身份证号暂无'}}
             <svg-icon style="color:#ddd" class="pointer" v-popover:popover icon-class="tab" />
             <el-popover
               ref="popover"
@@ -31,12 +31,12 @@
           <div v-for="(e,i) in workResumeList" :key="i" class="work-item flex-row-center">
             <div class="work-item-left flex">
               <p>{{e.workResumeName}}</p>
-              <p>{{e.startTime}} ~ {{e.endTime}}</p>
+              <p>{{parseTime(e.startTime)}} ~ {{parseTime(e.endTime)}}</p>
               <p>{{e.position}}</p>
             </div>
-            <div :class="{'border-green':e.status=='进行中'}" class="work-item-right flex-column-center">
+            <!-- <div :class="{'border-green':e.status=='进行中'}" class="work-item-right flex-column-center">
               <p>{{e.status}}</p>
-            </div>
+            </div> -->
           </div>
         </el-tab-pane>
         <!-- <el-tab-pane label="能力评估" name="2">
@@ -151,6 +151,9 @@ export default {
     }
   },
   methods: {
+    parseTime(time){
+      return parseTime(new Date(time),'{y}-{m}-{d}')
+    },
     getInfo(){
       this.getDetail()
       this.getSchedule()
