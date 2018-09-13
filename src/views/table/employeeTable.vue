@@ -53,7 +53,7 @@
           </el-input>
           <el-input clearable @keyup.enter.native="handleFilter"  class="filter-item" placeholder="年龄上限" v-model="listQuery.ageMax">
           </el-input>
-          <el-input clearable @keyup.enter.native="handleFilter"  class="filter-item" placeholder="任务完成数" v-model="listQuery.finishTask">
+          <el-input clearable @keyup.enter.native="handleFilter"  class="filter-item" placeholder="任务完成数下限" v-model="listQuery.finishTask">
           </el-input>
         </div>
       </div>
@@ -137,12 +137,12 @@
         </el-table-column>
         <el-table-column class-name="status-col" :label="$t('table.taskCompletionNumber')">
           <template slot-scope="scope">
-            <el-tag>{{scope.row.taskCompletionNumber || 0}}</el-tag>
+            <el-tag>{{scope.row.finishTaskCount || 0}}</el-tag>
           </template>
         </el-table-column>
         <el-table-column class-name="status-col" :label="$t('table.taskCompletionRate')">
           <template slot-scope="scope">
-            <el-tag>{{scope.row.taskCompletionRate || '0%'}}</el-tag>
+            <el-tag>{{scope.row.finishRate ? (scope.row.finishRate*100+'%') : '0%'}}</el-tag>
           </template>
         </el-table-column>
         <el-table-column class-name="status-col" align="center" label="操作">

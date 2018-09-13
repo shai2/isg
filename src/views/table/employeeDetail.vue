@@ -2,7 +2,7 @@
   <div v-if="employeeInfo" class="app-container flex-row-between align-stretch">
     <div style="min-width:400px;" class="left flex-column-center normal-border">
       <div class="info flex-row-center">
-        <img src="http://img3.duitang.com/uploads/item/201604/24/20160424144634_Sirh8.jpeg">
+        <img :src="employeeInfo.sex === '男' ? manImg : womanImg">
         <div class="flex">
           <p>{{employeeInfo.employeeCode}}</p>
           <p>{{employeeInfo.name}}</p>
@@ -67,7 +67,11 @@
       <div class="right-top normal-border">
         <el-table :data="statistics" border fit>
           <el-table-column property="finishTaskCount" label="任务完成数"></el-table-column>
-          <el-table-column property="finishRate" label="完成率"></el-table-column>
+          <el-table-column label="完成率">
+            <template slot-scope="scope">
+              {{scope.row.finishRate ? (scope.row.finishRate*100+'%') : '0%'}}
+            </template>
+          </el-table-column>
           <el-table-column property="latelyServiceBrand" label="最近服务品牌"></el-table-column>
           <el-table-column property="industryAdvantage" label="优势行业"></el-table-column>
           <el-table-column property="satisficing" label="雇主满意度"></el-table-column>
@@ -75,10 +79,10 @@
       </div>
       <div class="right-bottom normal-border">
         <div v-show="!showDetailChart">
-          <el-button @click.native="showEvents('all')" size="small" plain>显示所有</el-button>
-          <el-button @click.native="showEvents('work')" type="primary" size="small" plain>显示排班</el-button>
-          <el-button @click.native="showEvents('rest')" type="success" size="small" plain>显示休息</el-button>
-          <el-button @click.native="showEvents('free')" type="info" size="small" plain>显示空闲</el-button>
+          <el-button @click.native="showEvents('all')" size="small" plain>全部</el-button>
+          <el-button @click.native="showEvents('forenoon')" type="primary" size="small" plain>上午空闲</el-button>
+          <el-button @click.native="showEvents('afternoon')" type="success" size="small" plain>下午空闲</el-button>
+          <el-button @click.native="showEvents('free')" type="info" size="small" plain>全天空闲</el-button>
           <fullCalendar
             :events = "fcEvents"
             @changeMonth = "changeMonth"
@@ -123,6 +127,8 @@ export default {
       showEventsType: '', // 显示events类型
       chartTime: '',// 日期
       chartData: [],//传到图详情里的数据
+      manImg:require('assets/img/man.jpg'),
+      womanImg:require('assets/img/woman.jpg')
     }
   },
   created() {
@@ -134,9 +140,14 @@ export default {
     }
   },
   computed: {
-    restEvents() {
+    forenoonEvents() {
       return this.allEvents.filter((e, i) => {
-        return e.cssClass.includes('rest')
+        return e.cssClass.includes('forenoon')
+      })
+    },
+    afternoonEvents() {
+      return this.allEvents.filter((e, i) => {
+        return e.cssClass.includes('afternoon')
       })
     },
     freeEvents() {
@@ -144,11 +155,6 @@ export default {
         return e.cssClass.includes('free')
       })
     },
-    workEvents() {
-      return this.allEvents.filter((e, i) => {
-        return e.cssClass.includes('work')
-      })
-    }
   },
   methods: {
     parseTime(time){
@@ -181,7 +187,6 @@ export default {
     showEvents(type) {
       this.showEventsType = type
       this.chooseEventsShow()
-      console.log(this.restEvents)
     },
     getSchedule() {
       getSchedule({
@@ -215,11 +220,11 @@ export default {
     },
     chooseEventsShow() {
       switch (this.showEventsType) {
-        case 'work':
-          this.fcEvents = this.workEvents
+        case 'forenoon':
+          this.fcEvents = this.forenoonEvents
           break
-        case 'rest':
-          this.fcEvents = this.restEvents
+        case 'afternoon':
+          this.fcEvents = this.afternoonEvents
           break
         case 'free':
           this.fcEvents = this.freeEvents
