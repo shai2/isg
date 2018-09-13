@@ -1,6 +1,6 @@
 <template>
   <div v-if="storeData" class="app-container flex-row-between align-stretch">
-    <div class="left flex-column-center normal-border">
+    <div class="left flex-column-center normal-border" style="min-width: 400px;">
         <div id="allmap" style="width: 100%;height:500px;border: 1px solid gray;overflow:hidden;">
         </div>
         <div class="store-describe w100">
@@ -23,15 +23,15 @@
       </div>
       <div class="right-bottom normal-border flex">
         <el-tabs class="flex" v-model="activeName" type="border-card">
-          <!-- <el-tab-pane class="info info-detail" label="基础信息" name="0">
+          <el-tab-pane class="info info-detail" label="基础信息" name="0">
             <div class="flex mglt10">
-              <p>{{storeData.store_base_info.store_type}}（{{storeData.store_base_info.store_status}}）</p>
-              <p>联系人：{{storeData.store_base_info.contact_name}}</p>
-              <p>联系电话：{{storeData.store_base_info.contact_telephone}}</p>
+              <p>{{storeData.placeType}}（{{storeData.storeStatus}}）</p>
+              <p>联系人：{{storeData.contactName}}</p>
+              <p>联系电话：{{storeData.contactTelephone}}</p>
             </div>
-            <img class="store-img" :src="storeData.store_base_info.store_photo">
-          </el-tab-pane> -->
-          <el-tab-pane label="人员信息" name="0" class="item-container overflow-s h100">
+            <!-- <img class="store-img" :src="storeData.store_base_info.store_photo"> -->
+          </el-tab-pane>
+          <el-tab-pane label="人员信息" name="1" class="item-container overflow-s h100">
             <div v-for="(e,i) in storeEmployeeProject.storeEmployeeInfo" :key="i" class="item flex-row-center">
               <div class="people-left">
                 <img :src="e.没有头像">
@@ -49,7 +49,7 @@
               </div>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="项目信息" name="1" class="item-container">
+          <el-tab-pane label="项目信息" name="2" class="item-container">
             <div v-for="(e,i) in storeEmployeeProject.storeProjectInfo" :key="i" class="item flex-row-center">
               <div class="event-left">
                 <img :src="e.brandPhoto">
@@ -69,7 +69,7 @@
               </div>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="任务信息" name="2" class="item-container">
+          <el-tab-pane label="任务信息" name="3" class="item-container">
             <div v-for="(e,i) in storeEmployeeProject.storeTaskInfo" :key="i" class="item flex-row-center">
               <div class="task-left">
                 <img :src="e.a">

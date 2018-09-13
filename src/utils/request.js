@@ -10,7 +10,7 @@ const service = axios.create({
   withCredentials: true
 })
 
-// request interceptor
+// request interceptorinterceptors
 service.interceptors.request.use(config => {
   // Do something before request is sent
   if (store.getters.token) {
@@ -26,7 +26,17 @@ service.interceptors.request.use(config => {
 
 // respone interceptor
 service.interceptors.response.use(
-  response => response,
+  res => {
+    if(res.data.code !== 200){
+      Message({
+        message: res.data.message,
+        type: 'error'
+      })
+      return Promise.reject(data.message)
+    }else{
+      return res
+    }
+  },
   /**
    * 下面的注释为通过在response里，自定义code来标示请求状态
    * 当code返回如下情况则说明权限有问题，登出并返回到登录页

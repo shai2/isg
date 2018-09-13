@@ -79,10 +79,10 @@
       </div>
       <div class="right-bottom normal-border">
         <div v-show="!showDetailChart">
-          <el-button @click.native="showEvents('all')" size="small" plain>全部</el-button>
+          <el-button @click.native="showEvents('plan')" size="small" plain>全部排班</el-button>
           <el-button @click.native="showEvents('forenoon')" type="primary" size="small" plain>上午空闲</el-button>
           <el-button @click.native="showEvents('afternoon')" type="success" size="small" plain>下午空闲</el-button>
-          <el-button @click.native="showEvents('free')" type="info" size="small" plain>全天空闲</el-button>
+          <el-button @click.native="showEvents('allday')" type="info" size="small" plain>全天空闲</el-button>
           <fullCalendar
             :events = "fcEvents"
             @changeMonth = "changeMonth"
@@ -93,7 +93,7 @@
         <!-- 详情图表 -->
         <div class="w100" v-show="showDetailChart">
           <el-button @click.native="showDetailChart = false" size="small" plain>返回</el-button>
-          <BarChart :chartData="chartData" :chartTime="chartTime" style="margin-top:10px;" ref="barChart"></BarChart>
+          <BarChart :height="barChartHeight" :chartData="chartData" :chartTime="chartTime" style="margin-top:10px;" ref="barChart"></BarChart>
         </div>
       </div>
     </div>
@@ -113,6 +113,7 @@ export default {
     return {
       tabMapOptions: ['基础信息', '工作履历', '能力评估', '出入金明细', '学习培训'],
       activeName: '0',
+      barChartHeight:'',// 图表高度
       employeeInfo: {}, // 人员数据
       statistics: [], // obj转存数组
       workResumeList: [], // 工作履历
@@ -140,6 +141,11 @@ export default {
     }
   },
   computed: {
+    planEvents() {
+      return this.allEvents.filter((e, i) => {
+        return e.cssClass.includes('work') || e.cssClass.includes('rest')
+      })
+    },
     forenoonEvents() {
       return this.allEvents.filter((e, i) => {
         return e.cssClass.includes('forenoon')
@@ -150,9 +156,9 @@ export default {
         return e.cssClass.includes('afternoon')
       })
     },
-    freeEvents() {
+    alldayEvents() {
       return this.allEvents.filter((e, i) => {
-        return e.cssClass.includes('free')
+        return e.cssClass.includes('allday')
       })
     },
   },
@@ -171,7 +177,6 @@ export default {
     },
     dayClick(day, jsEvent) {
       this.showDetailChart = true
-      this.$refs.barChart.__resizeHanlder()
       this.chartTime = parseTime(day, '{y}-{m}-{d}')// 请求当天数据传参
       this.getScheduleDaily()
     },
@@ -203,6 +208,8 @@ export default {
         date: this.chartTime
       }).then(res => {
         this.chartData = res.data.data
+        this.barChartHeight = (res.data.data.length * 150 + 100)+ 'px'
+        this.$refs.barChart.__resizeHanlder()
         // this.chartData = [{
         //   brandName: '牌子111',
         //   planStartTime: '2016-12-18 6:30:00',
@@ -220,17 +227,20 @@ export default {
     },
     chooseEventsShow() {
       switch (this.showEventsType) {
+        case 'plan':
+          this.fcEvents = this.planEvents
+          break
         case 'forenoon':
           this.fcEvents = this.forenoonEvents
           break
         case 'afternoon':
           this.fcEvents = this.afternoonEvents
           break
-        case 'free':
-          this.fcEvents = this.freeEvents
+        case 'allday':
+          this.fcEvents = this.alldayEvents
           break
         default:
-          this.fcEvents = this.allEvents
+          this.fcEvents = this.planEvents
       }
     }
   }

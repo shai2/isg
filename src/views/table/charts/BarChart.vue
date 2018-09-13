@@ -25,7 +25,7 @@ export default {
     },
     height: {
       type: String,
-      default: '250px'
+      default: '300px'
     },
     autoResize: {
       type: Boolean,
@@ -101,7 +101,6 @@ export default {
       for (let e of this.chartData) {
         _arr.push(e[item])
       }
-      console.log(_arr)
       return _arr
     },
     setOptions({ expectedData, actualData } = {}) {
@@ -125,10 +124,14 @@ export default {
           axisPointer: {
             type: 'shadow'
           },
-          formatter(value,b,c) {
-            return `${value[0].axisValueLabel}</br>
-                    ${value[1].seriesName}：${(value[0].value).slice(-8)}~${(value[1].value).slice(-8)} </br>
-                    ${value[3].seriesName}：${(value[2].value).slice(-8)}~${(value[3].value).slice(-8)}`
+          formatter(value) {
+            let _str = `${value[0].axisValueLabel}</br>
+                    ${value[1].seriesName}：${(value[0].value).slice(-8)} ~ ${(value[1].value).slice(-8)}`
+            if(value[3]){
+              _str += `</br>
+                    ${value[3].seriesName}：${(value[2].value).slice(-8)} ~ ${(value[3].value).slice(-8)}`
+            }
+            return _str
           }
           // formatter:`{a0}{a1} {c0}{c1}`
         },

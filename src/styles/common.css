@@ -80,6 +80,9 @@ input::-webkit-input-placeholder {color:#cbd4db;font-size:12px;}
 .el-tabs{height:100%;display:flex;flex-direction:column;}
 .el-tabs__content{overflow:auto;}
 .event-item{background-color:#ccc!important;color:#fff!important;text-align:center;padding:0!important;pointer-events:none;}
+.filter-item.el-input,.el-select.filter-item{width:120px;}
+.events-day .event-box{max-height:58px;overflow:hidden;}
 .work{background-color:#409EFF!important;}
 .rest{background-color:#67c23a!important;}
-.filter-item.el-input,.el-select.filter-item{width:120px;}
+.events-day .event-box .event-item:nth-child(2){background-color:#ff6567!important;}
+.events-day .event-box .event-item:nth-child(3){background-color:#9689ee!important;}
