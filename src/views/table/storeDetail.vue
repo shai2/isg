@@ -4,9 +4,9 @@
         <div id="allmap" style="width: 100%;height:500px;border: 1px solid gray;overflow:hidden;">
         </div>
         <div class="store-describe w100">
-          <p>{{$route.query.storeCode}}</p>
-          <p>{{storeData.storeName}}</p>
-          <p>{{storeData.address}}</p>
+          <p>门店编号：{{$route.query.storeCode}}</p>
+          <p>门店名称：{{storeData.storeName}}</p>
+          <p>门店地址：{{storeData.address}}</p>
         </div>
     </div>
     <div class="right flex w0">
@@ -25,7 +25,7 @@
         <el-tabs class="flex" v-model="activeName" type="border-card">
           <el-tab-pane class="info info-detail" label="基础信息" name="0">
             <div class="flex mglt10">
-              <p>{{storeData.placeType}}（{{storeData.storeStatus}}）</p>
+              <p>所在地：{{storeData.placeType}}（{{storeData.storeStatus}}）</p>
               <p>联系人：{{storeData.contactName}}</p>
               <p>联系电话：{{storeData.contactTelephone}}</p>
             </div>
