@@ -130,7 +130,7 @@
         </el-table-column>
       </el-table>
       <div class="pagination-container">
-        <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="listQuery.page" :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total">
+        <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="listQuery.pageNum" :page-sizes="[10,20,30, 50]" :page-size="listQuery.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
         </el-pagination>
       </div>
     </div>
@@ -156,6 +156,7 @@ export default {
       listLoading: true,
       downloadLoading: false,
       listQuery: {
+        storeType: '',//门店类型
         storeStatus: '', // 门店状态
         brandCode: '', // 门店范围
         employeeNumMin: '', // 店内人数下限
@@ -183,10 +184,11 @@ export default {
   },
   methods: {
     download(){
+      if(this.list.length===0) return
       this.downloadLoading = true
       exportStoreList(this.listQuery).then(res => {
-        console.info(res)
-        fileDownload(res.data, 'aaa.xls');
+        let _filename = decodeURIComponent(res.headers['content-disposition'].split('=')[1])
+        fileDownload(res.data,_filename);
         this.downloadLoading = false
       })
     },
@@ -209,15 +211,15 @@ export default {
       })
     },
     handleFilter() {
-      this.listQuery.page = 1
+      this.listQuery.pageNum = 1
       this.getList()
     },
     handleSizeChange(val) {
-      this.listQuery.limit = val
+      this.listQuery.pageSize = val
       this.getList()
     },
     handleCurrentChange(val) {
-      this.listQuery.page = val
+      this.listQuery.pageNum = val
       this.getList()
     },
     handleModifyStatus(row, status) {

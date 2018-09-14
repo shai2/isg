@@ -33,11 +33,11 @@
           <el-input clearable @keyup.enter.native="handleFilter" style="width: 120px;" class="filter-item" placeholder="手机号" v-model="listQuery.telephone">
           </el-input>
           <el-select clearable class="filter-item" v-model="listQuery.industry" placeholder="行业标签">
-            <el-option v-for="(e,i) in dict['industry_type']" :key="i" :label="e.name" :value="e.value">
+            <el-option v-for="(e,i) in dict['industry_type']" :key="i" :label="e.name" :value="e.name">
             </el-option>
           </el-select>
           <el-select clearable class="filter-item" v-model="listQuery.train" placeholder="培训标签">
-            <el-option v-for="item in trainingTagOptions" :key="item" :label="item" :value="item">
+            <el-option v-for="item in trainingOptions" :key="item" :label="item" :value="item">
             </el-option>
           </el-select>
           <br/>
@@ -95,52 +95,52 @@
         <el-button class="filter-item" type="primary" :loading="downloadLoading" v-waves icon="el-icon-download" @click="download">导出</el-button>
       </div>
       <el-table :data="list" v-loading="listLoading" border fit highlight-current-row>
-        <el-table-column align="center" :label="$t('table.name')">
+        <el-table-column align="center" label="姓名">
           <template slot-scope="scope">
             <span style='color:red;cursor:pointer;' @click="handledetail(scope.row)">{{scope.row.name}}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" :label="$t('table.telephone')" width="110">
+        <el-table-column align="center" label="手机号" width="110">
           <template slot-scope="scope">
             <span>{{scope.row.telephone}}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" :label="$t('table.age')">
+        <el-table-column align="center" label="年龄">
           <template slot-scope="scope">
             <span>{{scope.row.age}}</span>
           </template>
         </el-table-column>
-        <el-table-column  align="center" :label="$t('table.sex')">
+        <el-table-column  align="center" label="性别">
           <template slot-scope="scope">
             <span>{{scope.row.sex}}</span>
           </template>
         </el-table-column>
-        <el-table-column  align="center" :label="$t('table.position')">
+        <el-table-column  align="center" label="职位">
           <template slot-scope="scope">
             <span>{{scope.row.position}}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" :label="$t('table.workingYears')">
+        <el-table-column align="center" label="工龄">
           <template slot-scope="scope">
-            <span>{{scope.row.workingYears || 0}}</span>
+            <span>{{scope.row.workAge || 0}}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" :label="$t('table.industryTag')">
+        <el-table-column align="center" label="行业标签">
           <template slot-scope="scope">
-            <el-tag>{{scope.row.industryTag || '暂无'}}</el-tag>
+            <el-tag>{{scope.row.industry || '暂无'}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column width="100" class-name="status-col" :label="$t('table.trainingTag')">
+        <el-table-column width="100" class-name="status-col" label="培训标签">
           <template slot-scope="scope">
-            <el-tag>{{scope.row.trainingTag || '暂无'}}</el-tag>
+            <el-tag>{{scope.row.training || '暂无'}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column class-name="status-col" :label="$t('table.taskCompletionNumber')">
+        <el-table-column class-name="status-col" label="任务完成数">
           <template slot-scope="scope">
             <el-tag>{{scope.row.finishTaskCount || 0}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column class-name="status-col" :label="$t('table.taskCompletionRate')">
+        <el-table-column class-name="status-col" label="任务完成率">
           <template slot-scope="scope">
             <el-tag>{{scope.row.finishRate ? (scope.row.finishRate*100+'%') : '0%'}}</el-tag>
           </template>
@@ -152,7 +152,7 @@
         </el-table-column>
       </el-table>
       <div class="pagination-container">
-        <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="listQuery.page" :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total">
+        <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="listQuery.pageNum" :page-sizes="[10,20,30, 50]" :page-size="listQuery.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
         </el-pagination>
       </div>
     </div>
@@ -195,7 +195,7 @@ export default {
         brandCode: ''// 客户范围
       },
       dict: [],
-      trainingTagOptions: [],//培训标签暂无 保留
+      trainingOptions: [],//培训标签暂无 保留
     }
   },
   components: {
@@ -242,10 +242,11 @@ export default {
       })
     },
     download(){
+      if(this.list.length===0) return
       this.downloadLoading = true
       exportEmployeeList(this.listQuery).then(res => {
-        console.info(res)
-        fileDownload(res.data, 'aaa.xls');
+        let _filename = decodeURIComponent(res.headers['content-disposition'].split('=')[1])
+        fileDownload(res.data,_filename);
         this.downloadLoading = false
       })
     },

@@ -34,13 +34,16 @@ export function getEmployeeProject(storeCode, query) {
 }
 
 export function exportStoreList(query) {
-  return request({
+  return axios({
     url: '/store/list/export',
     method: 'post',
     responseType:'blob',
     data: query,
     headers:{
       'Content-Type': 'application/json; application/octet-stream'
-    }
+    },
+    baseURL: process.env.BASE_API,
+    timeout: 10000,
+    withCredentials: true
   })
 }
