@@ -25,7 +25,7 @@
         <el-tabs class="flex" v-model="activeName" type="border-card">
           <el-tab-pane class="info info-detail" label="基础信息" name="0">
             <div class="flex mglt10">
-              <p>所在地：{{storeData.placeType}}（{{storeData.storeStatus}}）</p>
+              <p v-if="storeData.placeType">所在地：{{storeData.placeType}}（{{storeData.storeStatus}}）</p>
               <p>联系人：{{storeData.contactName}}</p>
               <p>联系电话：{{storeData.contactTelephone}}</p>
             </div>
@@ -34,7 +34,7 @@
           <el-tab-pane label="人员信息" name="1" class="item-container overflow-s h100">
             <div v-for="(e,i) in storeEmployeeProject.storeEmployeeInfo" :key="i" class="item flex-row-center">
               <div class="people-left">
-                <img :src="e.没有头像">
+                <img :src="e.sex === 0 ? manImg : womanImg">
               </div>
               <div class="people-right flex-column-center flex">
                 <div class="item-info">
@@ -43,8 +43,8 @@
                 </div>
                 <div class="item-info">
                   <span>{{e.telephone}}</span>
-                  <span>{{e.workAge}}</span>
-                  <span>{{e.scheduleStatus}}</span>
+                  <span>{{e.workAge}}年</span>
+                  <span class="block">{{e.scheduleStatus}}</span>
                 </div>
               </div>
             </div>
@@ -52,7 +52,8 @@
           <el-tab-pane label="项目信息" name="2" class="item-container">
             <div v-for="(e,i) in storeEmployeeProject.storeProjectInfo" :key="i" class="item flex-row-center">
               <div class="event-left">
-                <img :src="e.brandPhoto">
+                <img :src="eventImg">
+                <!-- <img :src="e.brandPhoto"> -->
               </div>
               <div class="event-right flex-column-center flex">
                 <div class="item-info">
@@ -79,9 +80,9 @@
                   <p class="task-name">[{{e.projectType}}]{{e.name}}</p>
                 </div>
                 <div class="item-info">
-                  <span>{{e.startTime}}</span>
+                  <span>{{e.startTime.slice(0,-3)}}</span>
                   <span>~</span>
-                  <span>{{e.endTime}}</span>
+                  <span>{{e.endTime.slice(0,-3)}}</span>
                 </div>
                 <div class="item-info">
                   <span>{{e.status}}</span>
@@ -105,7 +106,10 @@ export default {
       storeData: {}, // 左边
       storeStatistics: [], // 右上 obj转数组
       storeEmployeeProject: {}, // 右下
-      activeName: '0'
+      activeName: '0',
+      manImg:require('assets/img/man.jpg'),
+      womanImg:require('assets/img/woman.jpg'),
+      eventImg:require('assets/img/event.png'),
     }
   },
   created() {
