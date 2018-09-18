@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-editor-container">
 
-    <panel-group @viewData="viewData"></panel-group>
+    <panel-group :viewData="viewData"></panel-group>
 
     <el-row :gutter="32">
       <el-col :xs="24" :sm="24" :lg="12">
@@ -57,7 +57,8 @@ export default {
   },
   data() {
     return {
-      viewData: {}
+      viewData: {},
+      lineChartData: {},
     }
   },
   created(){
@@ -65,7 +66,8 @@ export default {
   },
   methods: {
     getOverViewData(){
-      getOverViewData({openId:'weixingzh123456'}).then(()=>{
+      getOverViewData({openId:'weixingzh123456'}).then((res)=>{
+        console.log(res.data.data)
         this.viewData = res.data.data
       })
     }
