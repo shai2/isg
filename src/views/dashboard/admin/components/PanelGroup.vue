@@ -1,5 +1,5 @@
 <template>
-  <el-row class="panel-group" :gutter="40">
+  <el-row class="panel-group" :gutter="10">
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class='card-panel'>
         <div class="card-panel-icon-wrapper icon-people">
@@ -7,7 +7,7 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">昨日新增用户</div>
-          <count-to class="card-panel-num" :startVal="0" :endVal="viewData.yesterday_user_add_num" :duration="2600"></count-to>
+          <count-to class="card-panel-num" :startVal="0" :endVal="chartData.yesterday_user_add_num" :duration="duration"></count-to>
         </div>
       </div>
     </el-col>
@@ -18,7 +18,7 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">总用户数</div>
-          <count-to class="card-panel-num" :startVal="0" :endVal="viewData.user_all_num" :duration="3000"></count-to>
+          <count-to class="card-panel-num" :startVal="0" :endVal="chartData.user_all_num" :duration="duration"></count-to>
         </div>
       </div>
     </el-col>
@@ -29,7 +29,7 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">门店总数</div>
-          <count-to class="card-panel-num" :startVal="0" :endVal="viewData.store_all_num" :duration="3200"></count-to>
+          <count-to class="card-panel-num" :startVal="0" :endVal="chartData.store_all_num" :duration="duration"></count-to>
         </div>
       </div>
     </el-col>
@@ -40,7 +40,7 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">总派单数</div>
-          <count-to class="card-panel-num" :startVal="0" :endVal="viewData.单数" :duration="3600"></count-to>
+          <count-to class="card-panel-num" :startVal="0" :endVal="0" :duration="duration"></count-to>
         </div>
       </div>
     </el-col>
@@ -52,9 +52,14 @@ import CountTo from 'vue-count-to'
 
 export default {
   props:{
-    viewData:{
+    chartData:{
       type:Object,
       default:{}
+    }
+  },
+  data(){
+    return{
+      duration: 1500
     }
   },
   components: {
@@ -65,12 +70,10 @@ export default {
   }
 }
 </script>
-
 <style rel="stylesheet/scss" lang="scss" scoped>
 .panel-group {
-  margin-top: 18px;
   .card-panel-col{
-    margin-bottom: 32px;
+    margin-bottom: 10px;
   }
   .card-panel {
     height: 108px;

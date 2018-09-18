@@ -9,6 +9,12 @@ import { debounce } from '@/utils'
 
 export default {
   props: {
+    chartData: {
+      type: Array,
+      default(){
+        return []
+      }
+    },
     className: {
       type: String,
       default: 'chart'
@@ -19,12 +25,42 @@ export default {
     },
     height: {
       type: String,
-      default: '300px'
+      default: '340px'
     }
   },
   data() {
     return {
       chart: null
+    }
+  },
+  computed:{
+    // xAxis(){
+    //   let _arr = []
+    //   for(let e of this.chartData){
+    //     if(this.chartData.length===12){
+    //       _arr.push(e.date.slice(5)+'月')
+    //     }else if(this.chartData.length===24){
+    //       _arr.push(e.date.slice(11)+'点')
+    //     }else{
+    //       _arr.push(e.date.slice(5))
+    //     }
+    //   }
+    //   return _arr
+    // },
+    // num(){
+    //   let _arr = []
+    //   for(let e of this.chartData){
+    //     _arr.push(e.num)
+    //   }
+    //   return _arr
+    // }
+  },
+  watch: {
+    chartData: {
+      deep: true,
+      handler(val) {
+        this.setOptions()
+      }
     }
   },
   mounted() {
@@ -45,10 +81,13 @@ export default {
     this.chart = null
   },
   methods: {
-    initChart() {
-      this.chart = echarts.init(this.$el, 'macarons')
-
+    setOptions(){
       this.chart.setOption({
+        title: {
+          text:'用户活跃度情况',
+          textAlign:'left',
+          x:"center"
+        },
         tooltip: {
           trigger: 'item',
           formatter: '{a} <br/>{b} : {c} ({d}%)'
@@ -56,7 +95,7 @@ export default {
         legend: {
           left: 'center',
           bottom: '10',
-          data: ['Industries', 'Technology', 'Forex', 'Gold', 'Forecasts']
+          data: ['活跃', '其他']
         },
         calculable: true,
         series: [
@@ -64,17 +103,21 @@ export default {
             name: 'WEEKLY WRITE ARTICLES',
             type: 'pie',
             roseType: 'radius',
-            radius: [15, 95],
-            center: ['50%', '38%'],
+            radius: ['25%', '70%'],
+            center: ['50%', '50%'],
             data: [
-              { value: 320, name: '在职' },
-              { value: 240, name: '离职' }
+              { value: 320, name: '活跃' },
+              { value: 240, name: '其他' }
             ],
             animationEasing: 'cubicInOut',
-            animationDuration: 2600
+            animationDuration: 1500
           }
         ]
       })
+    },
+    initChart() {
+      this.chart = echarts.init(this.$el, 'macarons')
+      this.setOptions(this.chartData)
     }
   }
 }

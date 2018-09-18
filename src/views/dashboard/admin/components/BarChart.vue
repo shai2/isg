@@ -7,10 +7,16 @@ import echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
 import { debounce } from '@/utils'
 
-const animationDuration = 6000
+const animationDuration = 1500
 
 export default {
   props: {
+    chartData: {
+      type: Array,
+      default(){
+        return []
+      }
+    },
     className: {
       type: String,
       default: 'chart'
@@ -21,12 +27,42 @@ export default {
     },
     height: {
       type: String,
-      default: '300px'
+      default: '340px'
     }
   },
   data() {
     return {
       chart: null
+    }
+  },
+  computed:{
+    xAxis(){
+      let _arr = []
+      for(let e of this.chartData){
+        if(this.chartData.length===12){
+          _arr.push(e.date.slice(5)+'月')
+        }else if(this.chartData.length===24){
+          _arr.push(e.date.slice(11)+'点')
+        }else{
+          _arr.push(e.date.slice(5))
+        }
+      }
+      return _arr
+    },
+    num(){
+      let _arr = []
+      for(let e of this.chartData){
+        _arr.push(e.num)
+      }
+      return _arr
+    }
+  },
+  watch: {
+    chartData: {
+      deep: true,
+      handler(val) {
+        this.setOptions()
+      }
     }
   },
   mounted() {
@@ -47,10 +83,13 @@ export default {
     this.chart = null
   },
   methods: {
-    initChart() {
-      this.chart = echarts.init(this.$el, 'macarons')
-
+    setOptions(){
       this.chart.setOption({
+        title: {
+          text:'新增用户情况',
+          textAlign:'left',
+          x:"center"
+        },
         tooltip: {
           trigger: 'axis',
           axisPointer: { // 坐标轴指示器，坐标轴触发有效
@@ -58,15 +97,15 @@ export default {
           }
         },
         grid: {
-          top: 10,
+          top: 45,
           left: '2%',
           right: '2%',
-          bottom: '3%',
+          bottom: '4%',
           containLabel: true
         },
         xAxis: [{
           type: 'category',
-          data: ['2018-07-22', '2018-07-23', '2018-07-24', '2018-07-25', '2018-07-26', '2018-07-27', '2018-07-28'],
+          data: this.xAxis,
           axisTick: {
             alignWithLabel: true
           }
@@ -78,21 +117,17 @@ export default {
           }
         }],
         series: [{
-          name: '人员数量',
+          name: '新增用户数量',
           type: 'bar',
-          stack: 'vistors',
-          barWidth: '60%',
-          data: [79, 52, 200, 334, 390, 330, 220],
-          animationDuration
-        }, {
-          name: '门店数量',
-          type: 'bar',
-          stack: 'vistors',
-          barWidth: '60%',
-          data: [80, 52, 200, 334, 390, 330, 220],
+          barWidth: '70%',
+          data: this.num,
           animationDuration
         }]
       })
+    },
+    initChart() {
+      this.chart = echarts.init(this.$el, 'macarons')
+      this.setOptions(this.chartData)
     }
   }
 }
