@@ -1,9 +1,10 @@
-import request from '@/utils/request'
+import axios from 'axios'
+let baseApi = process.env.BI_BASE_API
 
 export function getOverViewData(query) {
-  return request({
-    url: '/mobile/wxgzh/getOverViewData.action',
+  return axios({
+    url: baseApi + '/mobile/wxgzh/getOverViewData.action',
     method: 'post',
-    data: query
+    data: query,
   })
 }
