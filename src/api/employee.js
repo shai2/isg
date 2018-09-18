@@ -43,7 +43,7 @@ export function exportEmployeeList(query) {
       'Content-Type': 'application/json; application/octet-stream'
     },
     baseURL: process.env.BASE_API,
-    timeout: 10000,
+    timeout: 30000,
     withCredentials: true
   })
 }
