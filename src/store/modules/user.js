@@ -68,7 +68,7 @@ const user = {
           const data = response.data.data
           commit('SET_ROLES', ['admin'])
           commit('SET_NAME', data.name)
-          commit('SET_AVATAR', data.avatar)
+          commit('SET_AVATAR', require('assets/img/man.jpg'))
           commit('SET_INTRODUCTION', '')
           resolve(response)
         }).catch(error => {
