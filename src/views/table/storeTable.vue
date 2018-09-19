@@ -206,7 +206,7 @@ export default {
       this.listLoading = true
       getStoreList(this.listQuery).then(res => {
         this.list = res.data.data.list
-        this.total = res.data.data.pages
+        this.total = res.data.data.total
         this.listLoading = false
       })
     },
