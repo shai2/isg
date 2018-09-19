@@ -73,7 +73,7 @@
           <el-tab-pane label="任务信息" name="3" class="item-container">
             <div v-for="(e,i) in storeEmployeeProject.storeTaskInfo" :key="i" class="item flex-row-center">
               <div class="task-left">
-                <img :src="e.a">
+                <img :src="eventImg">
               </div>
               <div class="task-right flex-column-center flex">
                 <div class="item-info">
