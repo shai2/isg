@@ -86,3 +86,4 @@ input::-webkit-input-placeholder {color:#cbd4db;font-size:12px;}
 .rest{background-color:#67c23a!important;}
 .events-day .event-box .event-item:nth-child(2){background-color:#ff6567!important;}
 .events-day .event-box .event-item:nth-child(3){background-color:#9689ee!important;}
+.el-button.is-plain.focus {color: #fff;background:#409EFF;border-color: #409EFF;}
