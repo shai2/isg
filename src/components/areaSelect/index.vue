@@ -6,6 +6,7 @@
         expand-trigger="hover"
         @change="change"
         :props="props"
+        placeholder="请选择省市区"
         change-on-select>
     </el-cascader>
 </template>

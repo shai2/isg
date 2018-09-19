@@ -66,23 +66,23 @@
     <div class="right flex w0">
       <div class="right-top normal-border">
         <el-table :data="statistics" border fit>
-          <el-table-column property="finishTaskCount" label="任务完成数"></el-table-column>
-          <el-table-column label="完成率">
+          <el-table-column align="center" property="finishTaskCount" label="任务完成数"></el-table-column>
+          <el-table-column align="center" label="完成率">
             <template slot-scope="scope">
               {{scope.row.finishRate ? (scope.row.finishRate*100+'%') : '0%'}}
             </template>
           </el-table-column>
-          <el-table-column property="latelyServiceBrand" label="最近服务品牌"></el-table-column>
-          <el-table-column property="industryAdvantage" label="优势行业"></el-table-column>
-          <el-table-column property="satisficing" label="雇主满意度"></el-table-column>
+          <el-table-column align="center" property="latelyServiceBrand" label="最近服务品牌"></el-table-column>
+          <el-table-column align="center" property="industryAdvantage" label="优势行业"></el-table-column>
+          <el-table-column align="center" property="satisficing" label="雇主满意度"></el-table-column>
         </el-table>
       </div>
       <div class="right-bottom normal-border">
         <div v-show="!showDetailChart">
-          <el-button @click.native="showEvents('plan')" size="small" plain>全部排班</el-button>
-          <el-button @click.native="showEvents('forenoon')" type="primary" size="small" plain>上午空闲</el-button>
-          <el-button @click.native="showEvents('afternoon')" type="success" size="small" plain>下午空闲</el-button>
-          <el-button @click.native="showEvents('allday')" type="info" size="small" plain>全天空闲</el-button>
+          <el-button :class="{focus:focus==='plan'}" @click.native="showEvents('plan')" size="small" plain>全部排班</el-button>
+          <el-button :class="{focus:focus==='forenoon'}" @click.native="showEvents('forenoon')" size="small" plain>上午空闲</el-button>
+          <el-button :class="{focus:focus==='afternoon'}" @click.native="showEvents('afternoon')" size="small" plain>下午空闲</el-button>
+          <el-button :class="{focus:focus==='allday'}" @click.native="showEvents('allday')" size="small" plain>全天空闲</el-button>
           <fullCalendar
             :events = "fcEvents"
             @changeMonth = "changeMonth"
@@ -129,7 +129,8 @@ export default {
       chartTime: '',// 日期
       chartData: [],//传到图详情里的数据
       manImg:require('assets/img/man.jpg'),
-      womanImg:require('assets/img/woman.jpg')
+      womanImg:require('assets/img/woman.jpg'),
+      focus:'plan'
     }
   },
   created() {
@@ -190,6 +191,7 @@ export default {
       })
     },
     showEvents(type) {
+      this.focus = type
       this.showEventsType = type
       this.chooseEventsShow()
     },

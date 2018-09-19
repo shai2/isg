@@ -12,13 +12,13 @@
     <div class="right flex w0">
       <div class="right-top normal-border">
         <el-table :data="storeStatistics" border fit>
-          <el-table-column property="workNum" label="当班人员"></el-table-column>
-          <el-table-column property="breakNum" label="休息人员"></el-table-column>
-          <el-table-column property="shareNum" label="共享人员"></el-table-column>
-          <el-table-column property="projectOnGoingNum" label="进行中项目"></el-table-column>
-          <el-table-column property="taskAllNum" label="发布中任务"></el-table-column>
-          <el-table-column property="taskOngoingNum" label="执行中任务"></el-table-column>
-          <el-table-column property="brandNum" label="品牌客户"></el-table-column>
+          <el-table-column align="center" property="workNum" label="当班人员"></el-table-column>
+          <el-table-column align="center" property="breakNum" label="休息人员"></el-table-column>
+          <el-table-column align="center" property="shareNum" label="共享人员"></el-table-column>
+          <el-table-column align="center" property="projectOnGoingNum" label="进行中项目"></el-table-column>
+          <el-table-column align="center" property="taskAllNum" label="发布总任务"></el-table-column>
+          <el-table-column align="center" property="taskOngoingNum" label="执行中任务"></el-table-column>
+          <el-table-column align="center" property="brandNum" label="品牌客户"></el-table-column>
         </el-table>
       </div>
       <div class="right-bottom normal-border flex">

@@ -4,15 +4,15 @@
       <div class="flex-row-center align-top">
         <p class="select-label">门店范围：</p>
         <div class="flex">
+          <el-input clearable @keyup.enter.native="handleFilter" class="filter-item w200" placeholder="门店编号" v-model="listQuery.storeCode">
+          </el-input>
+          <el-input clearable @keyup.enter.native="handleFilter" class="filter-item w200" placeholder="门店名称" v-model="listQuery.storeName">
+          </el-input>
           <areaSelect @areaChange="areaChange"></areaSelect>
           <el-select clearable class="filter-item" v-model="listQuery.storeType" placeholder="门店类型">
             <el-option v-for="(e,i) in dict['store_type']" :key="i" :label="e.name" :value="e.value">
             </el-option>
           </el-select>
-          <el-input clearable @keyup.enter.native="handleFilter" class="filter-item w200" placeholder="门店名称" v-model="listQuery.storeName">
-          </el-input>
-          <el-input clearable @keyup.enter.native="handleFilter" class="filter-item w200" placeholder="门店编号" v-model="listQuery.storeCode">
-          </el-input>
           <el-input clearable @keyup.enter.native="handleFilter" class="filter-item w200" placeholder="地址" v-model="listQuery.address">
           </el-input>
         </div>
@@ -20,6 +20,10 @@
       <div class="flex-row-center align-top">
         <p class="select-label">人员范围：</p>
         <div class="flex">
+          <el-input clearable @keyup.enter.native="handleFilter" style="width: 120px;" class="filter-item" placeholder="姓名" v-model="listQuery.name">
+          </el-input>
+          <el-input clearable @keyup.enter.native="handleFilter" style="width: 120px;" class="filter-item" placeholder="手机号" v-model="listQuery.telephone">
+          </el-input>
           <el-select clearable class="filter-item" v-model="listQuery.position" filterable placeholder="职位">
             <el-option v-for="(e,i) in dict['position']" :key="i" :label="e.name" :value="e.name">
             </el-option>
@@ -28,10 +32,6 @@
             <el-option v-for="(e,i) in dict['job_status']" :key="i" :label="e.name" :value="e.value">
             </el-option>
           </el-select>
-          <el-input clearable @keyup.enter.native="handleFilter" style="width: 120px;" class="filter-item" placeholder="姓名" v-model="listQuery.name">
-          </el-input>
-          <el-input clearable @keyup.enter.native="handleFilter" style="width: 120px;" class="filter-item" placeholder="手机号" v-model="listQuery.telephone">
-          </el-input>
           <el-select clearable class="filter-item" v-model="listQuery.industry" placeholder="行业标签">
             <el-option v-for="(e,i) in dict['industry_type']" :key="i" :label="e.name" :value="e.name">
             </el-option>
