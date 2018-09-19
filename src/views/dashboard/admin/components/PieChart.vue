@@ -90,7 +90,7 @@ export default {
         },
         tooltip: {
           trigger: 'item',
-          formatter: '{a} <br/>{b} : {c} ({d}%)'
+          formatter: '{a} <br/>{b} : {c}人 ({d}%)'
         },
         legend: {
           left: 'center',
@@ -100,7 +100,7 @@ export default {
         calculable: true,
         series: [
           {
-            name: 'WEEKLY WRITE ARTICLES',
+            name: '人数',
             type: 'pie',
             roseType: 'radius',
             radius: ['25%', '70%'],

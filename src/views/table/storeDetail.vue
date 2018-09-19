@@ -44,7 +44,7 @@
                 <div class="item-info">
                   <span>{{e.telephone}}</span>
                   <span>{{e.workAge}}年</span>
-                  <span class="block">{{e.scheduleStatus}}</span>
+                  <span class="block" style="margin-top:5px;">{{e.scheduleStatus}}</span>
                 </div>
               </div>
             </div>

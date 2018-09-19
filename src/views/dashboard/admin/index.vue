@@ -26,18 +26,18 @@
     </el-row>
 
     <el-row :gutter="10">
-      <el-col :xs="24" :sm="24" :lg="12">
-        <div style="background:#fff;padding:20px;">
-          <p style="margin-bottom:10px;">短促提现统计</p>
-          <el-table :data="cashList" border fit :show-header="false">
+      <el-col :xs="24" :sm="24" :lg="10">
+        <div style="background:#fff;padding:20px;font-size:18px;">
+          <p style="margin-bottom:10px;color:#4e92cc;">短促提现统计</p>
+          <el-table :cell-style="{padding:'10px 0'}" :data="cashList" border fit :show-header="false">
             <el-table-column property="event" label="短促提现统计"></el-table-column>
             <el-table-column property="value"></el-table-column>
           </el-table>
         </div>
       </el-col>
-      <el-col :xs="24" :sm="24" :lg="12">
+      <el-col :xs="24" :sm="24" :lg="14">
         <div class="chart-wrapper">
-          <line-chart :chart-data="lineChartData"></line-chart>
+          <line-chart :chartData="lineChartData"></line-chart>
         </div>
       </el-col>
     </el-row>
@@ -76,20 +76,31 @@ export default {
       userList: [],
       barChartData: {},
       cashListData: {},
-      cashWeekList: {},
-      lineChartData: {},
+      cashTable:{
+        yesterday_cash_times:'昨日提现笔数',
+        yesterday_cash_money:'昨日提现金额',
+        monthly_cash_times:'近30日提现笔数',
+        monthly_cash_money:'近30日提现金额',
+        total_salary_money:'累计发薪金额',
+        total_cash_money:'累计提现金额',
+        total_remain_money:'总存留资金',
+        total_remain_percent:'资金留存率',
+      },
+      lineChartData: {cash_list:[],salary_list:[]},
     }
   },
   computed:{
     cashList(){
       let _arr = []
-      for(let e in this.cashListData){
+      for(let e in this.cashTable){
         let _obj = {}
-        _obj.event = e
+        _obj.event = this.cashTable[e]
         _obj.value = this.cashListData[e]
+        if(!(_obj.value+'').includes('%')&&(_obj.value+'').includes('.')&&(_obj.value+'').split('.')[1].length>2){
+          _obj.value = _obj.value.toFixed(2)
+        }
         _arr.push(_obj)
       }
-      console.log(_arr)
       return _arr
     }
   },
@@ -97,6 +108,7 @@ export default {
     this.getOverViewData()
     this.getAddUserList()
     this.getCashList()
+    this.getSalaryCashWeekList()
   },
   methods: {
     getOverViewData(){
@@ -112,14 +124,12 @@ export default {
     },
     getCashList(){
       getCashList().then((res)=>{
-        console.log(res.data.data)
         this.cashListData = res.data.data
       })
     },
     getSalaryCashWeekList(){
       getSalaryCashWeekList().then((res)=>{
-        // console.log(res.data.data)
-        this.cashWeekList = res.data.data
+        this.lineChartData = res.data.data
       })
     }
   }

@@ -7,8 +7,11 @@ import echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
 import { debounce } from '@/utils'
 
+const animationDuration = 1500
+
 export default {
   props: {
+    chartData: Object,
     className: {
       type: String,
       default: 'chart'
@@ -19,20 +22,40 @@ export default {
     },
     height: {
       type: String,
-      default: '350px'
+      default: '405px'
     },
     autoResize: {
       type: Boolean,
       default: true
-    },
-    chartData: {
-      type: Object
     }
   },
   data() {
     return {
       chart: null
     }
+  },
+  computed:{
+    xAxis(){
+      let _arr = []
+      for(let e of this.chartData.cash_list){
+        _arr.push(e.date.slice(5))
+      }
+      return _arr
+    },
+    cashData(){
+      let _arr = []
+      for(let e of this.chartData.cash_list){
+        _arr.push(e.num)
+      }
+      return _arr
+    },
+    salaryData(){
+      let _arr = []
+      for(let e of this.chartData.salary_list){
+        _arr.push(e.num)
+      }
+      return _arr
+    },
   },
   mounted() {
     this.initChart()
@@ -67,25 +90,30 @@ export default {
     chartData: {
       deep: true,
       handler(val) {
-        this.setOptions(val)
+        this.setOptions()
       }
     }
   },
   methods: {
     setOptions({ expectedData, actualData } = {}) {
       this.chart.setOption({
+        title: {
+          text:'周薪资发放、提现金额',
+          textAlign:'left',
+          x:"center"
+        },
         xAxis: {
-          data: ['2018-07-22', '2018-07-23', '2018-07-24', '2018-07-25', '2018-07-26', '2018-07-27', '2018-07-28'],
+          data: this.xAxis,
           boundaryGap: false,
           axisTick: {
             show: false
           }
         },
         grid: {
-          left: 10,
-          right: 10,
+          left: 20,
+          right: 20,
           bottom: 20,
-          top: 30,
+          top: 80,
           containLabel: true
         },
         tooltip: {
@@ -98,13 +126,14 @@ export default {
         yAxis: {
           axisTick: {
             show: false
-          }
+          },
         },
         legend: {
-          data: ['expected', 'actual']
+          top:45,
+          data: ['薪资发放金额', '提现金额']
         },
         series: [{
-          name: 'expected', itemStyle: {
+          name: '薪资发放金额', itemStyle: {
             normal: {
               color: '#FF005A',
               lineStyle: {
@@ -115,12 +144,12 @@ export default {
           },
           smooth: true,
           type: 'line',
-          data: expectedData,
-          animationDuration: 2800,
+          data: this.salaryData,
+          animationDuration,
           animationEasing: 'cubicInOut'
         },
         {
-          name: 'actual',
+          name: '提现金额',
           smooth: true,
           type: 'line',
           itemStyle: {
@@ -135,8 +164,8 @@ export default {
               }
             }
           },
-          data: actualData,
-          animationDuration: 2800,
+          data: this.cashData,
+          animationDuration,
           animationEasing: 'quadraticOut'
         }]
       })
