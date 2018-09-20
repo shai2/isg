@@ -80,9 +80,9 @@
                   <p class="task-name">[{{e.projectType}}]{{e.name}}</p>
                 </div>
                 <div class="item-info">
-                  <span>{{e.startTime.slice(0,-3)}}</span>
-                  <span>~</span>
-                  <span>{{e.endTime.slice(0,-3)}}</span>
+                  <span>开始时间：{{e.startTime.slice(0,-3)}}</span>
+                  <!-- <span>~</span>
+                  <span>{{e.endTime.slice(0,-3)}}</span> -->
                 </div>
                 <div class="item-info">
                   <span>{{e.status}}</span>
