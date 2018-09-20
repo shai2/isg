@@ -264,6 +264,7 @@ export default {
   border-left 1px solid #eee
   padding 15px 15px 15px 25px
   margin-left 20px
+  position relative 
   .work-item-left
     p
       padding 8px 3px
@@ -278,10 +279,10 @@ export default {
     span
       color #999
       font-size 14px
-    // div:nth-child(1)
-    //   p
-    //     i
-    //       color #409eff
+  &:nth-child(1)
+    p
+      i
+        color #409eff
   .work-item-right
     margin-left 30px
     border-radius 100px
