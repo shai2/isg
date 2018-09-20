@@ -276,6 +276,7 @@ export default {
         left -35px
         top 7px
         font-size 20px
+        z-index 999
     span
       color #999
       font-size 14px
@@ -290,6 +291,26 @@ export default {
     height 85px
     border 1px solid #eee
     font-size 14px
+.work-item:nth-child(1):after
+  position absolute
+  content ''
+  display block
+  left -5px
+  top -21px
+  width 10px
+  height 45px
+  background #fff
+  z-index 99
+.work-item:nth-last-child(1):after
+  position absolute
+  content ''
+  display block
+  left -5px
+  top 38px
+  width 10px
+  height 45px
+  background #fff
+  z-index 99
 .learn-item
   border 1px solid #eee
   padding 15px
