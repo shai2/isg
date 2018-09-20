@@ -8,9 +8,9 @@
         <div class="chart-wrapper">
           <bar-chart :chartData="userList"></bar-chart>
           <div style="padding-bottom:10px;">
-            <el-button @click.native="userList = barChartData.day_list" size="small" plain>昨日</el-button>
-            <el-button @click.native="userList = barChartData.month_list" size="small" plain>近30日</el-button>
-            <el-button @click.native="userList = barChartData.year_list" size="small" plain>近12月</el-button>
+            <el-button :class="{focus:focus===1}" @click.native="showEvents(1,'day_list')" size="small" plain>昨日</el-button>
+            <el-button :class="{focus:focus===2}" @click.native="showEvents(2,'month_list')" size="small" plain>近30日</el-button>
+            <el-button :class="{focus:focus===3}" @click.native="showEvents(3,'year_list')" size="small" plain>近12月</el-button>
           </div>
         </div>
       </el-col>
@@ -74,6 +74,7 @@ export default {
     return {
       viewData: {},
       userList: [],
+      focus:2,
       barChartData: {},
       cashListData: {},
       cashTable:{
@@ -111,6 +112,10 @@ export default {
     this.getSalaryCashWeekList()
   },
   methods: {
+    showEvents(i,e){
+      this.focus = i
+      this.userList = this.barChartData[e]
+    },
     getOverViewData(){
       getOverViewData().then((res)=>{
         this.viewData = res.data.data
