@@ -1,6 +1,6 @@
 <template>
   <div v-if="employeeInfo" class="app-container flex-row-between align-stretch">
-    <div style="min-width:400px;" class="left flex-column-center normal-border">
+    <div style="min-width:430px;" class="left flex-column-center normal-border">
       <div class="info flex-row-center">
         <img :src="employeeInfo.sex === '男' ? manImg : womanImg">
         <div class="flex">
@@ -11,8 +11,8 @@
       </div>
       <el-tabs class="flex w100" v-model="activeName" type="border-card">
         <el-tab-pane class="info info-detail" label="基础信息" name="0">
-          <p>{{employeeInfo.idCardNumber || '身份证号暂无'}}
-            <svg-icon style="color:#ddd" class="pointer" v-popover:popover icon-class="tab" />
+          <p><span>身份证号</span>{{employeeInfo.idCardNumber || '暂无'}}
+            <i class="iconfont icon-zhaopian pointer tab" v-popover:popover></i>
             <el-popover
               ref="popover"
               placement="right"
@@ -22,17 +22,19 @@
               <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1535710906058&di=d9f051e8b246d622361e988716deed82&imgtype=0&src=http%3A%2F%2Fwww.shac-nj.com%3A90%2FContent%2Fimages%2Fshenfenzheng.jpg">
             </el-popover>
           </p>
-          <p>{{employeeInfo.sex}}</p>
-          <p>{{employeeInfo.age}}</p>
-          <p>{{employeeInfo.address}}</p>
-          <p>{{employeeInfo.education || '学历暂无'}}</p>
+          <p><span>性别</span>{{employeeInfo.sex}}</p>
+          <p><span>年龄</span>{{employeeInfo.age}}</p>
+          <p><span>住址</span>{{employeeInfo.address}}</p>
+          <p><span>学历</span>{{employeeInfo.education || '暂无'}}</p>
         </el-tab-pane>
         <el-tab-pane label="工作履历" name="1">
           <div v-for="(e,i) in workResumeList" :key="i" class="work-item flex-row-center">
             <div class="work-item-left flex">
-              <p>{{e.workResumeName}}</p>
-              <p>{{parseTime(e.startTime)}} ~ {{parseTime(e.endTime)}}</p>
-              <p>{{e.position}}</p>
+              <p>{{e.workResumeName}}
+                <i class="icon iconfont icon-bu-dot-circle-o"></i>
+              </p>
+              <span>{{parseTime(e.startTime)}} ~ {{parseTime(e.endTime)}}</span>
+              <!-- <p>{{e.position}}</p> -->
             </div>
             <!-- <div :class="{'border-green':e.status=='进行中'}" class="work-item-right flex-column-center">
               <p>{{e.status}}</p>
@@ -227,6 +229,9 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+.iconfont
+  vertical-align middle
+  color #409EFF
 .chart-wrapper
   margin-top 40px
 .right
@@ -249,16 +254,36 @@ export default {
 .info-detail
   p
     margin-top 8px
+    line-height 30px
+    color #999
+    span
+      color #000
+      width 90px
+      display inline-block
 .work-item
-  border 1px solid #eee
-  padding 15px
-  margin-bottom 10px
+  border-left 1px solid #eee
+  padding 15px 15px 15px 25px
+  margin-left 20px
+  position relative 
   .work-item-left
     p
       padding 8px 3px
-      border-bottom 1px solid #eee
-      &:nth-child(n+2)
-        font-size 14px
+      font-size 16px
+      position relative
+      i 
+        color #dcdfe6
+        position absolute
+        left -35px
+        top 7px
+        font-size 20px
+        z-index 999
+    span
+      color #999
+      font-size 14px
+  &:nth-child(1)
+    p
+      i
+        color #409eff
   .work-item-right
     margin-left 30px
     border-radius 100px
@@ -266,6 +291,26 @@ export default {
     height 85px
     border 1px solid #eee
     font-size 14px
+.work-item:nth-child(1):after
+  position absolute
+  content ''
+  display block
+  left -5px
+  top -21px
+  width 10px
+  height 45px
+  background #fff
+  z-index 99
+.work-item:nth-last-child(1):after
+  position absolute
+  content ''
+  display block
+  left -5px
+  top 38px
+  width 10px
+  height 45px
+  background #fff
+  z-index 99
 .learn-item
   border 1px solid #eee
   padding 15px

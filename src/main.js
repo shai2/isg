@@ -11,6 +11,7 @@ import App from './App'
 import router from './router'
 import store from './store'
 
+import 'src/iconfont/iconfont.css'
 import i18n from './lang' // Internationalization
 import './icons' // icon
 import './errorLog'// error log
