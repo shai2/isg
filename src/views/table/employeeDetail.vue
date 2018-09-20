@@ -123,7 +123,7 @@ export default {
         { id: '2018032093', num: 900, remark: '薪资' }
       ],
       showDetailChart: false, // 显示详情图
-      allEvents: [], // 存所有
+      allEvents: [], // 存所有4个数组
       fcEvents: [], // 显示的events
       showEventsType: '', // 显示events类型
       chartTime: '',// 日期
@@ -143,24 +143,16 @@ export default {
   },
   computed: {
     planEvents() {
-      return this.allEvents.filter((e, i) => {
-        return e.cssClass.includes('work') || e.cssClass.includes('rest')
-      })
+      return this.allEvents.scheduling
     },
     forenoonEvents() {
-      return this.allEvents.filter((e, i) => {
-        return e.cssClass.includes('forenoon')
-      })
+      return this.allEvents.forenoon
     },
     afternoonEvents() {
-      return this.allEvents.filter((e, i) => {
-        return e.cssClass.includes('afternoon')
-      })
+      return this.allEvents.afternoon
     },
     alldayEvents() {
-      return this.allEvents.filter((e, i) => {
-        return e.cssClass.includes('allday')
-      })
+      return this.allEvents.allday
     },
   },
   methods: {
@@ -172,7 +164,7 @@ export default {
       this.getSchedule()
     },
     changeMonth(start, end, current) {
-      console.log('出发改变月份，需要的时间是 ' + current)
+      console.log('触发改变月份，需要的时间是 ' + current)
       this.chartTime = current
       this.getSchedule()
     },
@@ -183,11 +175,9 @@ export default {
     },
     getDetail() {
       getEmployeeDetail(this.$route.query.employeeCode).then(res => {
-        console.log(res.data.data)
         this.employeeInfo = res.data.data.employeeInfo
         this.workResumeList = res.data.data.workResumeList
         this.statistics.push(res.data.data.statistics)
-        console.log(this.statistics)
       })
     },
     showEvents(type) {
@@ -212,19 +202,6 @@ export default {
         this.chartData = res.data.data
         this.barChartHeight = (res.data.data.length * 150 + 100)+ 'px'
         this.$refs.barChart.__resizeHanlder()
-        // this.chartData = [{
-        //   brandName: '牌子111',
-        //   planStartTime: '2016-12-18 6:30:00',
-        //   planEndTime: '2016-12-18 9:30:00',
-        //   actualStartTime: '2016-12-18 6:00:00',
-        //   actualEndTime: '2016-12-18 9:00:00'
-        // }, {
-        //   brandName: '牌子222',
-        //   planStartTime: '2016-12-18 12:30:00',
-        //   planEndTime: '2016-12-18 15:30:00',
-        //   actualStartTime: '2016-12-18 13:30:00',
-        //   actualEndTime: '2016-12-18 17:30:00'
-        // }]
       })
     },
     chooseEventsShow() {

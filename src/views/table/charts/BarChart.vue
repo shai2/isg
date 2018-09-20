@@ -103,7 +103,7 @@ export default {
       }
       return _arr
     },
-    setOptions({ expectedData, actualData } = {}) {
+    setOptions() {
       this.chart.setOption({
         title: {
           text: this.chartTime,
