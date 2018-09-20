@@ -1,6 +1,6 @@
 <template>
   <div v-if="storeData" class="app-container flex-row-between align-stretch">
-    <div class="left flex-column-center normal-border" style="min-width: 400px;">
+    <div class="left flex-column-center normal-border" style="min-width:430px;">
         <div id="allmap" style="width: 100%;height:500px;border: 1px solid gray;overflow:hidden;">
         </div>
         <div class="store-describe w100">
@@ -25,9 +25,9 @@
         <el-tabs class="flex" v-model="activeName" type="border-card">
           <el-tab-pane class="info info-detail" label="基础信息" name="0">
             <div class="flex mglt10">
-              <p v-if="storeData.placeType">所在地：{{storeData.placeType}}（{{storeData.storeStatus}}）</p>
-              <p>联系人：{{storeData.contactName}}</p>
-              <p>联系电话：{{storeData.contactTelephone}}</p>
+              <p v-if="storeData.placeType"><span>所在地</span>{{storeData.placeType}}（{{storeData.storeStatus}}）</p>
+              <p><span>联系人</span>{{storeData.contactName}}</p>
+              <p><span>联系电话</span>{{storeData.contactTelephone}}</p>
             </div>
             <!-- <img class="store-img" :src="storeData.store_base_info.store_photo"> -->
           </el-tab-pane>
@@ -181,6 +181,13 @@ export default {
     padding 8px 3px
     font-size 14px
     border-bottom 1px solid #eee
+    margin-top 8px
+    line-height 30px
+    color #999
+    span
+      color #000
+      width 90px
+      display inline-block
 .store-img
   border 1px solid #eee
   margin-top 10px
