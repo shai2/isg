@@ -1,77 +1,3 @@
-
-## Preparation
-
-You need to install [node](http://nodejs.org/) and [git](https://git-scm.com/) locally. The project is based on [ES2015+](http://es6.ruanyifeng.com/), [vue](https://cn.vuejs.org/index.html), [vuex](https://vuex.vuejs.org/zh-cn/), [vue-router](https://router.vuejs.org/zh-cn/), [axios](https://github.com/axios/axios) and [element-ui](https://github.com/ElemeFE/element), all request data is simulated using [Mock.js](https://github.com/nuysoft/Mock).
- Understanding and learning this knowledge in advance will greatly help the use of this project.
-
- **This project does not support low version browsers (e.g. IE). Please add polyfill yourself if you need them.**
-
- **Note: This project uses element-ui@2.3.0+ version, so the minimum compatible vue@2.5.0+**
-
-## Features
-```
-- Login / Logout
-
-- Permission Authentication
-  - Page permission
-  - Directive permission
-  - Two-step login
-
-- Multi-environment build
-  - dev sit stage prod
-
-- Global Features
-  - I18n
-  - Multiple dynamic themes
-  - Dynamic sidebar (supports multi-level routing)
-  - Dynamic breadcrumb
-  - Tags-view(Tab page Support right-click operation)
-  - Svg Sprite
-  - Mock data
-  - Screenfull
-  - Responsive Sidebar
-
-- Editor
-  - Rich Text Editor
-  - Markdown Editor
-  - JSON Editor
-
-- Excel
-  - Export Excel
-  - Export zip
-  - Upload Excel
-  - Visualization Excel
-
-- Table
-  - Dynamic Table
-  - Drag And Drop Table
-  - Tree Table
-  - Inline Edit Table
-
-- Error Page
-  - 401
-  - 404
-
-- Components
-  - Avatar Upload
-  - Back To Top
-  - Drag Dialog
-  - Drag Kanban
-  - Drag List
-  - SplitPane
-  - Dropzone
-  - Sticky
-  - CountTo
-
-- Advanced Example
-- Error Log
-- Dashboard
-- Guide Page
-- Echarts
-- Clipboard
-- Markdown to html
-```
-
 ## Getting started
 
 ```bash
@@ -111,4 +37,4 @@ npm run lint -- --fix
 
 ## Changelog
 
-Copyright (c) 2017-present 爱尚岗网络科技(上海)有限公司
+2017工作于爱尚岗网络科技(上海)有限公司
